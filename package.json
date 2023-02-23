@@ -1,7 +1,7 @@
 {
   "name": "@amnis/process",
   "version": "0.13.1",
-  "description": "",
+  "description": "Process functions for Amnis State",
   "keywords": [],
   "author": "Eric Crowell <admin@amnis.dev>",
   "license": "MIT",
@@ -35,12 +35,12 @@
     "clean": "rimraf ./dist ./lib ./types ./tsconfig.build.tsbuildinfo"
   },
   "peerDependencies": {
-    "@amnis/state": "^0.14.0",
+    "@amnis/state": "^0",
     "@reduxjs/toolkit": "*"
   },
   "devDependencies": {
     "@amnis/eslint-config-node": "^2.2.2",
-    "@amnis/state": "^0.14.2",
+    "@amnis/state": "^0.14.3",
     "@amnis/tsconfig-node": "^2.2.2",
     "@reduxjs/toolkit": "2.0.0-alpha.2",
     "@types/node": "^18.14.1",
