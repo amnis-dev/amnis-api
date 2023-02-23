@@ -12,15 +12,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: ./amnis-process
+
     steps:
 
     - name: Checkout Repository
       uses: actions/checkout@v3
+      working-directory: ./
       with:
         path: main
 
     - name: Checkout Amnis State
       uses: actions/checkout@v3
+      working-directory: ./
       with:
         repository: amnis-dev/amnis-state.git
         ref: main
