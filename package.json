@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@amnis/eslint-config-node": "^2.2.2",
-    "@amnis/state": "^0.14.0",
+    "@amnis/state": "^0.14.2",
     "@amnis/tsconfig-node": "^2.2.2",
     "@reduxjs/toolkit": "2.0.0-alpha.2",
     "@types/node": "^18.14.1",
