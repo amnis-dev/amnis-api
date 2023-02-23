@@ -12,25 +12,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: ./amnis-process
-
     steps:
 
     - name: Checkout Repository
       uses: actions/checkout@v3
-      working-directory: .
-      with:
-        path: main
-
-    - name: Checkout Amnis State
-      uses: actions/checkout@v3
-      working-directory: .
-      with:
-        repository: amnis-dev/amnis-state.git
-        ref: main
-        path: amnis-state
 
     - uses: pnpm/action-setup@v2
       with:
@@ -41,6 +26,9 @@ jobs:
       with:
         node-version: '18'
         cache: 'pnpm'
+
+    - name: Unlink System Packages
+      run: pnpm unlink
     
     - name: Install NodeJS Dependencies
       run: pnpm install --frozen-lockfile
