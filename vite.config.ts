@@ -7,7 +7,7 @@ export default defineConfig({
     target: 'modules',
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
-      name: 'AmnisState',
+      name: 'AmnisProcess',
       fileName: 'index',
     },
     rollupOptions: {
@@ -15,10 +15,12 @@ export default defineConfig({
         exports: 'named',
         globals: {
           '@reduxjs/toolkit': 'ReduxToolkit',
+          '@amnis/state': 'AmnisState',
         },
       },
       external: [
         '@reduxjs/toolkit',
+        '@amnis/state',
       ],
     },
   },

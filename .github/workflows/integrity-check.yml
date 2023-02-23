@@ -15,7 +15,16 @@ jobs:
     steps:
 
     - name: Checkout Repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
+      with:
+        path: main
+
+    - name: Checkout Amnis State
+      uses: actions/checkout@v3
+      with:
+        repository: amnis-dev/amnis-state.git
+        ref: main
+        path: amnis-state
 
     - uses: pnpm/action-setup@v2
       with:
