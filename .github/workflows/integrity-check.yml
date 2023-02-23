@@ -20,13 +20,13 @@ jobs:
 
     - name: Checkout Repository
       uses: actions/checkout@v3
-      working-directory: ./
+      working-directory: .
       with:
         path: main
 
     - name: Checkout Amnis State
       uses: actions/checkout@v3
-      working-directory: ./
+      working-directory: .
       with:
         repository: amnis-dev/amnis-state.git
         ref: main
