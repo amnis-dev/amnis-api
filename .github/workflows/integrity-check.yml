@@ -9,32 +9,46 @@ on:
 
 jobs:
 
+  audit:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: latest
+
+      - name: Audit Packages
+        run: pnpm audit --audit-level moderate
+
   build:
     runs-on: ubuntu-latest
 
     steps:
 
-    - name: Checkout Repository
-      uses: actions/checkout@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-    - uses: pnpm/action-setup@v2
-      with:
-        version: latest
+      - uses: pnpm/action-setup@v2
+        with:
+          version: latest
 
-    - name: Setup NodeJS with PNPM Caching
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-        cache: 'pnpm'
-    
-    - name: Install NodeJS Dependencies
-      run: pnpm install
+      - name: Setup NodeJS with PNPM Caching
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+      
+      - name: Install NodeJS Dependencies
+        run: pnpm install
 
-    - name: Lint for Code-Style Errors
-      run: pnpm lint
+      - name: Lint for Code-Style Errors
+        run: pnpm lint
 
-    - name: Run Unit Tests
-      run: pnpm test
+      - name: Run Unit Tests
+        run: pnpm test
 
-    - name: Run Build
-      run: pnpm build
+      - name: Run Build
+        run: pnpm build
