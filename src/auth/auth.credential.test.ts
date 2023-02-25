@@ -12,16 +12,16 @@ import {
   base64JsonEncode,
   credentialCreator,
   databaseMemoryStorage,
-  schemaAuth,
   userKey,
   ioOutput,
   accountsGet,
   contextSetup,
   otpSelectors,
 } from '@amnis/state';
+import { validateSetup } from '@amnis/state/validate';
+import { schemaAuth } from '@amnis/state/schema';
 import { challengeNew } from '../utility/challenge.js';
 import { otpNew, otpPasswordCreate } from '../utility/otp.js';
-import { validateSetup } from '../validate.js';
 import { processAuthCredential } from './auth.credential.js';
 import { processAuthLogin } from './auth.login.js';
 

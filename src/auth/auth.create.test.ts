@@ -16,14 +16,14 @@ import {
   handleKey,
   ioOutput,
   profileKey,
-  schemaAuth,
   uid,
   userKey,
   contextSetup,
   systemSelectors,
 } from '@amnis/state';
+import { validateSetup } from '@amnis/state/validate';
+import { schemaAuth } from '@amnis/state/schema';
 import { generateSession } from '../utility/generate.js';
-import { validateSetup } from '../validate.js';
 import { processAuthChallenge } from './auth.challenge.js';
 import { processAuthCreate } from './auth.create.js';
 

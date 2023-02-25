@@ -11,7 +11,6 @@ import type {
   Session,
 } from '@amnis/state';
 import {
-  schemaAuth,
   userKey,
   databaseMemoryStorage,
   ioOutput,
@@ -26,8 +25,9 @@ import {
   contextSetup,
   systemSelectors,
 } from '@amnis/state';
+import { validateSetup } from '@amnis/state/validate';
+import { schemaAuth } from '@amnis/state/schema';
 import { generateSession } from '../utility/generate.js';
-import { validateSetup } from '../validate.js';
 import { processAuthAuthenticate } from './auth.authenticate.js';
 import { processAuthChallenge } from './auth.challenge.js';
 

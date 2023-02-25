@@ -10,7 +10,6 @@ import type {
   Session,
 } from '@amnis/state';
 import {
-  schemaAuth,
   ioOutputErrored,
   userKey,
   profileKey,
@@ -24,7 +23,8 @@ import {
   systemActions,
   systemSelectors,
 } from '@amnis/state';
-import { validateSetup } from '../validate.js';
+import { schemaAuth } from '@amnis/state/schema';
+import { validateSetup } from '@amnis/state/validate';
 import { processAuthChallenge } from './auth.challenge.js';
 import { processAuthRegister } from './auth.register.js';
 

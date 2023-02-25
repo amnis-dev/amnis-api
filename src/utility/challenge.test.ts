@@ -6,12 +6,12 @@ import type {
 import {
   challengeCreate,
   dateNumeric,
-  schemaAuth,
   challengeActions,
   challengeSelectors,
   contextSetup,
 } from '@amnis/state';
-import { validateSetup } from '../validate.js';
+import { schemaAuth } from '@amnis/state/schema';
+import { validateSetup } from '@amnis/state/validate';
 import { challengeValidate } from './challenge.js';
 
 let context: IoContext;

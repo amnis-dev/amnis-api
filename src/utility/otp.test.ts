@@ -11,7 +11,6 @@ import {
   dateNumeric,
   otpCreate,
   OtpMethod,
-  schemaAuth,
   sendMailboxStorage,
   uid,
   userKey,
@@ -20,7 +19,8 @@ import {
   otpSelectors,
   systemSelectors,
 } from '@amnis/state';
-import { validateSetup } from '../validate.js';
+import { schemaAuth } from '@amnis/state/schema';
+import { validateSetup } from '@amnis/state/validate';
 import { otpNew, otpPasswordCreate, otpValidate } from './otp.js';
 
 let context: IoContext;

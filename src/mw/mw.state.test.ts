@@ -25,7 +25,6 @@ import {
   ioOutputErrored,
   roleComboCreate,
   roleCreator,
-  schemaEntity,
   uid,
   userKey,
   contextSetup,
@@ -33,7 +32,8 @@ import {
   systemActions,
   systemSelectors,
 } from '@amnis/state';
-import { validateSetup } from '../validate.js';
+import { schemaEntity } from '@amnis/state/schema';
+import { validateSetup } from '@amnis/state/validate';
 import { mwState } from './mw.state.js';
 
 let context: IoContext;

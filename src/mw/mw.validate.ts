@@ -1,5 +1,5 @@
 import type { IoMiddleware } from '@amnis/state';
-import { validate } from '../validate.js';
+import { validate } from '@amnis/state/validate';
 
 /**
  * Middleware that validates the input body with the context validator.

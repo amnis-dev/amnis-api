@@ -7,10 +7,10 @@ import {
   contactCreator,
   ioOutput,
   ioOutputErrored,
-  schemaEntity,
   contextSetup,
 } from '@amnis/state';
-import { validateSetup } from '../validate.js';
+import { schemaEntity } from '@amnis/state/schema';
+import { validateSetup } from '@amnis/state/validate';
 import { mwValidate } from './mw.validate.js';
 
 let context: IoContext;

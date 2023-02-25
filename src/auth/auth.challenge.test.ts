@@ -5,11 +5,11 @@ import type {
 } from '@amnis/state';
 import {
   ioOutput,
-  schemaAuth,
   challengeSelectors,
   contextSetup,
 } from '@amnis/state';
-import { validateSetup } from '../validate.js';
+import { schemaAuth } from '@amnis/state/schema';
+import { validateSetup } from '@amnis/state/validate';
 import { processAuthChallenge } from './auth.challenge.js';
 
 let context: IoContext;

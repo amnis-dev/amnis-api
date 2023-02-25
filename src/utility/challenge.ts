@@ -11,7 +11,7 @@ import {
   challengeSelectors,
   systemSelectors,
 } from '@amnis/state';
-import { validate } from '../validate.js';
+import { validate } from '@amnis/state/validate';
 
 /**
  * Create a challenge from context and output it.

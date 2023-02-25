@@ -11,7 +11,6 @@ import type {
   System,
 } from '@amnis/state';
 import {
-  schemaAuth,
   accountsGet,
   cryptoWeb,
   dateNumeric,
@@ -21,7 +20,8 @@ import {
   contextSetup,
   systemSelectors,
 } from '@amnis/state';
-import { validateSetup } from '../validate.js';
+import { schemaAuth } from '@amnis/state/schema';
+import { validateSetup } from '@amnis/state/validate';
 import { processAuthChallenge } from './auth.challenge.js';
 import { processAuthLogin } from './auth.login.js';
 

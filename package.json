@@ -5,6 +5,7 @@
   "keywords": [],
   "author": "Eric Crowell <admin@amnis.dev>",
   "license": "MIT",
+  "type": "module",
   "homepage": "https://github.com/amnis-dev/amnis-process",
   "repository": {
     "type": "git",
@@ -32,19 +33,17 @@
     "build:types": "tsc -p tsconfig.build.json",
     "test": "vitest --run",
     "lint": "tsc --noEmit && eslint --ext .ts --ext .tsx \"./\"",
-    "clean": "rimraf ./dist ./lib ./types ./tsconfig.build.tsbuildinfo"
+    "clean": "rimraf ./dist ./lib ./types ./tsconfig.build.tsbuildinfo ./tsconfig.tsbuildinfo"
   },
   "peerDependencies": {
-    "@amnis/state": "^0",
-    "@reduxjs/toolkit": "*"
+    "@amnis/state": "^0"
   },
   "devDependencies": {
     "@amnis/eslint-config-node": "^2.2.2",
-    "@amnis/state": "^0.14.4",
+    "@amnis/state": "^0.14.5",
     "@amnis/tsconfig-node": "^2.2.2",
     "@reduxjs/toolkit": "2.0.0-alpha.2",
     "@types/node": "^18.14.1",
-    "ajv": "^8.12.0",
     "cross-fetch": "^3.1.5",
     "eslint": "^8.34.0",
     "rimraf": "^4.1.2",

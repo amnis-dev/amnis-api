@@ -15,7 +15,7 @@ import {
   otpActions,
   otpSelectors,
 } from '@amnis/state';
-import { validate } from '../validate.js';
+import { validate } from '@amnis/state/validate';
 import { findUser } from './find.js';
 
 const alphabet = 'abcdefghijklmnopqrstuvwxyz';
