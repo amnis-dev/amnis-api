@@ -6,9 +6,12 @@ export default defineConfig({
   build: {
     target: 'modules',
     lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
-      name: 'AmnisProcess',
-      fileName: 'index',
+      entry: {
+        index: resolve(__dirname, 'src/index.ts'),
+        react: resolve(__dirname, 'src/query/react.ts'),
+        process: resolve(__dirname, 'src/process/index.ts'),
+      },
+      name: 'AmnisApi',
     },
     rollupOptions: {
       output: {
@@ -21,6 +24,11 @@ export default defineConfig({
       external: [
         '@reduxjs/toolkit',
         '@amnis/state',
+        '@amnis/state/schema',
+        '@amnis/state/validate',
+        'react',
+        'react-dom',
+        'react-redux',
       ],
     },
   },
