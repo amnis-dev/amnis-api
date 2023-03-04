@@ -1,15 +1,15 @@
 {
-  "name": "@amnis/process",
+  "name": "@amnis/api",
   "version": "0.14.0",
-  "description": "Process functions for Amnis State",
+  "description": "Core API Queries and Processing functions for Amnis State",
   "keywords": [],
   "author": "Eric Crowell <admin@amnis.dev>",
   "license": "MIT",
   "type": "module",
-  "homepage": "https://github.com/amnis-dev/amnis-process",
+  "homepage": "https://github.com/amnis-dev/amnis-api",
   "repository": {
     "type": "git",
-    "url": "https://github.com/amnis-dev/amnis-process"
+    "url": "https://github.com/amnis-dev/amnis-api"
   },
   "files": [
     "types",
