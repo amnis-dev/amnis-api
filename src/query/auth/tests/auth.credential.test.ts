@@ -1,0 +1,172 @@
+import { mockService } from '@amnis/mock';
+import type {
+  Entity,
+  User,
+} from '@amnis/state';
+import {
+  accountsGet,
+  agentCredential,
+  credentialKey,
+  databaseMemoryStorage,
+  sendMailboxStorage,
+  userKey,
+  credentialSelectors,
+  otpActions,
+  userSelectors,
+  apiActions,
+} from '@amnis/state';
+import { processAuth } from '../../../process/index.js';
+import { apiAuth } from '../index.js';
+import { clientStore } from './store.js';
+
+const baseUrl = 'https://amnis.dev/api';
+
+clientStore.dispatch(apiActions.upsertMany([
+  { id: 'apiAuth', baseUrl: `${baseUrl}/auth` },
+  { id: 'apiCrud', baseUrl: `${baseUrl}/crud` },
+]));
+
+let adminUser: Entity<User>;
+
+beforeAll(async () => {
+  await mockService.setup({ baseUrl, processes: { auth: processAuth } });
+  mockService.start();
+
+  const storage = databaseMemoryStorage();
+  const storageUsers = Object.values(storage[userKey]) as Entity<User>[];
+
+  adminUser = storageUsers.find((u) => u.handle === 'admin') as Entity<User>;
+});
+
+afterAll(() => {
+  mockService.stop();
+});
+
+test('should NOT login as an administrator without matching credentials', async () => {
+  const { admin } = await accountsGet();
+
+  /**
+   * Login
+   */
+  const response = await clientStore.dispatch(apiAuth.endpoints.login.initiate({
+    handle: admin.handle,
+    password: admin.password,
+  }));
+
+  if ('error' in response) {
+    expect(response.error).toBeUndefined();
+    return;
+  }
+
+  const { data: { logs, result } } = response;
+
+  expect(result).toBeUndefined();
+  expect(logs[0].title).toBe('Unknown Agent');
+});
+
+test('should add the current agent credential to the admin account and login', async () => {
+  const { admin } = await accountsGet();
+  const credentialAgent = await agentCredential();
+
+  /**
+   * Need to start with obtaining a one-time password
+   */
+  const responseOtp = await clientStore.dispatch(apiAuth.endpoints.otp.initiate({
+    $subject: `@${admin.handle}`,
+  }));
+
+  if ('error' in responseOtp) {
+    expect(responseOtp.error).toBeUndefined();
+    return;
+  }
+
+  const { data: { result: otpResult } } = responseOtp;
+
+  if (!otpResult) {
+    expect(otpResult).toBeDefined();
+    return;
+  }
+
+  /**
+   * Get the OTP value from the memory mailbox.
+   */
+  const mailbox = sendMailboxStorage();
+  const message = mailbox[adminUser.email as string][0];
+  const messageOtp = message.text.match(/"([A-Za-z0-9]+)"/)?.[1];
+
+  if (!messageOtp) {
+    expect(messageOtp).toBeDefined();
+    return;
+  }
+
+  /**
+   * Set the OTP value.
+   */
+  clientStore.dispatch(otpActions.set(messageOtp));
+
+  /**
+   * With the latest OTP stored and value set in the clientStore,
+   * attempt to add the new credential using the admin password.
+   */
+  const response = await clientStore.dispatch(apiAuth.endpoints.credential.initiate({
+    password: admin.password,
+  }));
+
+  if ('error' in response) {
+    expect(response.error).toBeUndefined();
+    return;
+  }
+
+  const { data: { result } } = response;
+
+  if (!result) {
+    expect(response).toBeDefined();
+    return;
+  }
+
+  /**
+   * Test the client store to ensure data is updated properly
+   */
+  const credential = credentialSelectors.selectById(
+    clientStore.getState(),
+    result[credentialKey][0].$id,
+  );
+  const user = userSelectors.selectById(
+    clientStore.getState(),
+    result[userKey][0].$id,
+  );
+
+  if (!credential || !user) {
+    expect(credential).toBeDefined();
+    expect(user).toBeDefined();
+    return;
+  }
+
+  expect(credential).toEqual(result[credentialKey][0]);
+  expect(credential.$id).toBe(credentialAgent.$id);
+  expect(credential).toMatchObject(credentialAgent);
+  expect(user).toEqual(result[userKey][0]);
+  expect(user.$credentials.includes(credential.$id)).toBe(true);
+
+  /**
+   * Should now be able to login
+   */
+  const responseLogin = await clientStore.dispatch(apiAuth.endpoints.login.initiate({
+    handle: admin.handle,
+    password: admin.password,
+  }));
+
+  if ('error' in responseLogin) {
+    expect(responseLogin.error).toBeUndefined();
+    return;
+  }
+
+  const resultLogin = responseLogin.data.result;
+
+  if (!resultLogin) {
+    expect(resultLogin).toBeDefined();
+    return;
+  }
+
+  expect(Object.keys(resultLogin).length).toBeGreaterThan(3);
+});

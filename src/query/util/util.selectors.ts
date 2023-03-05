@@ -16,7 +16,7 @@ export const apiUtilSelectApi = (
   state: State,
   apiId: string,
 ): Api | undefined => {
-  const slice = state.bearer as PossibleSlice<Api>;
+  const slice = state.api as PossibleSlice<Api>;
 
   if (!slice) {
     return undefined;
