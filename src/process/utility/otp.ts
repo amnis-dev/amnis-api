@@ -1,5 +1,4 @@
 import type {
-  ApiAuthOtp,
   IoContext,
   IoOutput,
   Otp,
@@ -16,6 +15,7 @@ import {
   otpSelectors,
 } from '@amnis/state';
 import { validate } from '@amnis/state/validate';
+import type { ApiAuthOtp } from '../../api.types.js';
 import { findUser } from './find.js';
 
 const alphabet = 'abcdefghijklmnopqrstuvwxyz';

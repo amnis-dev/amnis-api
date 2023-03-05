@@ -4,7 +4,6 @@ import type {
   User,
   StateEntities,
   StateUpdater,
-  ApiAuthLogin,
   UID,
 } from '@amnis/state';
 import {
@@ -18,6 +17,7 @@ import {
   credentialKey,
   systemSelectors,
 } from '@amnis/state';
+import type { ApiAuthLogin } from '../../api.types.js';
 import {
   findContactById,
   findCredentialById,

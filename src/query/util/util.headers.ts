@@ -44,7 +44,7 @@ export const headersAuthorizationToken = async (
     });
     const json = await result.json() as IoOutput<StateEntities>['json'];
     const bearersNew = json?.bearers ?? [];
-    const bearerNew = bearersNew.find((b) => b.id === bearerId);
+    const bearerNew = bearersNew.find((b) => b.$id === bearerId);
 
     if (!bearerNew) {
       console.error('API could not renew the bearer token.');

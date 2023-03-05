@@ -4,8 +4,6 @@ import type {
   User,
   Credential,
   IoInput,
-  ApiAuthCredential,
-  ApiAuthLogin,
 } from '@amnis/state';
 import {
   base64Encode,
@@ -19,7 +17,8 @@ import {
   otpSelectors,
 } from '@amnis/state';
 import { validateSetup } from '@amnis/state/validate';
-import { schemaAuth } from '@amnis/state/schema';
+import type { ApiAuthCredential, ApiAuthLogin } from '../../api.types.js';
+import { schemaAuth } from '../../schema/index.js';
 import { challengeNew } from '../utility/challenge.js';
 import { otpNew, otpPasswordCreate } from '../utility/otp.js';
 import { processAuthCredential } from './auth.credential.js';

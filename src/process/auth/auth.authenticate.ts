@@ -1,13 +1,13 @@
 import type {
   Io,
   IoProcess,
-  ApiAuthAuthenticate,
   StateEntities,
 } from '@amnis/state';
 import {
   ioOutputApply,
   systemSelectors,
 } from '@amnis/state';
+import type { ApiAuthAuthenticate } from '../../api.types.js';
 import {
   mwValidate,
   mwSession,

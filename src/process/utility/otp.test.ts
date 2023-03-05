@@ -19,8 +19,8 @@ import {
   otpSelectors,
   systemSelectors,
 } from '@amnis/state';
-import { schemaAuth } from '@amnis/state/schema';
 import { validateSetup } from '@amnis/state/validate';
+import { schemaAuth } from '../../schema/index.js';
 import { otpNew, otpPasswordCreate, otpValidate } from './otp.js';
 
 let context: IoContext;

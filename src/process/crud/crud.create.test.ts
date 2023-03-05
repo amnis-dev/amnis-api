@@ -17,9 +17,10 @@ import {
   contextSetup,
 } from '@amnis/state';
 import { validateSetup } from '@amnis/state/validate';
-import { schemaAuth, schemaEntity, schemaState } from '@amnis/state/schema';
+import { schemaEntity, schemaState } from '@amnis/state/schema';
 import { authenticateFinalize } from '../utility/authenticate.js';
 import { processCrudCreate } from './crud.create.js';
+import { schemaAuth } from '../../schema/index.js';
 
 let context: IoContext;
 let dataUsers: Entity<User>[];

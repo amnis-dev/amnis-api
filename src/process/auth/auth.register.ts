@@ -1,5 +1,4 @@
 import type {
-  ApiAuthRegister,
   Io,
   IoProcess,
   StateEntities,
@@ -13,6 +12,7 @@ import {
   credentialKey,
   systemSelectors,
 } from '@amnis/state';
+import type { ApiAuthRegister } from '../../api.types.js';
 import {
   mwChallenge,
   mwCredential,

@@ -1,12 +1,12 @@
 import type {
   Io,
   IoProcess,
-  ApiAuthCredential,
   StateEntities,
 } from '@amnis/state';
 import {
   ioOutputApply,
 } from '@amnis/state';
+import type { ApiAuthCredential } from '../../api.types.js';
 import {
   mwChallenge,
   mwCredential,

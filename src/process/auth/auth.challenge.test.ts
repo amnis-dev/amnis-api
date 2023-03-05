@@ -1,5 +1,4 @@
 import type {
-  ApiAuthChallenge,
   IoContext,
   IoInput,
 } from '@amnis/state';
@@ -8,8 +7,9 @@ import {
   challengeSelectors,
   contextSetup,
 } from '@amnis/state';
-import { schemaAuth } from '@amnis/state/schema';
 import { validateSetup } from '@amnis/state/validate';
+import type { ApiAuthChallenge } from '../../api.types.js';
+import { schemaAuth } from '../../schema/index.js';
 import { processAuthChallenge } from './auth.challenge.js';
 
 let context: IoContext;

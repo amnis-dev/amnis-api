@@ -1,16 +1,16 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { setState } from '@amnis/state';
-import { apiAuth } from '../index.js';
+import { setApi } from '../../set.js';
 
 const reducers = combineReducers({
   ...setState.reducers,
-  [apiAuth.reducerPath]: apiAuth.reducer,
+  ...setApi.reducers,
 });
 
 export const clientStore = configureStore({
   reducer: reducers,
   middleware: (getDefaultMiddleware) => (
-    getDefaultMiddleware().concat([...setState.middleware, apiAuth.middleware])
+    getDefaultMiddleware().concat([...setState.middleware, ...setApi.middleware])
   ),
 });
 

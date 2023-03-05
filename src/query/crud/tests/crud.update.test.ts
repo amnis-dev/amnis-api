@@ -1,4 +1,3 @@
-import { mockService } from '@amnis/mock';
 import type {
   Entity,
   History,
@@ -14,12 +13,14 @@ import {
   profileActions,
   profileSelectors,
 } from '@amnis/state';
-import { processAuth, processCrud } from '../../../process/index.js';
 import { apiAuth } from '../../auth/index.js';
 import { apiCrud } from '../index.js';
+import {
+  baseUrl,
+  serviceStart,
+  serviceStop,
+} from './service.js';
 import { clientStore } from './store.js';
-
-const baseUrl = 'https://amnis.dev/api';
 
 clientStore.dispatch(apiActions.upsertMany([
   { id: 'apiAuth', baseUrl: `${baseUrl}/auth` },
@@ -27,12 +28,11 @@ clientStore.dispatch(apiActions.upsertMany([
 ]));
 
 beforeAll(async () => {
-  await mockService.setup({ baseUrl, processes: { auth: processAuth, crud: processCrud } });
-  mockService.start();
+  await serviceStart();
 });
 
 afterAll(() => {
-  mockService.stop();
+  serviceStop();
 });
 
 test('should be able to update user profile', async () => {

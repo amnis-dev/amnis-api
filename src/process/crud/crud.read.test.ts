@@ -21,9 +21,10 @@ import {
   contextSetup,
 } from '@amnis/state';
 import { validateSetup } from '@amnis/state/validate';
-import { schemaAuth, schemaEntity, schemaState } from '@amnis/state/schema';
+import { schemaEntity, schemaState } from '@amnis/state/schema';
 import { authenticateFinalize } from '../utility/authenticate.js';
 import { processCrudRead } from './crud.read.js';
+import { schemaAuth } from '../../schema/index.js';
 
 let context: IoContext;
 let userAdmin: Entity<User>;

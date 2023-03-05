@@ -1,5 +1,4 @@
 import type {
-  ApiAuthLogout,
   Io,
   IoProcess,
   StateDeleter,
@@ -9,6 +8,7 @@ import {
   sessionKey,
   systemSelectors,
 } from '@amnis/state';
+import type { ApiAuthLogout } from '../../api.types.js';
 import { mwSession, mwValidate } from '../mw/index.js';
 
 /**

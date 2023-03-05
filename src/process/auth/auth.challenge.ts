@@ -1,7 +1,6 @@
 import type {
   Io,
   IoProcess,
-  ApiAuthChallenge,
   Challenge,
   Entity,
 } from '@amnis/state';
@@ -9,6 +8,7 @@ import {
   ioOutputApply,
   systemSelectors,
 } from '@amnis/state';
+import type { ApiAuthChallenge } from '../../api.types.js';
 import { mwValidate } from '../mw/index.js';
 import { challengeNew } from '../utility/challenge.js';
 

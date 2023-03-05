@@ -19,13 +19,13 @@ import {
   contextSetup,
 } from '@amnis/state';
 import {
-  schemaAuth,
   schemaState,
   schemaEntity,
 } from '@amnis/state/schema';
 import {
   validateSetup,
 } from '@amnis/state/validate';
+import { schemaAuth } from '../../schema/index.js';
 import { authenticateFinalize } from '../utility/authenticate.js';
 import { processCrudUpdate } from './crud.update.js';
 

@@ -17,7 +17,7 @@ import type {
   ApiAuthPkce,
   ApiAuthRegister,
   ApiAuthVerify,
-} from './auth.types.js';
+} from '../../api.types.js';
 
 export const apiAuthQueries = <T extends EndpointBuilder<any, any, any>>(builder: T) => ({
 

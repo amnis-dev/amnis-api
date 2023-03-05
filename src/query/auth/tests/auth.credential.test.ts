@@ -1,4 +1,3 @@
-import { mockService } from '@amnis/mock';
 import type {
   Entity,
   User,
@@ -15,11 +14,13 @@ import {
   userSelectors,
   apiActions,
 } from '@amnis/state';
-import { processAuth } from '../../../process/index.js';
 import { apiAuth } from '../index.js';
+import {
+  baseUrl,
+  serviceStart,
+  serviceStop,
+} from './service.js';
 import { clientStore } from './store.js';
-
-const baseUrl = 'https://amnis.dev/api';
 
 clientStore.dispatch(apiActions.upsertMany([
   { id: 'apiAuth', baseUrl: `${baseUrl}/auth` },
@@ -29,8 +30,7 @@ clientStore.dispatch(apiActions.upsertMany([
 let adminUser: Entity<User>;
 
 beforeAll(async () => {
-  await mockService.setup({ baseUrl, processes: { auth: processAuth } });
-  mockService.start();
+  await serviceStart();
 
   const storage = databaseMemoryStorage();
   const storageUsers = Object.values(storage[userKey]) as Entity<User>[];
@@ -39,7 +39,7 @@ beforeAll(async () => {
 });
 
 afterAll(() => {
-  mockService.stop();
+  serviceStop();
 });
 
 test('should NOT login as an administrator without matching credentials', async () => {

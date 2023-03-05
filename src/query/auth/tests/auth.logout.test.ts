@@ -1,4 +1,3 @@
-import { mockService } from '@amnis/mock';
 import {
   contactSelectors,
   profileSelectors,
@@ -8,11 +7,13 @@ import {
   selectBearer,
   apiActions,
 } from '@amnis/state';
-import { processAuth } from '../../../process/index.js';
 import { apiAuth } from '../index.js';
+import {
+  baseUrl,
+  serviceStart,
+  serviceStop,
+} from './service.js';
 import { clientStore } from './store.js';
-
-const baseUrl = 'https://amnis.dev/api';
 
 clientStore.dispatch(apiActions.upsertMany([
   { id: 'apiAuth', baseUrl: `${baseUrl}/auth` },
@@ -20,12 +21,11 @@ clientStore.dispatch(apiActions.upsertMany([
 ]));
 
 beforeAll(async () => {
-  await mockService.setup({ baseUrl, processes: { auth: processAuth } });
-  mockService.start();
+  await serviceStart();
 });
 
 afterAll(() => {
-  mockService.stop();
+  serviceStop();
 });
 
 test('should be able to login and logout', async () => {

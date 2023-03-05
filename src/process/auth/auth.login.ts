@@ -1,12 +1,12 @@
 import type {
   Io,
   IoProcess,
-  ApiAuthLogin,
   StateEntities,
 } from '@amnis/state';
 import {
   ioOutputApply,
 } from '@amnis/state';
+import type { ApiAuthLogin } from '../../api.types.js';
 import {
   mwChallenge, mwCredential, mwSignature, mwValidate,
 } from '../mw/index.js';

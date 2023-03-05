@@ -1,8 +1,8 @@
 import type {
   Io,
   IoProcess,
-  ApiAuthVerify,
 } from '@amnis/state';
+import type { ApiAuthVerify } from '../../api.types.js';
 import { mwValidate } from '../mw/index.js';
 
 /**

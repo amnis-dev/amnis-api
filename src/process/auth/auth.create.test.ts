@@ -1,5 +1,4 @@
 import type {
-  ApiAuthCreate,
   Contact,
   Entity,
   Handle,
@@ -22,7 +21,8 @@ import {
   systemSelectors,
 } from '@amnis/state';
 import { validateSetup } from '@amnis/state/validate';
-import { schemaAuth } from '@amnis/state/schema';
+import type { ApiAuthCreate } from '../../api.types.js';
+import { schemaAuth } from '../../schema/index.js';
 import { generateSession } from '../utility/generate.js';
 import { processAuthChallenge } from './auth.challenge.js';
 import { processAuthCreate } from './auth.create.js';

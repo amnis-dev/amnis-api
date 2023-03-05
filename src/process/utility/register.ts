@@ -2,11 +2,11 @@ import type {
   IoContext,
   IoOutput,
   StateEntities,
-  ApiAuthRegister,
 } from '@amnis/state';
 import {
   credentialCreator,
 } from '@amnis/state';
+import type { ApiAuthRegister } from '../../api.types.js';
 import { accountCreate } from './account.js';
 
 /**

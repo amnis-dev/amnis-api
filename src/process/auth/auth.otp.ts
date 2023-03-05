@@ -3,11 +3,11 @@ import type {
   IoProcess,
   Otp,
   Entity,
-  ApiAuthOtp,
 } from '@amnis/state';
 import {
   ioOutputApply,
 } from '@amnis/state';
+import type { ApiAuthOtp } from '../../api.types.js';
 import { mwValidate } from '../mw/index.js';
 import { otpNew } from '../utility/otp.js';
 

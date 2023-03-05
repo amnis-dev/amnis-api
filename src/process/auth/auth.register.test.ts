@@ -1,6 +1,5 @@
 import type {
   IoInput,
-  ApiAuthRegister,
   Challenge,
   IoContext,
   Entity,
@@ -23,8 +22,9 @@ import {
   systemActions,
   systemSelectors,
 } from '@amnis/state';
-import { schemaAuth } from '@amnis/state/schema';
 import { validateSetup } from '@amnis/state/validate';
+import type { ApiAuthRegister } from '../../api.types.js';
+import { schemaAuth } from '../../schema/index.js';
 import { processAuthChallenge } from './auth.challenge.js';
 import { processAuthRegister } from './auth.register.js';
 

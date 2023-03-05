@@ -2,12 +2,12 @@ import type {
   Io,
   IoProcess,
   StateEntities,
-  ApiAuthCreate,
 } from '@amnis/state';
 import {
   ioOutputApply,
   systemSelectors,
 } from '@amnis/state';
+import type { ApiAuthCreate } from '../../api.types.js';
 import {
   mwChallenge, mwCredential, mwSession, mwSignature, mwValidate,
 } from '../mw/index.js';

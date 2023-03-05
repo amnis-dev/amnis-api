@@ -4,8 +4,6 @@ import type {
   User,
   System,
   IoInput,
-  ApiAuthChallenge,
-  ApiAuthAuthenticate,
   Profile,
   Contact,
   Session,
@@ -26,7 +24,8 @@ import {
   systemSelectors,
 } from '@amnis/state';
 import { validateSetup } from '@amnis/state/validate';
-import { schemaAuth } from '@amnis/state/schema';
+import type { ApiAuthAuthenticate, ApiAuthChallenge } from '../../api.types.js';
+import { schemaAuth } from '../../schema/index.js';
 import { generateSession } from '../utility/generate.js';
 import { processAuthAuthenticate } from './auth.authenticate.js';
 import { processAuthChallenge } from './auth.challenge.js';

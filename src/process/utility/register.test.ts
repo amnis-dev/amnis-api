@@ -5,7 +5,6 @@ import type {
   IoContext,
   Profile,
   User,
-  ApiAuthRegister,
 } from '@amnis/state';
 import {
   contactKey,
@@ -16,6 +15,7 @@ import {
   contextSetup,
   systemSelectors,
 } from '@amnis/state';
+import type { ApiAuthRegister } from '../../api.types.js';
 import { registerAccount } from './register.js';
 
 let context: IoContext;

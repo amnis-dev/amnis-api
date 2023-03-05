@@ -10,8 +10,8 @@ import {
   challengeSelectors,
   contextSetup,
 } from '@amnis/state';
-import { schemaAuth } from '@amnis/state/schema';
 import { validateSetup } from '@amnis/state/validate';
+import { schemaAuth } from '../../schema/index.js';
 import { challengeValidate } from './challenge.js';
 
 let context: IoContext;
