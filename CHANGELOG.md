@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.14.1](https://github.com/amnis-dev/amnis-api/compare/v0.14.0...v0.14.1) (2023-03-05)
+
+
+### Features
+
+* **Amnis:** Bumped Amnis State Version ([86cf456](https://github.com/amnis-dev/amnis-api/commit/86cf4566f00c38dcc24554b17353e740ea7367e7))
+* **Api:** Combined processors with query apis ([4887a33](https://github.com/amnis-dev/amnis-api/commit/4887a3383bd9dadcca22946922dae2713ce3fa6f))
+* **Package:** Renamed package from process to api to include queries and processors ([b452502](https://github.com/amnis-dev/amnis-api/commit/b452502080eb5ee82f71a98aa5d75d8fce86493e))
+* **Tests:** Added unit tests for Auth and Crud client queries ([b744282](https://github.com/amnis-dev/amnis-api/commit/b7442823dcd96456eec194ebe8ae8be4c840444f))
+* **Workflow:** Added audit job to integrity workflow ([cbfa87b](https://github.com/amnis-dev/amnis-api/commit/cbfa87b0e1b89321dd76e6134d023048ff525f06))
+
 ## 0.14.0 (2023-02-23)
 
 
