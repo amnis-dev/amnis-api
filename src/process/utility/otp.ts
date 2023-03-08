@@ -4,7 +4,7 @@ import type {
   Otp,
 } from '@amnis/state';
 import {
-  coreActions,
+  dataActions,
   dateNumeric,
   ioOutput,
   otpCreate,
@@ -229,7 +229,7 @@ export const otpValidate = async (
         /**
          * Ensure we update the cache after updating the user.
          */
-        store.dispatch(coreActions.insert(result));
+        store.dispatch(dataActions.create(result));
       }
     })();
   }

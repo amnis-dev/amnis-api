@@ -10,7 +10,7 @@ import type {
 import {
   contactCreator,
   contactKey,
-  coreActions,
+  dataActions,
   credentialKey,
   entityCreate,
   handleCreator,
@@ -220,7 +220,7 @@ export const accountCredentialAdd = async (
   /**
    * Dispatch the result to update memory cached entities.
    */
-  store.dispatch(coreActions.insert(resultUpdate));
+  store.dispatch(dataActions.create(resultUpdate));
 
   output.status = 200;
   output.json.result = {

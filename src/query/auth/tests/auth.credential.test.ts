@@ -1,3 +1,4 @@
+import { mockService } from '@amnis/mock';
 import type {
   Entity,
   User,
@@ -17,9 +18,8 @@ import {
 import { apiAuth } from '../index.js';
 import {
   baseUrl,
-  serviceStart,
-  serviceStop,
-} from './service.js';
+  serviceConfig,
+} from './config.js';
 import { clientStore } from './store.js';
 
 clientStore.dispatch(apiActions.upsertMany([
@@ -30,7 +30,8 @@ clientStore.dispatch(apiActions.upsertMany([
 let adminUser: Entity<User>;
 
 beforeAll(async () => {
-  await serviceStart();
+  await mockService.setup(await serviceConfig());
+  mockService.start();
 
   const storage = databaseMemoryStorage();
   const storageUsers = Object.values(storage[userKey]) as Entity<User>[];
@@ -39,7 +40,7 @@ beforeAll(async () => {
 });
 
 afterAll(() => {
-  serviceStop();
+  mockService.stop();
 });
 
 test('should NOT login as an administrator without matching credentials', async () => {

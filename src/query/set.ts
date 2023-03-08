@@ -1,7 +1,9 @@
 import type { Set } from '@amnis/state';
 import { apiAuth } from './auth/index.js';
+import { apiAuthMiddleware } from './auth/auth.mw.js';
 import { apiCrud } from './crud/index.js';
-import { mwApi } from './mw.js';
+import { apiCrudMiddleware } from './crud/crud.mw.js';
+import { apiMiddleware } from './mw.js';
 
 const reducerApi = {
   [apiAuth.reducerPath]: apiAuth.reducer,
@@ -13,7 +15,9 @@ export const setApi: Set<typeof reducerApi> = {
   middleware: [
     apiAuth.middleware,
     apiCrud.middleware,
-    mwApi,
+    apiMiddleware,
+    apiAuthMiddleware,
+    apiCrudMiddleware,
   ],
 };
 

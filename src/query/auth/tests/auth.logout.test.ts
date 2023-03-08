@@ -1,3 +1,4 @@
+import { mockService } from '@amnis/mock';
 import {
   contactSelectors,
   profileSelectors,
@@ -9,10 +10,8 @@ import {
 } from '@amnis/state';
 import { apiAuth } from '../index.js';
 import {
-  baseUrl,
-  serviceStart,
-  serviceStop,
-} from './service.js';
+  baseUrl, serviceConfig,
+} from './config.js';
 import { clientStore } from './store.js';
 
 clientStore.dispatch(apiActions.upsertMany([
@@ -21,11 +20,12 @@ clientStore.dispatch(apiActions.upsertMany([
 ]));
 
 beforeAll(async () => {
-  await serviceStart();
+  await mockService.setup(await serviceConfig());
+  mockService.start();
 });
 
 afterAll(() => {
-  serviceStop();
+  mockService.stop();
 });
 
 test('should be able to login and logout', async () => {

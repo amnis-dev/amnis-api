@@ -11,24 +11,24 @@ import {
   userSelectors,
   apiActions,
 } from '@amnis/state';
+import { mockService } from '@amnis/mock';
 import { apiAuth } from '../index.js';
 import { clientStore } from './store.js';
 import {
-  baseUrl,
-  serviceStart,
-  serviceStop,
-} from './service.js';
+  baseUrl, serviceConfig,
+} from './config.js';
 
 clientStore.dispatch(apiActions.upsertMany([
   { id: 'apiAuth', baseUrl: `${baseUrl}/auth` },
 ]));
 
 beforeAll(async () => {
-  await serviceStart();
+  await mockService.setup(await serviceConfig());
+  mockService.start();
 });
 
 afterAll(() => {
-  serviceStop();
+  mockService.stop();
 });
 
 test('should be able to login as user', async () => {

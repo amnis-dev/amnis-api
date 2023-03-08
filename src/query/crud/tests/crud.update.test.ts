@@ -1,3 +1,4 @@
+import { mockService } from '@amnis/mock';
 import type {
   Entity,
   History,
@@ -15,11 +16,7 @@ import {
 } from '@amnis/state';
 import { apiAuth } from '../../auth/index.js';
 import { apiCrud } from '../index.js';
-import {
-  baseUrl,
-  serviceStart,
-  serviceStop,
-} from './service.js';
+import { baseUrl, serviceConfig } from './config.js';
 import { clientStore } from './store.js';
 
 clientStore.dispatch(apiActions.upsertMany([
@@ -28,11 +25,12 @@ clientStore.dispatch(apiActions.upsertMany([
 ]));
 
 beforeAll(async () => {
-  await serviceStart();
+  await mockService.setup(await serviceConfig());
+  mockService.start();
 });
 
 afterAll(() => {
-  serviceStop();
+  mockService.stop();
 });
 
 test('should be able to update user profile', async () => {

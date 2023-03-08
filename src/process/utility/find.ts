@@ -18,7 +18,7 @@ import {
   contactKey,
   handleKey,
   roleKey,
-  coreActions,
+  dataActions,
   credentialActions,
   credentialSelectors,
   roleSelectors,
@@ -222,7 +222,7 @@ export const findRolesByIds = async (
   /**
    * Store the result into cache.
    */
-  store.dispatch(coreActions.insert(results));
+  store.dispatch(dataActions.create(results));
 
   return results[roleKey] as Entity<Role>[];
 };

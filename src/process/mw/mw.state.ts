@@ -10,6 +10,7 @@ import type {
   UID,
 } from '@amnis/state';
 import {
+  dataActions,
   GrantTask,
   grantStateFilter,
   entityStrip,
@@ -18,7 +19,6 @@ import {
   roleKey,
   historyMake,
   historyKey,
-  coreActions,
   stateEntitiesCreate,
   roleSelectors,
   systemSelectors,
@@ -386,13 +386,13 @@ export const mwState: IoMiddleware<GrantTask> = (
      * Update server caching.
      */
     if (task === GrantTask.Create) {
-      store.dispatch(coreActions.create(outputNext.json.result));
+      store.dispatch(dataActions.create(outputNext.json.result));
     }
     if (task === GrantTask.Update) {
-      store.dispatch(coreActions.update(outputNext.json.result));
+      store.dispatch(dataActions.update(outputNext.json.result));
     }
     if (task === GrantTask.Delete) {
-      store.dispatch(coreActions.delete(outputNext.json.result));
+      store.dispatch(dataActions.delete(outputNext.json.result));
     }
 
     return outputNext;

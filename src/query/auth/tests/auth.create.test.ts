@@ -1,3 +1,4 @@
+import { mockService } from '@amnis/mock';
 import {
   accountsGet,
   agentUpdate,
@@ -11,10 +12,8 @@ import {
 } from '@amnis/state';
 import { apiAuth } from '../index.js';
 import {
-  baseUrl,
-  serviceStart,
-  serviceStop,
-} from './service.js';
+  baseUrl, serviceConfig,
+} from './config.js';
 import {
   clientStore,
 } from './store.js';
@@ -25,11 +24,12 @@ clientStore.dispatch(apiActions.upsertMany([
 ]));
 
 beforeAll(async () => {
-  await serviceStart();
+  await mockService.setup(await serviceConfig());
+  mockService.start();
 });
 
 afterAll(() => {
-  serviceStop();
+  mockService.stop();
 });
 
 test('should NOT create a new account as a regular user', async () => {
