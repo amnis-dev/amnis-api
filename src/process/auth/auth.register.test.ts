@@ -165,7 +165,7 @@ test('should start ritual and complete registration', async () => {
 
   expect(bearers).toHaveLength(1);
   expect(bearers[0]).toMatchObject({
-    id: 'core',
+    $id: 'core',
     exp: expect.any(Number),
     access: expect.any(String),
   });

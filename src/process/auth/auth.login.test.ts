@@ -100,7 +100,7 @@ test('should login as a admin', async () => {
   expect(output.cookies[system.sessionKey]).toBeDefined();
   expect(output.json.bearers).toBeDefined();
   expect(output.json.bearers?.[0]).toMatchObject({
-    id: expect.any(String),
+    $id: expect.any(String),
     exp: expect.any(Number),
     access: expect.any(String),
   });

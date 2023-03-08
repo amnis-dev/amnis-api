@@ -113,7 +113,7 @@ test('should create an admin session and authenticate using the admin keys', asy
   expect(output.cookies[system.sessionKey]).toBeDefined();
   expect(output.json.bearers).toBeDefined();
   expect(output.json.bearers?.[0]).toMatchObject({
-    id: expect.any(String),
+    $id: expect.any(String),
     exp: expect.any(Number),
     access: expect.any(String),
   });
@@ -197,7 +197,7 @@ test('should create a user session and authenticate using the user keys', async 
   expect(output.cookies[system.sessionKey]).toBeDefined();
   expect(output.json.bearers).toBeDefined();
   expect(output.json.bearers?.[0]).toMatchObject({
-    id: expect.any(String),
+    $id: expect.any(String),
     exp: expect.any(Number),
     access: expect.any(String),
   });

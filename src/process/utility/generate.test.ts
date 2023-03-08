@@ -57,7 +57,7 @@ test('should generate a bearer', async () => {
   const time = 1800000 - tolerance; // 30 minutes - tolerance.
 
   expect(bearer).toMatchObject({
-    id: 'core',
+    $id: 'core',
     exp: expect.any(Number),
     access: expect.any(String),
   });
