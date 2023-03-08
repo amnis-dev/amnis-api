@@ -6,12 +6,18 @@ import type {
   UID,
 } from '@amnis/state';
 import {
+  contactKey,
+  profileKey,
+  sessionKey,
+  userKey,
+
   otpActions,
   entityActions,
   dataActions,
 } from '@amnis/state';
 import type { Middleware } from '@reduxjs/toolkit';
 import { isAnyOf } from '@reduxjs/toolkit';
+import { profile } from 'console';
 import { apiAuth } from './auth.api.js';
 
 export const apiAuthMiddleware: Middleware = () => (next) => (action) => {
@@ -68,6 +74,17 @@ export const apiAuthMiddleware: Middleware = () => (next) => (action) => {
       bearer: ['core' as UID],
     };
     next(dataActions.delete(dataDeleter));
+
+    /**
+     * Need to unset some active entities manually after logout.
+     */
+    const metaSetter: MetaSetter = {
+      [userKey]: { active: null },
+      [profileKey]: { active: null },
+      [contactKey]: { active: null },
+      [sessionKey]: { active: null },
+    };
+    next(entityActions.meta(metaSetter));
   }
 
   /**
