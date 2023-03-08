@@ -10,14 +10,12 @@ import {
   profileKey,
   sessionKey,
   userKey,
-
   otpActions,
   entityActions,
   dataActions,
 } from '@amnis/state';
 import type { Middleware } from '@reduxjs/toolkit';
 import { isAnyOf } from '@reduxjs/toolkit';
-import { profile } from 'console';
 import { apiAuth } from './auth.api.js';
 
 export const apiAuthMiddleware: Middleware = () => (next) => (action) => {
