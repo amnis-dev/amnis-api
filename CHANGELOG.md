@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.14.7](https://github.com/amnis-dev/amnis-api/compare/v0.14.6...v0.14.7) (2023-03-08)
+
+
+### Bug Fixes
+
+* **Globals:** Fixed issue in browsers where global is not defined ([8ac0eac](https://github.com/amnis-dev/amnis-api/commit/8ac0eac68ffefe3b898f333724fc765ffb601437))
+
 ### [0.14.6](https://github.com/amnis-dev/amnis-api/compare/v0.14.5...v0.14.6) (2023-03-08)
 
 
