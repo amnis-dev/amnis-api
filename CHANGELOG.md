@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.14.3](https://github.com/amnis-dev/amnis-api/compare/v0.14.2...v0.14.3) (2023-03-08)
+
+
+### Features
+
+* **React:** Added export for react set of reducers and middleware ([9df1cd2](https://github.com/amnis-dev/amnis-api/commit/9df1cd20f7a9e8b5ae89aa6dea609f6a0d143f53))
+
 ### [0.14.2](https://github.com/amnis-dev/amnis-api/compare/v0.14.1...v0.14.2) (2023-03-08)
 
 
