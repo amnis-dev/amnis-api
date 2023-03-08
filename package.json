@@ -32,6 +32,11 @@
       "types": "./types/process/index.d.ts",
       "import": "./dist/process.js",
       "require": "./dist/process.umd.cjs"
+    },
+    "./schema": {
+      "types": "./types/schema/index.d.ts",
+      "import": "./dist/schema.js",
+      "require": "./dist/schema.umd.cjs"
     }
   },
   "scripts": {
