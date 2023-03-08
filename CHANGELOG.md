@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.14.2](https://github.com/amnis-dev/amnis-api/compare/v0.14.1...v0.14.2) (2023-03-08)
+
+
+### Features
+
+* **Amnis:** Bumped Amnis package versions ([e44ff3a](https://github.com/amnis-dev/amnis-api/commit/e44ff3a612f1d23e6dffd8f9ac8ea9d6fed24745))
+* Completed tests ([ada8f46](https://github.com/amnis-dev/amnis-api/commit/ada8f462b71b97b2e6ce841e28d89f2cea584f6a))
+
+
+### Bug Fixes
+
+* **Auth:** Client now unsets active accounts on the state ([7eaef01](https://github.com/amnis-dev/amnis-api/commit/7eaef01fbb8ac3b01e03d6bab7c1acc5459712b3))
+
 ### [0.14.1](https://github.com/amnis-dev/amnis-api/compare/v0.14.0...v0.14.1) (2023-03-05)
 
 
