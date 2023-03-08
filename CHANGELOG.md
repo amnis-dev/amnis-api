@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.14.6](https://github.com/amnis-dev/amnis-api/compare/v0.14.5...v0.14.6) (2023-03-08)
+
+
+### Bug Fixes
+
+* **Deps:** Removed cross-fetch from bundle ([645746d](https://github.com/amnis-dev/amnis-api/commit/645746dc6e828df4d57d793fb88ea23e9fb8225d))
+
 ### [0.14.5](https://github.com/amnis-dev/amnis-api/compare/v0.14.4...v0.14.5) (2023-03-08)
 
 
