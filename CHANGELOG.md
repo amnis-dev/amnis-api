@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.14.4](https://github.com/amnis-dev/amnis-api/compare/v0.14.3...v0.14.4) (2023-03-08)
+
+
+### Features
+
+* **Schema:** Api now exports schema ([a3379ea](https://github.com/amnis-dev/amnis-api/commit/a3379ea8f8b059bed982e42a3b226ec6f3e0b610))
+
 ### [0.14.3](https://github.com/amnis-dev/amnis-api/compare/v0.14.2...v0.14.3) (2023-03-08)
 
 
