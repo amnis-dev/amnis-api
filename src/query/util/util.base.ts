@@ -12,8 +12,10 @@ import {
 } from './util.headers.js';
 import { apiUtilSelectApi } from './util.selectors.js';
 
-global.Headers = Headers;
-global.Request = Request;
+if (typeof global !== 'undefined') {
+  global.Headers = Headers;
+  global.Request = Request;
+}
 
 type DynamicBaseQuery = BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>;
 type DynamicBaseQuerySetup = (reducerPath: string, bearerId?: string) => DynamicBaseQuery;
