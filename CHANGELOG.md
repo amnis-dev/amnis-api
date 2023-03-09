@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.14.8](https://github.com/amnis-dev/amnis-api/compare/v0.14.7...v0.14.8) (2023-03-09)
+
+
+### Bug Fixes
+
+* **Authenticate:** Fixed missing endpoint processing and query methods ([d98d722](https://github.com/amnis-dev/amnis-api/commit/d98d722c20aa772a429999187d01a4c3a8f15bc2))
+
 ### [0.14.7](https://github.com/amnis-dev/amnis-api/compare/v0.14.6...v0.14.7) (2023-03-08)
 
 
