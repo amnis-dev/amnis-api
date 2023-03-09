@@ -1,4 +1,5 @@
 import type { IoProcessMap, IoProcessMapMethods } from '@amnis/state';
+import { processAuthAuthenticate } from './auth.authenticate.js';
 import { processAuthChallenge } from './auth.challenge.js';
 import { processAuthCreate } from './auth.create.js';
 import { processAuthCredential } from './auth.credential.js';
@@ -9,6 +10,7 @@ import { processAuthRegister } from './auth.register.js';
 import { processAuthVerify } from './auth.verify.js';
 
 export const processAuthPost: IoProcessMap = {
+  authenticate: processAuthAuthenticate,
   challenge: processAuthChallenge,
   create: processAuthCreate,
   credential: processAuthCredential,

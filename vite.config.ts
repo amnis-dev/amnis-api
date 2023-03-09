@@ -24,7 +24,6 @@ export default defineConfig({
           '@amnis/state': 'AmnisState',
           '@amnis/state/schema': 'AmnisStateSchema',
           '@amnis/state/validate': 'AmnisStateValidate',
-          'cross-fetch': 'CrossFetch',
         },
       },
       external: [
@@ -37,7 +36,6 @@ export default defineConfig({
         'react',
         'react-dom',
         'react-redux',
-        'cross-fetch',
       ],
     },
   },

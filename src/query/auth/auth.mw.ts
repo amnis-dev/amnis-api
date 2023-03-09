@@ -24,6 +24,7 @@ export const apiAuthMiddleware: Middleware = () => (next) => (action) => {
    * CASES: Login, Register, Create, Credential
    */
   if (isAnyOf(
+    apiAuth.endpoints.authenticate.matchFulfilled,
     apiAuth.endpoints.login.matchFulfilled,
     apiAuth.endpoints.register.matchFulfilled,
     apiAuth.endpoints.create.matchFulfilled,
