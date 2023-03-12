@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.14.11](https://github.com/amnis-dev/amnis-api/compare/v0.14.10...v0.14.11) (2023-03-12)
+
+
+### Features
+
+* **Headers:** Added cross-fetch headers for browser environments ([783de5f](https://github.com/amnis-dev/amnis-api/commit/783de5f0d7d23f5241561f5919d73e0d964c06b5))
+
 ### [0.14.10](https://github.com/amnis-dev/amnis-api/compare/v0.14.9...v0.14.10) (2023-03-12)
 
 
