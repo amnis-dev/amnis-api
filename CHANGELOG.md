@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.14.10](https://github.com/amnis-dev/amnis-api/compare/v0.14.9...v0.14.10) (2023-03-12)
+
+
+### Features
+
+* **Headers:** Added content type header to requests ([eead12a](https://github.com/amnis-dev/amnis-api/commit/eead12a2a53377090ca22e85938ecd981116ad3a))
+
 ### [0.14.9](https://github.com/amnis-dev/amnis-api/compare/v0.14.8...v0.14.9) (2023-03-12)
 
 
