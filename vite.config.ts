@@ -20,7 +20,7 @@ export default defineConfig({
         globals: {
           '@reduxjs/toolkit': 'ReduxToolkit',
           '@reduxjs/toolkit/query': 'ReduxToolkitQuery',
-          '@reduxjs/toolkit/query/react': 'ReduxToolkitQuery',
+          '@reduxjs/toolkit/query/react': 'ReduxToolkitQueryReact',
           '@amnis/state': 'AmnisState',
           '@amnis/state/schema': 'AmnisStateSchema',
           '@amnis/state/validate': 'AmnisStateValidate',

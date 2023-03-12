@@ -58,6 +58,11 @@ export const dynamicBaseQuery: DynamicBaseQuerySetup = (
       const state = api.getState() as State;
 
       /**
+       * Set the content type to JSON.
+       */
+      headers.set('Content-Type', 'application/json;charset=UTF-8');
+
+      /**
        * Apply a bearer if needed.
        */
       if (apiMeta?.bearerId) {
