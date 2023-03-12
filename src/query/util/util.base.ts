@@ -16,6 +16,10 @@ if (typeof global !== 'undefined') {
   global.Headers = Headers;
   global.Request = Request;
 }
+if (typeof window !== 'undefined') {
+  window.Headers = Headers;
+  window.Request = Request;
+}
 
 type DynamicBaseQuery = BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>;
 type DynamicBaseQuerySetup = (reducerPath: string, bearerId?: string) => DynamicBaseQuery;
@@ -60,7 +64,7 @@ export const dynamicBaseQuery: DynamicBaseQuerySetup = (
       /**
        * Set the content type to JSON.
        */
-      headers.set('Content-Type', 'application/json;charset=UTF-8');
+      headers.set('Content-Type', 'application/json');
 
       /**
        * Apply a bearer if needed.
