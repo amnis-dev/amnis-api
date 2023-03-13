@@ -185,7 +185,7 @@ export const authenticateLogin = async (
   if (!user) {
     return authenticateFailedOutput(
       'User Not Found',
-      `Could not find handle "${user}".`,
+      `Could not find handle "${handle}".`,
     );
   }
 
