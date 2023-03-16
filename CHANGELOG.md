@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.14.12](https://github.com/amnis-dev/amnis-api/compare/v0.14.11...v0.14.12) (2023-03-16)
+
+
+### Bug Fixes
+
+* **Log:** Fixed logs message returning an undefined message ([4b23375](https://github.com/amnis-dev/amnis-api/commit/4b233757dd2e33b9869b490c282043aefb4b937a))
+
 ### [0.14.11](https://github.com/amnis-dev/amnis-api/compare/v0.14.10...v0.14.11) (2023-03-12)
 
 
