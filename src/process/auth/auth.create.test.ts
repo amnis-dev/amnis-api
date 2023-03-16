@@ -17,11 +17,10 @@ import {
   profileKey,
   uid,
   userKey,
-  contextSetup,
   systemSelectors,
 } from '@amnis/state';
-import { validateSetup } from '@amnis/state/validate';
-import type { ApiAuthCreate } from '../../api.types.js';
+import { contextSetup } from '@amnis/state/context';
+import type { ApiAuthCreate } from '../../api.auth.types.js';
 import { schemaAuth } from '../../schema/index.js';
 import { generateSession } from '../utility/generate.js';
 import { processAuthChallenge } from './auth.challenge.js';
@@ -31,7 +30,7 @@ let context: IoContext;
 
 beforeAll(async () => {
   context = await contextSetup({
-    validators: validateSetup([schemaAuth]),
+    schemas: [schemaAuth],
   });
 });
 

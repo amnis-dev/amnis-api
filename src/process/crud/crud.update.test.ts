@@ -16,15 +16,14 @@ import {
   profileKey,
   databaseMemoryStorage,
   ioOutput,
-  contextSetup,
 } from '@amnis/state';
 import {
   schemaState,
   schemaEntity,
 } from '@amnis/state/schema';
 import {
-  validateSetup,
-} from '@amnis/state/validate';
+  contextSetup,
+} from '@amnis/state/context';
 import { schemaAuth } from '../../schema/index.js';
 import { authenticateFinalize } from '../utility/authenticate.js';
 import { processCrudUpdate } from './crud.update.js';
@@ -36,7 +35,7 @@ let io: IoMap<'update'>;
 
 beforeAll(async () => {
   context = await contextSetup({
-    validators: validateSetup([schemaAuth, schemaState, schemaEntity]),
+    schemas: [schemaAuth, schemaState, schemaEntity],
   });
   const storage = databaseMemoryStorage();
   dataUsers = Object.values(storage[userKey]) as Entity<User>[];

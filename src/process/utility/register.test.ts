@@ -12,10 +12,10 @@ import {
   profileKey,
   userKey,
   agentCredential,
-  contextSetup,
   systemSelectors,
 } from '@amnis/state';
-import type { ApiAuthRegister } from '../../api.types.js';
+import { contextSetup } from '@amnis/state/context';
+import type { ApiAuthRegister } from '../../api.auth.types.js';
 import { registerAccount } from './register.js';
 
 let context: IoContext;

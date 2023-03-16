@@ -6,7 +6,7 @@ import type {
 import {
   ioOutputApply,
 } from '@amnis/state';
-import type { ApiAuthCredential } from '../../api.types.js';
+import type { ApiAuthCredential } from '../../api.auth.types.js';
 import {
   mwChallenge,
   mwCredential,
@@ -89,7 +89,7 @@ Io<ApiAuthCredential, StateEntities>
   }
 );
 
-export const processAuthCredential = mwValidate('ApiAuthCredential')(
+export const processAuthCredential = mwValidate('auth/ApiAuthCredential')(
   mwChallenge()(
     mwOtp()(
       mwCredential(true)(

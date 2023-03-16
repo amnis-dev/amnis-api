@@ -44,7 +44,7 @@ Io<StateDeleter, StateDeleter>
 );
 
 export const processCrudDelete = mwAccess()(
-  mwValidate('StateDeleter')(
+  mwValidate('entities/StateDeleter')(
     mwState(GrantTask.Delete)(
       process,
     ),

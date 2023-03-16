@@ -5,10 +5,9 @@ import type {
 import {
   ioOutput,
   challengeSelectors,
-  contextSetup,
 } from '@amnis/state';
-import { validateSetup } from '@amnis/state/validate';
-import type { ApiAuthChallenge } from '../../api.types.js';
+import { contextSetup } from '@amnis/state/context';
+import type { ApiAuthChallenge } from '../../api.auth.types.js';
 import { schemaAuth } from '../../schema/index.js';
 import { processAuthChallenge } from './auth.challenge.js';
 
@@ -16,7 +15,7 @@ let context: IoContext;
 
 beforeAll(async () => {
   context = await contextSetup({
-    validators: validateSetup([schemaAuth]),
+    schemas: [schemaAuth],
   });
 });
 

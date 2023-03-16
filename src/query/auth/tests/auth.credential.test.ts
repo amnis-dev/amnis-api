@@ -13,19 +13,13 @@ import {
   credentialSelectors,
   otpActions,
   userSelectors,
-  apiActions,
 } from '@amnis/state';
+import { apiSys } from '../../sys/index.js';
 import { apiAuth } from '../index.js';
 import {
-  baseUrl,
   serviceConfig,
 } from './config.js';
 import { clientStore } from './store.js';
-
-clientStore.dispatch(apiActions.upsertMany([
-  { id: 'apiAuth', baseUrl: `${baseUrl}/auth` },
-  { id: 'apiCrud', baseUrl: `${baseUrl}/crud` },
-]));
 
 let adminUser: Entity<User>;
 
@@ -37,6 +31,13 @@ beforeAll(async () => {
   const storageUsers = Object.values(storage[userKey]) as Entity<User>[];
 
   adminUser = storageUsers.find((u) => u.handle === 'admin') as Entity<User>;
+
+  await clientStore.dispatch(
+    apiSys.endpoints.system.initiate({
+      url: 'http://localhost/api/sys/system',
+      set: true,
+    }),
+  );
 });
 
 afterAll(() => {

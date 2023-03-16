@@ -12,7 +12,7 @@ import {
   credentialKey,
   systemSelectors,
 } from '@amnis/state';
-import type { ApiAuthRegister } from '../../api.types.js';
+import type { ApiAuthRegister } from '../../api.auth.types.js';
 import {
   mwChallenge,
   mwCredential,
@@ -95,7 +95,7 @@ Io<ApiAuthRegister, StateEntities>
   }
 );
 
-export const processAuthRegister = mwValidate('ApiAuthRegister')(
+export const processAuthRegister = mwValidate('auth/ApiAuthRegister')(
   mwChallenge()(
     mwCredential(true)(
       mwSignature()(

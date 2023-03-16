@@ -58,7 +58,7 @@ Io<StateCreator, StateEntities>
 );
 
 export const processCrudCreate = mwAccess()(
-  mwValidate('StateCreator')(
+  mwValidate('entities/StateCreator')(
     mwState(GrantTask.Create)(
       process,
     ),

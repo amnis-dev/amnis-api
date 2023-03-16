@@ -13,11 +13,10 @@ import {
   userKey,
   ioOutput,
   accountsGet,
-  contextSetup,
   otpSelectors,
 } from '@amnis/state';
-import { validateSetup } from '@amnis/state/validate';
-import type { ApiAuthCredential, ApiAuthLogin } from '../../api.types.js';
+import { contextSetup } from '@amnis/state/context';
+import type { ApiAuthCredential, ApiAuthLogin } from '../../api.auth.types.js';
 import { schemaAuth } from '../../schema/index.js';
 import { challengeNew } from '../utility/challenge.js';
 import { otpNew, otpPasswordCreate } from '../utility/otp.js';
@@ -31,7 +30,7 @@ let userUser: Entity<User>;
 
 beforeAll(async () => {
   context = await contextSetup({
-    validators: validateSetup([schemaAuth]),
+    schemas: [schemaAuth],
   });
 
   /**

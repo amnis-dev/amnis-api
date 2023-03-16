@@ -99,7 +99,7 @@ Io<StateQuery, StateEntities>
 );
 
 export const processCrudRead = mwAccess()(
-  mwValidate('StateQuery')(
+  mwValidate('state/StateQuery')(
     mwState(GrantTask.Read)(
       process,
     ),

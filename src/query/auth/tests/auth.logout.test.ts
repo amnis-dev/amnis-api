@@ -6,22 +6,23 @@ import {
   userSelectors,
   accountsGet,
   selectBearer,
-  apiActions,
 } from '@amnis/state';
+import { apiSys } from '../../sys/index.js';
 import { apiAuth } from '../index.js';
 import {
-  baseUrl, serviceConfig,
+  serviceConfig,
 } from './config.js';
 import { clientStore } from './store.js';
-
-clientStore.dispatch(apiActions.upsertMany([
-  { id: 'apiAuth', baseUrl: `${baseUrl}/auth` },
-  { id: 'apiCrud', baseUrl: `${baseUrl}/crud` },
-]));
 
 beforeAll(async () => {
   await mockService.setup(await serviceConfig());
   mockService.start();
+  await clientStore.dispatch(
+    apiSys.endpoints.system.initiate({
+      url: 'http://localhost/api/sys/system',
+      set: true,
+    }),
+  );
 });
 
 afterAll(() => {

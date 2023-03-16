@@ -7,7 +7,7 @@ import type {
 import {
   ioOutputApply,
 } from '@amnis/state';
-import type { ApiAuthOtp } from '../../api.types.js';
+import type { ApiAuthOtp } from '../../api.auth.types.js';
 import { mwValidate } from '../mw/index.js';
 import { otpNew } from '../utility/otp.js';
 
@@ -28,7 +28,7 @@ Io<ApiAuthOtp, Otp>
   }
 );
 
-export const processAuthOtp = mwValidate('ApiAuthOtp')(
+export const processAuthOtp = mwValidate('auth/ApiAuthOtp')(
   process,
 ) as IoProcess<
 Io<ApiAuthOtp, Entity<Otp>>

@@ -4,9 +4,9 @@ import type {
 } from '@amnis/state';
 import {
   accountsGet,
-  contextSetup,
   systemSelectors,
 } from '@amnis/state';
+import { contextSetup } from '@amnis/state/context';
 import { authenticateLogin } from './authenticate.js';
 
 let context: IoContext;
@@ -36,7 +36,7 @@ test('should authenticate as normal user account', async () => {
   expect(output.json.bearers).toBeDefined();
   expect(output.json.bearers).toHaveLength(1);
   expect(output.json.bearers?.[0]).toMatchObject({
-    $id: 'core',
+    $id: system.handle,
     exp: expect.any(Number),
     access: expect.any(String),
   });

@@ -8,9 +8,8 @@ import {
   dateNumeric,
   challengeActions,
   challengeSelectors,
-  contextSetup,
 } from '@amnis/state';
-import { validateSetup } from '@amnis/state/validate';
+import { contextSetup } from '@amnis/state/context';
 import { schemaAuth } from '../../schema/index.js';
 import { challengeValidate } from './challenge.js';
 
@@ -21,7 +20,7 @@ let challengeExpired: Challenge;
 beforeAll(async () => {
   context = await contextSetup({
     initialize: true,
-    validators: validateSetup([schemaAuth]),
+    schemas: [schemaAuth],
   });
   challengeValid = challengeCreate({
     val: await context.crypto.randomString(16),

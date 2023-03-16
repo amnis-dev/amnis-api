@@ -14,7 +14,7 @@ import type {
   ApiAuthChallenge,
   ApiAuthAuthenticate,
   ApiAuthCredential,
-} from '../api.types.js';
+} from '../api.auth.types.js';
 
 export interface AuthSchema {
   authenticate?: ApiAuthAuthenticate;

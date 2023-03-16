@@ -2,17 +2,19 @@
 import fetch from 'cross-fetch';
 import type { BaseQueryApi } from '@reduxjs/toolkit/query';
 import type {
+  Api,
   Challenge,
   IoOutput,
   State,
   StateEntities,
+  System,
 } from '@amnis/state';
-import { agentSign, base64JsonEncode } from '@amnis/state';
 import {
-  apiUtilSelectApi,
-  apiUtilSelectBearer,
-  apiUtilSelectLatestOtp,
-} from './util.selectors.js';
+  otpSelectors,
+  bearerSelectors,
+  agentSign,
+  base64JsonEncode,
+} from '@amnis/state';
 
 /**
  * Adds an authroization token to the header.
@@ -22,8 +24,10 @@ export const headersAuthorizationToken = async (
   store: BaseQueryApi,
   state: State,
   bearerId: string,
+  system: System,
+  apiAuth: Api,
 ): Promise<void> => {
-  const bearer = apiUtilSelectBearer(state, bearerId);
+  const bearer = bearerSelectors.selectById(state as any, bearerId);
 
   if (!bearer) {
     return;
@@ -33,12 +37,7 @@ export const headersAuthorizationToken = async (
    * If the bearer token expired, attempt to fetch it again.
    */
   if (bearer.exp <= Date.now()) {
-    const apiAuthMeta = apiUtilSelectApi(state, 'apiAuth');
-    if (!apiAuthMeta) {
-      console.error('Auth API must be defined to renew tokens.');
-      return;
-    }
-    const result = await fetch(`${apiAuthMeta.baseUrl}/authenticate`, {
+    const result = await fetch(`${system.domain}${apiAuth.baseUrl}/authenticate`, {
       method: 'POST',
       body: JSON.stringify({}),
     });
@@ -80,15 +79,10 @@ export const headersSignature = async (
  */
 export const headersChallenge = async (
   headers: Headers,
-  state: State,
+  system: System,
+  apiAuth: Api,
 ) => {
-  const apiAuthMeta = apiUtilSelectApi(state, 'apiAuth');
-  if (!apiAuthMeta) {
-    console.error('Auth API must be defined to generate challenge object.');
-    return;
-  }
-
-  const result = await fetch(`${apiAuthMeta.baseUrl}/challenge`, {
+  const result = await fetch(`${system.domain}${apiAuth.baseUrl}/challenge`, {
     method: 'POST',
     body: JSON.stringify({}),
   });
@@ -117,7 +111,7 @@ export const headersOtp = (
   headers: Headers,
   state: State,
 ) => {
-  const otp = apiUtilSelectLatestOtp(state);
+  const otp = otpSelectors.selectLatest(state as any);
 
   if (!otp) {
     return;

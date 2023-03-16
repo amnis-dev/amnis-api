@@ -2,15 +2,17 @@
 import fetch, { Headers, Request } from 'cross-fetch';
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { fetchBaseQuery } from '@reduxjs/toolkit/query';
-import type { State } from '@amnis/state';
-import { agentCredential, agentGet } from '@amnis/state';
+import type { Api, State } from '@amnis/state';
+import {
+  apiCreate, apiSelectors, systemSelectors,
+  agentCredential, agentGet,
+} from '@amnis/state';
 import {
   headersAuthorizationToken,
   headersChallenge,
   headersOtp,
   headersSignature,
 } from './util.headers.js';
-import { apiUtilSelectApi } from './util.selectors.js';
 
 if (typeof global !== 'undefined') {
   global.Headers = Headers;
@@ -32,7 +34,32 @@ type DynamicBaseQuerySetup = (reducerPath: string, bearerId?: string) => Dynamic
 export const dynamicBaseQuery: DynamicBaseQuerySetup = (
   reducerPath,
 ) => async (args, store, extraOptions) => {
-  const apiMeta = apiUtilSelectApi(store.getState() as State, reducerPath);
+  const system = systemSelectors.selectActive(store.getState() as State);
+
+  let apiMeta: Api;
+  let apiAuth: Api | undefined;
+  let baseUrl = '';
+  if (!system) {
+    apiMeta = apiCreate({
+      reducerPath,
+    });
+  } else {
+    baseUrl = system.domain;
+    const api = apiSelectors.selectSystemApi(store.getState() as State, system.$id, reducerPath);
+    if (!api) {
+      apiMeta = apiCreate({
+        reducerPath,
+      });
+    } else {
+      apiMeta = api;
+      if (apiMeta.baseUrl?.charAt(0) !== '/') {
+        baseUrl += '/';
+      }
+      baseUrl += apiMeta.baseUrl;
+    }
+    const apis = apiSelectors.selectSystemApis(store.getState() as State, system.$id);
+    apiAuth = apis.find((a) => a.auth === true);
+  }
 
   /**
    * Exception for apiAuth...
@@ -56,11 +83,9 @@ export const dynamicBaseQuery: DynamicBaseQuerySetup = (
    * Dynamically prepare the request query.
    */
   const rawBaseQuery = fetchBaseQuery({
-    baseUrl: apiMeta ? apiMeta.baseUrl : '',
+    baseUrl,
     fetchFn: fetch,
     prepareHeaders: async (headers, api) => {
-      const state = api.getState() as State;
-
       /**
        * Set the content type to JSON.
        */
@@ -69,8 +94,21 @@ export const dynamicBaseQuery: DynamicBaseQuerySetup = (
       /**
        * Apply a bearer if needed.
        */
-      if (apiMeta?.bearerId) {
-        await headersAuthorizationToken(headers, store, state, apiMeta.bearerId);
+      if (
+        system
+        && apiAuth
+        && apiMeta?.bearer
+        && (apiMeta.bearer === true || apiMeta.bearer.includes(api.endpoint))
+      ) {
+        const bearerId = apiMeta.bearerId ?? system.handle;
+        await headersAuthorizationToken(
+          headers,
+          store,
+          api.getState() as State,
+          bearerId,
+          system,
+          apiAuth,
+        );
       }
 
       /**
@@ -91,10 +129,12 @@ export const dynamicBaseQuery: DynamicBaseQuerySetup = (
        * Provide challenge headers on the required requests
        */
       if (
-        apiMeta?.challenge
+        system
+        && apiAuth
+        && apiMeta?.challenge
         && (apiMeta.challenge === true || apiMeta.challenge.includes(api.endpoint))
       ) {
-        await headersChallenge(headers, state);
+        await headersChallenge(headers, system, apiAuth);
       }
 
       /**
@@ -104,7 +144,7 @@ export const dynamicBaseQuery: DynamicBaseQuerySetup = (
         apiMeta?.otp
         && (apiMeta.otp === true || apiMeta.otp.includes(api.endpoint))
       ) {
-        headersOtp(headers, state);
+        headersOtp(headers, api.getState() as State);
       }
 
       return headers;

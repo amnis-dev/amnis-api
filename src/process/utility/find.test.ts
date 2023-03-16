@@ -14,8 +14,8 @@ import {
   contactKey,
   profileKey,
   roleKey,
-  contextSetup,
 } from '@amnis/state';
+import { contextSetup } from '@amnis/state/context';
 import {
   findContactById, findCredentialById, findProfileByUserId, findRolesByIds, findUserByHandle,
 } from './find.js';

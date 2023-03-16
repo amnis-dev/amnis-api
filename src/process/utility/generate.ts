@@ -93,7 +93,7 @@ export const generateBearer = async (
  * This is so we have ensured data about our JWT.
  */
   const bearerAccess = bearerCreate({
-    $id: 'core' as UID,
+    $id: system.handle as UID,
     exp: bearerExpires,
     access: await crypto.accessEncode(jwtAccess),
   });

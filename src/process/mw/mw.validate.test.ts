@@ -7,10 +7,9 @@ import {
   contactCreator,
   ioOutput,
   ioOutputErrored,
-  contextSetup,
 } from '@amnis/state';
 import { schemaEntity } from '@amnis/state/schema';
-import { validateSetup } from '@amnis/state/validate';
+import { contextSetup } from '@amnis/state/context';
 import { mwValidate } from './mw.validate.js';
 
 let context: IoContext;
@@ -22,12 +21,12 @@ const noprocess: IoProcess = () => async (i, o) => o;
 
 beforeAll(async () => {
   context = await contextSetup({
-    validators: validateSetup([schemaEntity]),
+    schemas: [schemaEntity],
   });
 });
 
 test('should validate a valid contact object', async () => {
-  const process = mwValidate('Contact')(noprocess);
+  const process = mwValidate('entities/Contact')(noprocess);
 
   const input: IoInput = {
     body: contactCreator({
@@ -41,7 +40,7 @@ test('should validate a valid contact object', async () => {
 });
 
 test('should NOT validate an ivalid contact object', async () => {
-  const process = mwValidate('Contact')(noprocess);
+  const process = mwValidate('entities/Contact')(noprocess);
 
   const input: IoInput = {
     body: {

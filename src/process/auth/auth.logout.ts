@@ -8,7 +8,7 @@ import {
   sessionKey,
   systemSelectors,
 } from '@amnis/state';
-import type { ApiAuthLogout } from '../../api.types.js';
+import type { ApiAuthLogout } from '../../api.auth.types.js';
 import { mwSession, mwValidate } from '../mw/index.js';
 
 /**
@@ -54,7 +54,7 @@ Io<ApiAuthLogout, StateDeleter>
 );
 
 export const processAuthLogout = mwSession()(
-  mwValidate('ApiAuthLogout')(
+  mwValidate('auth/ApiAuthLogout')(
     process,
   ),
 ) as IoProcess<

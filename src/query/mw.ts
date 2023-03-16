@@ -3,6 +3,8 @@ import type {
   IoOutput,
 } from '@amnis/state';
 import {
+  apiCreate,
+  apiKey,
   bearerKey,
   dataActions,
   entityCreate,
@@ -27,7 +29,7 @@ export const apiMiddleware: Middleware = () => (next) => (action) => {
      * Assume that the payload is possible IoOutput's json property.
      * Still need to check for the existence of the logs and bearers properties.
      */
-    const { logs, bearers } = payload as Partial<IoOutput['json']>;
+    const { logs, bearers, apis } = payload as Partial<IoOutput['json']>;
     const dataCreator: DataCreator = {};
 
     if (logs) {
@@ -36,6 +38,10 @@ export const apiMiddleware: Middleware = () => (next) => (action) => {
 
     if (bearers) {
       dataCreator[bearerKey] = bearers;
+    }
+
+    if (apis) {
+      dataCreator[apiKey] = apis.map((api) => apiCreate(api));
     }
 
     if (Object.keys(dataCreator).length > 0) {

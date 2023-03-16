@@ -17,7 +17,7 @@ import {
   credentialKey,
   systemSelectors,
 } from '@amnis/state';
-import type { ApiAuthLogin } from '../../api.types.js';
+import type { ApiAuthLogin } from '../../api.auth.types.js';
 import {
   findContactById,
   findCredentialById,

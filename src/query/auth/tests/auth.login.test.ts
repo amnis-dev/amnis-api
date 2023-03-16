@@ -9,22 +9,24 @@ import {
   profileSelectors,
   sessionSelectors,
   userSelectors,
-  apiActions,
 } from '@amnis/state';
 import { mockService } from '@amnis/mock';
 import { apiAuth } from '../index.js';
 import { clientStore } from './store.js';
 import {
-  baseUrl, serviceConfig,
+  serviceConfig,
 } from './config.js';
-
-clientStore.dispatch(apiActions.upsertMany([
-  { id: 'apiAuth', baseUrl: `${baseUrl}/auth` },
-]));
+import { apiSys } from '../../sys/index.js';
 
 beforeAll(async () => {
   await mockService.setup(await serviceConfig());
   mockService.start();
+  await clientStore.dispatch(
+    apiSys.endpoints.system.initiate({
+      url: 'http://localhost/api/sys/system',
+      set: true,
+    }),
+  );
 });
 
 afterAll(() => {

@@ -7,7 +7,7 @@ import {
   ioOutputApply,
   systemSelectors,
 } from '@amnis/state';
-import type { ApiAuthCreate } from '../../api.types.js';
+import type { ApiAuthCreate } from '../../api.auth.types.js';
 import {
   mwChallenge, mwCredential, mwSession, mwSignature, mwValidate,
 } from '../mw/index.js';
@@ -60,7 +60,7 @@ Io<ApiAuthCreate, StateEntities>
   }
 );
 
-export const processAuthCreate = mwValidate('ApiAuthCreate')(
+export const processAuthCreate = mwValidate('auth/ApiAuthCreate')(
   mwSession()(
     mwChallenge()(
       mwCredential()(

@@ -14,9 +14,8 @@ import {
   ioOutputErrored,
   databaseMemoryStorage,
   ioOutput,
-  contextSetup,
 } from '@amnis/state';
-import { validateSetup } from '@amnis/state/validate';
+import { contextSetup } from '@amnis/state/context';
 import { schemaEntity, schemaState } from '@amnis/state/schema';
 import { authenticateFinalize } from '../utility/authenticate.js';
 import { processCrudCreate } from './crud.create.js';
@@ -28,7 +27,7 @@ let io: IoMap<'create'>;
 
 beforeAll(async () => {
   context = await contextSetup({
-    validators: validateSetup([schemaAuth, schemaState, schemaEntity]),
+    schemas: [schemaAuth, schemaState, schemaEntity],
   });
   const storage = databaseMemoryStorage();
   dataUsers = Object.values(storage[userKey]) as Entity<User>[];

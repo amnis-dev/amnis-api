@@ -9,8 +9,9 @@ import {
   dateNumeric,
   uid,
   userKey,
-  contextSetup, systemSelectors,
+  systemSelectors,
 } from '@amnis/state';
+import { contextSetup } from '@amnis/state/context';
 import { generateBearer, generateSession } from './generate.js';
 
 let context: IoContext;
@@ -57,7 +58,7 @@ test('should generate a bearer', async () => {
   const time = 1800000 - tolerance; // 30 minutes - tolerance.
 
   expect(bearer).toMatchObject({
-    $id: 'core',
+    $id: system.handle,
     exp: expect.any(Number),
     access: expect.any(String),
   });

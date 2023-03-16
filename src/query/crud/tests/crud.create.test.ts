@@ -8,21 +8,22 @@ import {
   contactActions,
   contactSelectors,
   userSelectors,
-  apiActions,
 } from '@amnis/state';
 import { apiAuth } from '../../auth/index.js';
+import { apiSys } from '../../sys/index.js';
 import { apiCrud } from '../index.js';
-import { baseUrl, serviceConfig } from './config.js';
+import { serviceConfig } from './config.js';
 import { clientStore } from './store.js';
-
-clientStore.dispatch(apiActions.upsertMany([
-  { id: 'apiAuth', baseUrl: `${baseUrl}/auth` },
-  { id: 'apiCrud', baseUrl: `${baseUrl}/crud` },
-]));
 
 beforeAll(async () => {
   await mockService.setup(await serviceConfig());
   mockService.start();
+  await clientStore.dispatch(
+    apiSys.endpoints.system.initiate({
+      url: 'http://localhost/api/sys/system',
+      set: true,
+    }),
+  );
 });
 
 afterAll(() => {

@@ -266,8 +266,8 @@
     "Bearer": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string",
+        "$id": {
+          "$ref": "#/definitions/UID",
           "description": "Bearer identifier."
         },
         "exp": {
@@ -280,7 +280,7 @@
         }
       },
       "required": [
-        "id",
+        "$id",
         "exp",
         "access"
       ],

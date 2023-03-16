@@ -14,8 +14,8 @@ import {
   ioOutputErrored,
   profileKey,
   userKey,
-  contextSetup,
 } from '@amnis/state';
+import { contextSetup } from '@amnis/state/context';
 import { accountCreate, accountCredentialAdd } from './account.js';
 
 let context: IoContext;

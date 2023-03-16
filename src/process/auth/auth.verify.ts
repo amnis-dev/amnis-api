@@ -2,7 +2,7 @@ import type {
   Io,
   IoProcess,
 } from '@amnis/state';
-import type { ApiAuthVerify } from '../../api.types.js';
+import type { ApiAuthVerify } from '../../api.auth.types.js';
 import { mwValidate } from '../mw/index.js';
 
 /**
@@ -30,7 +30,7 @@ Io<ApiAuthVerify, boolean>
   }
 );
 
-export const processAuthVerify = mwValidate('ApiAuthVerify')(
+export const processAuthVerify = mwValidate('auth/ApiAuthVerify')(
   process,
 ) as IoProcess<
 Io<ApiAuthVerify, boolean>

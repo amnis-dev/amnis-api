@@ -8,7 +8,7 @@ import {
   ioOutputApply,
   systemSelectors,
 } from '@amnis/state';
-import type { ApiAuthChallenge } from '../../api.types.js';
+import type { ApiAuthChallenge } from '../../api.auth.types.js';
 import { mwValidate } from '../mw/index.js';
 import { challengeNew } from '../utility/challenge.js';
 
@@ -34,7 +34,7 @@ Io<ApiAuthChallenge, Challenge>
   }
 );
 
-export const processAuthChallenge = mwValidate('ApiAuthChallenge')(
+export const processAuthChallenge = mwValidate('auth/ApiAuthChallenge')(
   process,
 ) as IoProcess<
 Io<ApiAuthChallenge, Entity<Challenge>>

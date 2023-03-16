@@ -6,7 +6,7 @@ import type {
 import {
   credentialCreator,
 } from '@amnis/state';
-import type { ApiAuthRegister } from '../../api.types.js';
+import type { ApiAuthRegister } from '../../api.auth.types.js';
 import { accountCreate } from './account.js';
 
 /**

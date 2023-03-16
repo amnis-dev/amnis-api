@@ -50,7 +50,7 @@ Io<StateUpdater, StateCreator>
 );
 
 export const processCrudUpdate = mwAccess()(
-  mwValidate('StateUpdater')(
+  mwValidate('entities/StateUpdater')(
     mwState(GrantTask.Update)(
       process,
     ),

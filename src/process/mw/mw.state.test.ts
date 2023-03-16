@@ -27,13 +27,12 @@ import {
   roleCreator,
   uid,
   userKey,
-  contextSetup,
   roleActions,
   systemActions,
   systemSelectors,
 } from '@amnis/state';
 import { schemaEntity, schemaState } from '@amnis/state/schema';
-import { validateSetup } from '@amnis/state/validate';
+import { contextSetup } from '@amnis/state/context';
 import { schemaAuth } from '../../schema/index.js';
 import { mwState } from './mw.state.js';
 
@@ -102,7 +101,7 @@ const noprocess: IoProcess = () => async (i, o) => o;
  */
 beforeAll(async () => {
   context = await contextSetup({
-    validators: validateSetup([schemaAuth, schemaState, schemaEntity]),
+    schemas: [schemaAuth, schemaState, schemaEntity],
   });
 
   const system = systemSelectors.selectActive(context.store.getState()) as Entity<System>;

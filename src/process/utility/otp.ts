@@ -14,8 +14,8 @@ import {
   otpActions,
   otpSelectors,
 } from '@amnis/state';
-import { validate } from '@amnis/state/validate';
-import type { ApiAuthOtp } from '../../api.types.js';
+import { validate } from '@amnis/state/context';
+import type { ApiAuthOtp } from '../../api.auth.types.js';
 import { findUser } from './find.js';
 
 const alphabet = 'abcdefghijklmnopqrstuvwxyz';
@@ -137,7 +137,7 @@ export const otpValidate = async (
   /**
    * Validate the structure of the OTP.
    */
-  const outputValidate = validate(validators.Otp, otp);
+  const outputValidate = validate(validators['auth/Otp'], otp);
   if (outputValidate) {
     return outputValidate;
   }

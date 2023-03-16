@@ -14,12 +14,11 @@ import {
   sendMailboxStorage,
   uid,
   userKey,
-  contextSetup,
   otpActions,
   otpSelectors,
   systemSelectors,
 } from '@amnis/state';
-import { validateSetup } from '@amnis/state/validate';
+import { contextSetup } from '@amnis/state/context';
 import { schemaAuth } from '../../schema/index.js';
 import { otpNew, otpPasswordCreate, otpValidate } from './otp.js';
 
@@ -34,7 +33,7 @@ const $subject = uid('subject');
 beforeAll(async () => {
   context = await contextSetup({
     initialize: true,
-    validators: validateSetup([schemaAuth]),
+    schemas: [schemaAuth],
   });
   system = systemSelectors.selectActive(context.store.getState()) as System;
   otpValid = otpCreate({

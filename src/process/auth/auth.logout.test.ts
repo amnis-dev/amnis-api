@@ -10,11 +10,10 @@ import {
   base64JsonEncode,
   ioOutput,
   sessionKey,
-  contextSetup,
   systemSelectors,
 } from '@amnis/state';
-import { validateSetup } from '@amnis/state/validate';
-import type { ApiAuthLogin, ApiAuthLogout } from '../../api.types.js';
+import { contextSetup } from '@amnis/state/context';
+import type { ApiAuthLogin, ApiAuthLogout } from '../../api.auth.types.js';
 import { schemaAuth } from '../../schema/index.js';
 import { processAuthChallenge } from './auth.challenge.js';
 import { processAuthLogin } from './auth.login.js';
@@ -25,7 +24,7 @@ let system: System;
 
 beforeAll(async () => {
   context = await contextSetup({
-    validators: validateSetup([schemaAuth]),
+    schemas: [schemaAuth],
   });
 
   system = systemSelectors.selectActive(context.store.getState()) as System;

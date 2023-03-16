@@ -11,7 +11,7 @@ import {
   challengeSelectors,
   systemSelectors,
 } from '@amnis/state';
-import { validate } from '@amnis/state/validate';
+import { validate } from '@amnis/state/context';
 
 /**
  * Create a challenge from context and output it.
@@ -70,7 +70,7 @@ export const challengeValidate = (
   /**
    * Validate the structure of the challenge.
    */
-  const outputValidate = validate(validators.Challenge, challenge);
+  const outputValidate = validate(validators['auth/Challenge'], challenge);
   if (outputValidate) {
     return outputValidate;
   }

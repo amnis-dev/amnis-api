@@ -1,19 +1,19 @@
 import type { MockOptions } from '@amnis/mock';
-import { contextSetup } from '@amnis/state';
-import { validateSetup } from '@amnis/state/validate';
-import { processAuth } from '../../../process/index.js';
-import { schemaAuth } from '../../../schema/index.js';
+import { contextSetup } from '@amnis/state/context';
+import { processSys, processAuth } from '../../../process/index.js';
+import { schemaSys, schemaAuth } from '../../../schema/index.js';
 
-export const baseUrl = 'https://amnis.dev/api';
+export const baseUrl = '/api';
 
 export const serviceConfig = async (): Promise<MockOptions> => {
   const context = await contextSetup({
-    validators: validateSetup([schemaAuth]),
+    schemas: [schemaSys, schemaAuth],
   });
   return {
     baseUrl,
     context,
     processes: {
+      sys: processSys,
       auth: processAuth,
     },
   };

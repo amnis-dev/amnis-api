@@ -20,11 +20,10 @@ import {
   dateNumeric,
   agentSign,
   base64JsonEncode,
-  contextSetup,
   systemSelectors,
 } from '@amnis/state';
-import { validateSetup } from '@amnis/state/validate';
-import type { ApiAuthAuthenticate, ApiAuthChallenge } from '../../api.types.js';
+import { contextSetup } from '@amnis/state/context';
+import type { ApiAuthAuthenticate, ApiAuthChallenge } from '../../api.auth.types.js';
 import { schemaAuth } from '../../schema/index.js';
 import { generateSession } from '../utility/generate.js';
 import { processAuthAuthenticate } from './auth.authenticate.js';
@@ -36,7 +35,7 @@ let storageUsers: Entity<User>[];
 
 beforeAll(async () => {
   context = await contextSetup({
-    validators: validateSetup([schemaAuth]),
+    schemas: [schemaAuth],
   });
   system = systemSelectors.selectActive(context.store.getState()) as Entity<System>;
   const storage = databaseMemoryStorage();
