@@ -5,15 +5,12 @@ import type {
   IoOutputJson,
   StateEntities,
 } from '@amnis/state';
-import type {
-  ApiSysSystem,
-} from '../../api.sys.types.js';
 
 export const apiSysQueries = <T extends EndpointBuilder<any, any, any>>(builder: T) => ({
 
-  system: builder.mutation<
+  system: builder.query<
   IoOutputJson<StateEntities>,
-  ApiSysSystem | { url: string; set?: boolean }
+  { url: string; set?: boolean }
   >({
     query: ({ url }) => ({
       url: url ?? 'system',

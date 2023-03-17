@@ -8,14 +8,12 @@ import {
   systemKey,
   systemSelectors,
 } from '@amnis/state';
-import type { ApiSysSystem } from '../../api.sys.types.js';
-// import { mwValidate } from '../mw/index.js';
 
 /**
  * Verifies the validity of an access bearer.
  */
 export const process: IoProcess<
-Io<ApiSysSystem, StateEntities>
+Io<undefined, StateEntities>
 > = (context) => (
   async (input, output) => {
     const { store } = context;
@@ -50,7 +48,7 @@ Io<ApiSysSystem, StateEntities>
 );
 
 export const processSysSystem = process as IoProcess<
-Io<ApiSysSystem, StateEntities>
+Io<undefined, StateEntities>
 >;
 
 export default processSysSystem;

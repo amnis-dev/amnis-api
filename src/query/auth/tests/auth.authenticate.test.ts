@@ -64,7 +64,7 @@ test('should be able to authenticate with existing session', async () => {
     apiSys.endpoints.system.initiate({
       url: 'http://localhost/api/sys/system',
       set: true,
-    }),
+    }, { forceRefetch: true }),
   );
 
   const userActivePre = userSelectors.selectActive(clientStore.getState());
