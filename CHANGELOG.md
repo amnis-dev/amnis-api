@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.15.3](https://github.com/amnis-dev/amnis-api/compare/v0.15.2...v0.15.3) (2023-03-17)
+
+
+### Features
+
+* **System:** Changed system api from mutation to query ([dd3c3a4](https://github.com/amnis-dev/amnis-api/commit/dd3c3a46a5f737852c7d24c5122af11c8b92be5f))
+
 ### [0.15.2](https://github.com/amnis-dev/amnis-api/compare/v0.15.1...v0.15.2) (2023-03-17)
 
 
