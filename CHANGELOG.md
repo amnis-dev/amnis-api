@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.15.0](https://github.com/amnis-dev/amnis-api/compare/v0.14.12...v0.15.0) (2023-03-17)
+
+
+### Features
+
+* **System:** Added new system processors and apis ([1059117](https://github.com/amnis-dev/amnis-api/commit/1059117b3719abe3370dd87b52ae43dff4e25539))
+
 ### [0.14.12](https://github.com/amnis-dev/amnis-api/compare/v0.14.11...v0.14.12) (2023-03-16)
 
 
