@@ -65,6 +65,7 @@ test('should create an admin session and authenticate using the admin keys', asy
    */
   const inputChallenge: IoInput<ApiAuthChallenge> = {
     body: {},
+    query: {},
   };
   const outputChallenge = await processAuthChallenge(context)(inputChallenge, ioOutput());
   const challenge = outputChallenge.json.result;
@@ -92,6 +93,7 @@ test('should create an admin session and authenticate using the admin keys', asy
    */
   const inputAuthenticate: IoInput<ApiAuthAuthenticate> = {
     body: {},
+    query: {},
     sessionEncrypted,
     challengeEncoded,
   };
@@ -162,6 +164,7 @@ test('should create a user session and authenticate using the user keys', async 
    */
   const inputChallenge: IoInput<ApiAuthChallenge> = {
     body: {},
+    query: {},
   };
   const outputChallenge = await processAuthChallenge(context)(inputChallenge, ioOutput());
   const challenge = outputChallenge.json.result;
@@ -178,6 +181,7 @@ test('should create a user session and authenticate using the user keys', async 
    */
   const inputAuthenticate: IoInput<ApiAuthAuthenticate> = {
     body: {},
+    query: {},
     sessionEncrypted,
     challengeEncoded,
   };
@@ -267,6 +271,7 @@ test('should create an admin session and fail authentication with an incorrect c
    */
   const inputAuthenticate: IoInput<ApiAuthAuthenticate> = {
     body: {},
+    query: {},
     sessionEncrypted,
     challengeEncoded,
   };
@@ -314,6 +319,7 @@ test('should create an admin session and fail authentication with an incorrect s
    */
   const inputChallenge: IoInput<ApiAuthChallenge> = {
     body: {},
+    query: {},
   };
   const outputChallenge = await processAuthChallenge(context)(inputChallenge, ioOutput());
   const challenge = outputChallenge.json.result;
@@ -341,6 +347,7 @@ test('should create an admin session and fail authentication with an incorrect s
    */
   const inputAuthenticate: IoInput<ApiAuthAuthenticate> = {
     body: {},
+    query: {},
     sessionEncrypted,
     challengeEncoded,
   };

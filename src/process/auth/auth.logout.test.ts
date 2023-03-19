@@ -40,6 +40,7 @@ test('should login and then logout as administrator', async () => {
 
   const inputStart: IoInput = {
     body: {},
+    query: {},
   };
   const outputStart = await processAuthChallenge(context)(inputStart, ioOutput());
   const challenge = outputStart.json.result as Challenge | undefined;
@@ -61,6 +62,7 @@ test('should login and then logout as administrator', async () => {
 
   const inputLogin: IoInput<ApiAuthLogin> = {
     body: apiAuthLogin,
+    query: {},
     challengeEncoded,
     signatureEncoded,
   };
@@ -71,8 +73,9 @@ test('should login and then logout as administrator', async () => {
   expect(outputLogin.cookies[system.sessionKey]).toBeDefined();
 
   const inputLogout: IoInput<ApiAuthLogout> = {
-    sessionEncrypted: outputLogin.cookies[system.sessionKey],
     body: {},
+    query: {},
+    sessionEncrypted: outputLogin.cookies[system.sessionKey],
   };
 
   const outputLogout = await processAuthLogout(context)(inputLogout, ioOutput());
@@ -92,6 +95,7 @@ test('should login and then logout as administrator', async () => {
 test('should not logout without an existing session', async () => {
   const inputLogout: IoInput<ApiAuthLogout> = {
     body: {},
+    query: {},
   };
 
   const outputLogout = await processAuthLogout(context)(inputLogout, ioOutput());

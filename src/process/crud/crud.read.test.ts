@@ -58,6 +58,7 @@ test('should not read user without access', async () => {
         $query: {},
       },
     },
+    query: {},
   };
 
   const output = await io.read(input, ioOutput());
@@ -77,6 +78,7 @@ test('should read profile without access', async () => {
         $query: {},
       },
     },
+    query: {},
   };
 
   const output = await io.read(input, ioOutput());
@@ -111,6 +113,7 @@ test('should login as administrator read users', async () => {
         $query: {},
       },
     },
+    query: {},
   };
 
   const output = await io.read(input, ioOutput());
@@ -160,6 +163,7 @@ test('should login as administrator read user with a depth of 1', async () => {
         $depth: 1,
       },
     },
+    query: {},
   };
 
   const output = await io.read(input, ioOutput());

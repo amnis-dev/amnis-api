@@ -27,6 +27,7 @@ beforeAll(async () => {
 test('should generate a challenge entity', async () => {
   const input: IoInput<ApiAuthChallenge> = {
     body: {},
+    query: {},
   };
   const output = await processAuthChallenge(context)(input, ioOutput());
   const challenge = output.json.result;

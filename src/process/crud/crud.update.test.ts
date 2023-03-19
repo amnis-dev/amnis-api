@@ -59,6 +59,7 @@ test('should not update without bearer', async () => {
         },
       ],
     },
+    query: {},
   };
 
   const outputUpdate = await io.update(inputUpdate, ioOutput());
@@ -91,6 +92,7 @@ test('should login as administrator and update user email', async () => {
         },
       ],
     },
+    query: {},
   };
 
   const outputUpdate = await io.update(inputUpdate, ioOutput());
@@ -136,6 +138,7 @@ test('should login as administrator and update profile display name', async () =
         },
       ],
     },
+    query: {},
   };
 
   const outputUpdate = await io.update(inputUpdate, ioOutput());
@@ -180,6 +183,7 @@ test('should login as executive and update user email', async () => {
         },
       ],
     },
+    query: {},
   };
 
   const outputUpdate = await io.update(inputUpdate, ioOutput());
@@ -223,6 +227,7 @@ test('should login as executive and NOT update user handle', async () => {
         },
       ],
     },
+    query: {},
   };
 
   const outputUpdate = await io.update(inputUpdate, ioOutput());
@@ -258,6 +263,7 @@ test(
           },
         ],
       },
+      query: {},
     };
 
     const outputUpdate = await io.update(inputUpdate, ioOutput());
@@ -302,6 +308,7 @@ test('should login as user and be denied updating another profile', async () => 
         },
       ],
     },
+    query: {},
   };
 
   const outputUpdate = await io.update(inputUpdate, ioOutput());

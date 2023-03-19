@@ -101,6 +101,7 @@ test('should add a new credential to the user account', async () => {
    */
   const input: IoInput<ApiAuthCredential> = {
     body: apiAuthCredential,
+    query: {},
     challengeEncoded,
     signatureEncoded,
     otpEncoded,
@@ -152,6 +153,7 @@ test('should add a new credential to the user account', async () => {
 
   const inputLogin: IoInput<ApiAuthLogin> = {
     body: apiAuthLogin,
+    query: {},
     challengeEncoded: challengeLoginEncoded,
     signatureEncoded: signatureLoginEncoded,
   };
@@ -202,6 +204,7 @@ test('should NOT add a new credential without a challenge object', async () => {
    */
   const input: IoInput<ApiAuthCredential> = {
     body: apiAuthCredential,
+    query: {},
     signatureEncoded,
     otpEncoded,
   };
@@ -250,6 +253,7 @@ test('should NOT add a new credential to the user account without an OTP', async
    */
   const input: IoInput<ApiAuthCredential> = {
     body: apiAuthCredential,
+    query: {},
     challengeEncoded,
     signatureEncoded,
   };
@@ -312,6 +316,7 @@ test('should NOT add a new credential to the user account with invalid OTP value
    */
   const input: IoInput<ApiAuthCredential> = {
     body: apiAuthCredential,
+    query: {},
     challengeEncoded,
     signatureEncoded,
     otpEncoded,

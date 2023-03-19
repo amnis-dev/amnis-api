@@ -43,6 +43,7 @@ beforeAll(async () => {
 test('should start the registration ritual', async () => {
   const input: IoInput = {
     body: {},
+    query: {},
   };
 
   const output = await processAuthChallenge(context)(input, ioOutput());
@@ -67,6 +68,7 @@ test('should start the registration ritual', async () => {
 test('should not register with invalid body input', async () => {
   const input: IoInput = {
     body: { invalid: true },
+    query: {},
   };
 
   const output = await processAuthRegister(context)(input, ioOutput());
@@ -83,6 +85,7 @@ test('should not register with invalid body input', async () => {
 test('should start ritual and complete registration', async () => {
   const inputStart: IoInput = {
     body: {},
+    query: {},
   };
 
   const resultStart = await processAuthChallenge(context)(
@@ -110,6 +113,7 @@ test('should start ritual and complete registration', async () => {
 
   const inputRegister: IoInput<ApiAuthRegister> = {
     body: apiAuthRegistration,
+    query: {},
     challengeEncoded,
     signatureEncoded,
   };
@@ -190,6 +194,7 @@ test('should not be able to register when turned off by the system', async () =>
 
   const inputStart: IoInput = {
     body: {},
+    query: {},
   };
 
   const resultStart = await processAuthChallenge(context)(
@@ -219,6 +224,7 @@ test('should not be able to register when turned off by the system', async () =>
 
   const inputRegister: IoInput<ApiAuthRegister> = {
     body: apiAuthRegistration,
+    query: {},
     challengeEncoded,
     signatureEncoded,
   };

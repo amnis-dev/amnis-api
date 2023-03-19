@@ -55,6 +55,7 @@ test('should not create without bearer', async () => {
         }),
       ],
     },
+    query: {},
   };
 
   const outputCreator = await io.create(inputCreator, ioOutput());
@@ -93,6 +94,7 @@ test('should login as administrator and create user', async () => {
         userNew,
       ],
     },
+    query: {},
   };
 
   const outputCreator = await io.create(inputCreator, ioOutput());
@@ -131,6 +133,7 @@ test('should login as executive and create user', async () => {
     body: {
       [userKey]: [userNew],
     },
+    query: {},
   };
 
   const outputCreator = await io.create(inputCreator, ioOutput());
@@ -169,6 +172,7 @@ test('should login as user and cannot create user', async () => {
     body: {
       [userKey]: [userNew],
     },
+    query: {},
   };
 
   const outputCreator = await io.create(inputCreator, ioOutput());

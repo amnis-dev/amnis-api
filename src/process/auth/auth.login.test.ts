@@ -43,6 +43,7 @@ beforeAll(async () => {
 test('should start the login ritual by generating a challenge', async () => {
   const input: IoInput = {
     body: {},
+    query: {},
   };
 
   const output = await processAuthChallenge(context)(input, ioOutput());
@@ -69,6 +70,7 @@ test('should login as a admin', async () => {
 
   const inputStart: IoInput = {
     body: {},
+    query: {},
   };
   const outputStart = await processAuthChallenge(context)(inputStart, ioOutput());
   const challenge = outputStart.json.result as Challenge | undefined;
@@ -89,6 +91,7 @@ test('should login as a admin', async () => {
 
   const input: IoInput<ApiAuthLogin> = {
     body: apiAuthLogin,
+    query: {},
     challengeEncoded,
     signatureEncoded,
   };
@@ -136,6 +139,7 @@ test('should NOT login as an admin signed with a different private key', async (
 
   const inputStart: IoInput = {
     body: {},
+    query: {},
   };
   const outputStart = await processAuthChallenge(context)(inputStart, ioOutput());
   const challenge = outputStart.json.result as Challenge | undefined;
@@ -157,6 +161,7 @@ test('should NOT login as an admin signed with a different private key', async (
 
   const input: IoInput<ApiAuthLogin> = {
     body: apiAuthLogin,
+    query: {},
     challengeEncoded,
     signatureEncoded,
   };
@@ -185,6 +190,7 @@ test('should NOT login as an admin with different challenge', async () => {
 
   const inputStart: IoInput = {
     body: {},
+    query: {},
   };
   const outputStart = await processAuthChallenge(context)(inputStart, ioOutput());
   const challenge = outputStart.json.result as Challenge | undefined;
@@ -215,6 +221,7 @@ test('should NOT login as an admin with different challenge', async () => {
 
   const input: IoInput<ApiAuthLogin> = {
     body: apiAuthLogin,
+    query: {},
     challengeEncoded,
     signatureEncoded,
   };

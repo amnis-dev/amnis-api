@@ -32,6 +32,7 @@ test('should validate a valid contact object', async () => {
     body: contactCreator({
       name: 'Name',
     }),
+    query: {},
   };
   const output = await process(context)(input, ioOutput());
 
@@ -47,6 +48,7 @@ test('should NOT validate an ivalid contact object', async () => {
       name: 0,
       prop: false,
     },
+    query: {},
   };
   const output = await process(context)(input, ioOutput());
 

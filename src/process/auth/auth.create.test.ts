@@ -53,7 +53,7 @@ test('should create a new account as an admin', async () => {
   /**
    * Get a challenge.
    */
-  const outputChallenge = await processAuthChallenge(context)({ body: {} }, ioOutput());
+  const outputChallenge = await processAuthChallenge(context)({ body: {}, query: {} }, ioOutput());
 
   const challenge = outputChallenge.json.result;
   if (!challenge) {
@@ -76,6 +76,7 @@ test('should create a new account as an admin', async () => {
 
   const input: IoInput<ApiAuthCreate> = {
     body: apiAuthCreate,
+    query: {},
     sessionEncrypted,
     signatureEncoded,
     challengeEncoded,

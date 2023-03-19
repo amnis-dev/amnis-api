@@ -65,6 +65,7 @@ const testInputs: TestInputs = [
       sliceB: [{ $id: uid('sliceB') }],
       sliceC: [{ $id: uid('sliceC') }],
     },
+    query: {},
   },
   {
     body: {
@@ -72,6 +73,7 @@ const testInputs: TestInputs = [
       sliceB: {},
       sliceC: {},
     },
+    query: {},
   },
   {
     body: {
@@ -79,6 +81,7 @@ const testInputs: TestInputs = [
       sliceB: [{ $id: uid('sliceB') }],
       sliceC: [{ $id: uid('sliceC') }],
     },
+    query: {},
   },
   {
     body: {
@@ -86,6 +89,7 @@ const testInputs: TestInputs = [
       sliceB: [],
       sliceC: [],
     },
+    query: {},
   },
 ];
 
@@ -178,24 +182,28 @@ beforeAll(async () => {
         ...testInputs[0].body,
         user: [{ $id: userExisting.$id }],
       },
+      query: {},
     },
     {
       body: {
         ...testInputs[1].body,
         user: {},
       },
+      query: {},
     },
     {
       body: {
         ...testInputs[2].body,
         user: [{ $id: userExisting.$id }],
       },
+      query: {},
     },
     {
       body: {
         ...testInputs[3].body,
         user: [userExisting.$id],
       },
+      query: {},
     },
   ];
 });
