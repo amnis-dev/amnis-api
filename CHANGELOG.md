@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.15.4](https://github.com/amnis-dev/amnis-api/compare/v0.15.3...v0.15.4) (2023-03-19)
+
+
+### Features
+
+* **Amnis:** Updated amnis packages to latest ([5efb791](https://github.com/amnis-dev/amnis-api/commit/5efb791c378fb580ce9e62ea06d817037916ba89))
+
+
+### Bug Fixes
+
+* **IO:** Fixed missing query parameters on IoInput types ([9cfa176](https://github.com/amnis-dev/amnis-api/commit/9cfa17618a946932375244bfeafa2d9df06df775))
+
 ### [0.15.3](https://github.com/amnis-dev/amnis-api/compare/v0.15.2...v0.15.3) (2023-03-17)
 
 
