@@ -49,7 +49,7 @@ dependencies:
 devDependencies:
   '@amnis/eslint-config-node': 2.2.4_7kw3g6rralp5ps6mg3uyzz6azm
   '@amnis/mock': 0.15.7_47npkiuwsvitapqj7m2mzyw3x4
-  '@amnis/state': 0.15.9_p2kloprhvm246wfzyzkz4xuium
+  '@amnis/state': link:../amnis-state
   '@amnis/tsconfig-node': 2.2.4_typescript@4.9.5
   '@reduxjs/toolkit': 2.0.0-alpha.2_ae36ob5555zws74dr6bsopdgji_k4ae6lp43ej6mezo3ztvx6pykq
   '@types/fs-extra': 11.0.1

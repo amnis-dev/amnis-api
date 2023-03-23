@@ -1,7 +1,7 @@
 import type {
   IoInput,
   Bearer,
-  StateUpdater,
+  DataUpdater,
   Profile,
   IoContext,
   IoMap,
@@ -9,17 +9,16 @@ import type {
   User,
 } from '@amnis/state';
 import {
+  historySlice,
+  userSlice,
+  profileSlice,
   ioProcess,
-  userKey,
   ioOutputErrored,
-  historyKey,
-  profileKey,
   databaseMemoryStorage,
   ioOutput,
 } from '@amnis/state';
 import {
   schemaState,
-  schemaEntity,
 } from '@amnis/state/schema';
 import {
   contextSetup,
@@ -35,11 +34,11 @@ let io: IoMap<'update'>;
 
 beforeAll(async () => {
   context = await contextSetup({
-    schemas: [schemaAuth, schemaState, schemaEntity],
+    schemas: [schemaAuth, schemaState],
   });
   const storage = databaseMemoryStorage();
-  dataUsers = Object.values(storage[userKey]) as Entity<User>[];
-  dataProfiles = Object.values(storage[profileKey]) as Entity<Profile>[];
+  dataUsers = Object.values(storage[userSlice.key]) as Entity<User>[];
+  dataProfiles = Object.values(storage[profileSlice.key]) as Entity<Profile>[];
 
   io = ioProcess(
     context,
@@ -50,9 +49,9 @@ beforeAll(async () => {
 });
 
 test('should not update without bearer', async () => {
-  const inputUpdate: IoInput<StateUpdater> = {
+  const inputUpdate: IoInput<DataUpdater> = {
     body: {
-      [userKey]: [
+      [userSlice.key]: [
         {
           // Admin user ID
           $id: dataUsers[0].$id,
@@ -81,10 +80,10 @@ test('should login as administrator and update user email', async () => {
   );
   const bearerAccess = outputLogin.json.bearers?.[0] as Bearer;
 
-  const inputUpdate: IoInput<StateUpdater> = {
+  const inputUpdate: IoInput<DataUpdater> = {
     accessEncoded: bearerAccess.access,
     body: {
-      [userKey]: [
+      [userSlice.key]: [
         {
           // User ID
           $id: dataUsers[2].$id,
@@ -100,13 +99,13 @@ test('should login as administrator and update user email', async () => {
   expect(outputUpdate.status).toBe(200);
   expect(ioOutputErrored(outputUpdate)).toBe(false);
 
-  expect(outputUpdate.json.result?.[userKey]).toHaveLength(1);
-  expect(outputUpdate.json.result?.[userKey][0]).toMatchObject({
+  expect(outputUpdate.json.result?.[userSlice.key]).toHaveLength(1);
+  expect(outputUpdate.json.result?.[userSlice.key][0]).toMatchObject({
     $id: dataUsers[2].$id,
     handle: 'user',
   });
-  expect(outputUpdate.json.result?.[historyKey]).toHaveLength(1);
-  expect(outputUpdate.json.result?.[historyKey][0]).toMatchObject({
+  expect(outputUpdate.json.result?.[historySlice.key]).toHaveLength(1);
+  expect(outputUpdate.json.result?.[historySlice.key][0]).toMatchObject({
     mutation: {
       $id: dataUsers[2].$id,
       email: expect.any(String),
@@ -127,10 +126,10 @@ test('should login as administrator and update profile display name', async () =
   const bearerAccess = outputLogin.json.bearers?.[0] as Bearer;
 
   const nameNew = 'The New Administrator';
-  const inputUpdate: IoInput<StateUpdater> = {
+  const inputUpdate: IoInput<DataUpdater> = {
     accessEncoded: bearerAccess.access,
     body: {
-      [profileKey]: [
+      [profileSlice.key]: [
         {
           // User ID
           $id: dataProfiles[0].$id,
@@ -143,18 +142,17 @@ test('should login as administrator and update profile display name', async () =
 
   const outputUpdate = await io.update(inputUpdate, ioOutput());
 
-  // console.log(JSON.stringify(outputUpdate, null, 2));
   expect(outputUpdate.status).toBe(200);
   expect(ioOutputErrored(outputUpdate)).toBe(false);
 
-  expect(outputUpdate.json.result?.[profileKey]).toHaveLength(1);
-  expect(outputUpdate.json.result?.[profileKey][0]).toMatchObject({
+  expect(outputUpdate.json.result?.[profileSlice.key]).toHaveLength(1);
+  expect(outputUpdate.json.result?.[profileSlice.key][0]).toMatchObject({
     $id: dataProfiles[0].$id,
     nameDisplay: nameNew,
   });
 
-  expect(outputUpdate.json.result?.[historyKey]).toHaveLength(1);
-  expect(outputUpdate.json.result?.[historyKey][0]).toMatchObject({
+  expect(outputUpdate.json.result?.[historySlice.key]).toHaveLength(1);
+  expect(outputUpdate.json.result?.[historySlice.key][0]).toMatchObject({
     mutation: {
       $id: dataProfiles[0].$id,
       nameDisplay: nameNew,
@@ -172,10 +170,10 @@ test('should login as executive and update user email', async () => {
   const bearerAccess = outputLogin.json.bearers?.[0] as Bearer;
 
   const emailNew = 'new@email.com';
-  const inputUpdate: IoInput<StateUpdater> = {
+  const inputUpdate: IoInput<DataUpdater> = {
     accessEncoded: bearerAccess.access,
     body: {
-      [userKey]: [
+      [userSlice.key]: [
         {
           // User ID
           $id: dataUsers[2].$id,
@@ -188,17 +186,16 @@ test('should login as executive and update user email', async () => {
 
   const outputUpdate = await io.update(inputUpdate, ioOutput());
 
-  // console.log(JSON.stringify(outputUpdate, null, 2));
   expect(outputUpdate.status).toBe(200);
   expect(ioOutputErrored(outputUpdate)).toBe(false);
 
-  expect(outputUpdate.json.result?.[userKey]).toHaveLength(1);
-  expect(outputUpdate.json.result?.[userKey][0]).toMatchObject({
+  expect(outputUpdate.json.result?.[userSlice.key]).toHaveLength(1);
+  expect(outputUpdate.json.result?.[userSlice.key][0]).toMatchObject({
     $id: dataUsers[2].$id,
     email: emailNew,
   });
-  expect(outputUpdate.json.result?.[historyKey]).toHaveLength(1);
-  expect(outputUpdate.json.result?.[historyKey][0]).toMatchObject({
+  expect(outputUpdate.json.result?.[historySlice.key]).toHaveLength(1);
+  expect(outputUpdate.json.result?.[historySlice.key][0]).toMatchObject({
     mutation: {
       $id: dataUsers[2].$id,
       email: emailNew,
@@ -216,10 +213,10 @@ test('should login as executive and NOT update user handle', async () => {
   const bearerAccess = outputLogin.json.bearers?.[0] as Bearer;
 
   const handleNew = 'new_username';
-  const inputUpdate: IoInput<StateUpdater> = {
+  const inputUpdate: IoInput<DataUpdater> = {
     accessEncoded: bearerAccess.access,
     body: {
-      [userKey]: [
+      [userSlice.key]: [
         {
           // User ID
           $id: dataUsers[2].$id,
@@ -249,13 +246,13 @@ test(
     );
 
     const bearerAccess = outputLogin.json.bearers?.[0] as Bearer;
-    const profile = outputLogin.json.result?.[profileKey][0] as Entity<Profile>;
+    const profile = outputLogin.json.result?.[profileSlice.key][0] as Entity<Profile>;
 
     const nameNew = 'The New User Me';
-    const inputUpdate: IoInput<StateUpdater> = {
+    const inputUpdate: IoInput<DataUpdater> = {
       accessEncoded: bearerAccess.access,
       body: {
-        [profileKey]: [
+        [profileSlice.key]: [
           {
             // User Profile
             $id: profile.$id,
@@ -271,14 +268,14 @@ test(
     expect(outputUpdate.status).toBe(200);
     expect(ioOutputErrored(outputUpdate)).toBe(false);
 
-    expect(outputUpdate.json.result?.[profileKey]).toHaveLength(1);
-    expect(outputUpdate.json.result?.[profileKey][0]).toMatchObject({
+    expect(outputUpdate.json.result?.[profileSlice.key]).toHaveLength(1);
+    expect(outputUpdate.json.result?.[profileSlice.key][0]).toMatchObject({
       $id: dataProfiles[2].$id,
       nameDisplay: nameNew,
     });
 
-    expect(outputUpdate.json.result?.[historyKey]).toHaveLength(1);
-    expect(outputUpdate.json.result?.[historyKey][0]).toMatchObject({
+    expect(outputUpdate.json.result?.[historySlice.key]).toHaveLength(1);
+    expect(outputUpdate.json.result?.[historySlice.key][0]).toMatchObject({
       mutation: {
         $id: profile.$id,
         nameDisplay: nameNew,
@@ -297,10 +294,10 @@ test('should login as user and be denied updating another profile', async () => 
   const bearerAccess = outputLogin.json.bearers?.[0] as Bearer;
 
   const nameNew = 'New Profile Name';
-  const inputUpdate: IoInput<StateUpdater> = {
+  const inputUpdate: IoInput<DataUpdater> = {
     accessEncoded: bearerAccess.access,
     body: {
-      [profileKey]: [
+      [profileSlice.key]: [
         {
           // Admin Profile ID
           $id: dataProfiles[0].$id,

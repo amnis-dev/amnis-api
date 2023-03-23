@@ -1,6 +1,6 @@
 import type {
   IoInput,
-  StateCreator,
+  DataCreator,
   Bearer,
   User,
   Entity,
@@ -8,15 +8,15 @@ import type {
   IoMap,
 } from '@amnis/state';
 import {
+  userSlice,
+
   ioProcess,
-  userCreator,
-  userKey,
   ioOutputErrored,
   databaseMemoryStorage,
   ioOutput,
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
-import { schemaEntity, schemaState } from '@amnis/state/schema';
+import { schemaState } from '@amnis/state/schema';
 import { authenticateFinalize } from '../utility/authenticate.js';
 import { processCrudCreate } from './crud.create.js';
 import { schemaAuth } from '../../schema/index.js';
@@ -27,10 +27,10 @@ let io: IoMap<'create'>;
 
 beforeAll(async () => {
   context = await contextSetup({
-    schemas: [schemaAuth, schemaState, schemaEntity],
+    schemas: [schemaAuth, schemaState],
   });
   const storage = databaseMemoryStorage();
-  dataUsers = Object.values(storage[userKey]) as Entity<User>[];
+  dataUsers = Object.values(storage[userSlice.key]) as Entity<User>[];
 
   io = ioProcess(
     context,
@@ -47,10 +47,10 @@ beforeAll(async () => {
  */
 
 test('should not create without bearer', async () => {
-  const inputCreator: IoInput<StateCreator> = {
+  const inputCreator: IoInput<DataCreator> = {
     body: {
-      [userKey]: [
-        userCreator({
+      [userSlice.key]: [
+        userSlice.create({
           handle: 'NewUser',
         }),
       ],
@@ -83,14 +83,14 @@ test('should login as administrator and create user', async () => {
   );
   const bearerAccess = outputLogin.json.bearers?.[0] as Bearer;
 
-  const userNew = userCreator({
+  const userNew = userSlice.create({
     handle: 'NewUserByAdmin',
   });
 
-  const inputCreator: IoInput<StateCreator> = {
+  const inputCreator: IoInput<DataCreator> = {
     accessEncoded: bearerAccess.access,
     body: {
-      [userKey]: [
+      [userSlice.key]: [
         userNew,
       ],
     },
@@ -124,14 +124,14 @@ test('should login as executive and create user', async () => {
   );
   const bearerAccess = outputLogin.json.bearers?.[0] as Bearer;
 
-  const userNew = userCreator({
+  const userNew = userSlice.create({
     handle: 'NewUserByExec',
   });
 
-  const inputCreator: IoInput<StateCreator> = {
+  const inputCreator: IoInput<DataCreator> = {
     accessEncoded: bearerAccess.access,
     body: {
-      [userKey]: [userNew],
+      [userSlice.key]: [userNew],
     },
     query: {},
   };
@@ -163,14 +163,14 @@ test('should login as user and cannot create user', async () => {
   );
   const bearerAccess = outputLogin.json.bearers?.[0] as Bearer;
 
-  const userNew = userCreator({
+  const userNew = userSlice.create({
     handle: 'NewUserByUser',
   });
 
-  const inputCreator: IoInput<StateCreator> = {
+  const inputCreator: IoInput<DataCreator> = {
     accessEncoded: bearerAccess.access,
     body: {
-      [userKey]: [userNew],
+      [userSlice.key]: [userNew],
     },
     query: {},
   };

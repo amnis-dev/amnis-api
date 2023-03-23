@@ -1,7 +1,7 @@
 import type {
   Io,
   IoProcess,
-  StateEntities,
+  EntityObjects,
 } from '@amnis/state';
 import {
   ioOutputApply,
@@ -17,7 +17,7 @@ import {
 import { accountCredentialAdd, findUser } from '../utility/index.js';
 
 const process: IoProcess<
-Io<ApiAuthCredential, StateEntities>
+Io<ApiAuthCredential, EntityObjects>
 > = (context) => (
   async (input, output) => {
     const { crypto } = context;
@@ -100,7 +100,7 @@ export const processAuthCredential = mwValidate('auth/ApiAuthCredential')(
     ),
   ),
 ) as IoProcess<
-Io<ApiAuthCredential, StateEntities>
+Io<ApiAuthCredential, EntityObjects>
 >;
 
 export default { processAuthCredential };

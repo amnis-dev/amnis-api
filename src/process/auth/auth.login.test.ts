@@ -16,7 +16,7 @@ import {
   ioOutput,
   base64JsonEncode,
   accountsSign,
-  systemSelectors,
+  systemSlice,
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
 import type { ApiAuthLogin } from '../../api.auth.types.js';
@@ -32,7 +32,7 @@ beforeAll(async () => {
     schemas: [schemaAuth],
   });
 
-  system = systemSelectors.selectActive(context.store.getState()) as System;
+  system = systemSlice.selectors.active(context.store.getState()) as System;
 });
 
 /**

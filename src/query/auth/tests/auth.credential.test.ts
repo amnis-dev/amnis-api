@@ -4,15 +4,13 @@ import type {
   User,
 } from '@amnis/state';
 import {
+  credentialSlice,
+  otpSlice,
+  userSlice,
   accountsGet,
   agentCredential,
-  credentialKey,
   databaseMemoryStorage,
   sendMailboxStorage,
-  userKey,
-  credentialSelectors,
-  otpActions,
-  userSelectors,
 } from '@amnis/state';
 import { apiSys } from '../../sys/index.js';
 import { apiAuth } from '../index.js';
@@ -28,7 +26,7 @@ beforeAll(async () => {
   mockService.start();
 
   const storage = databaseMemoryStorage();
-  const storageUsers = Object.values(storage[userKey]) as Entity<User>[];
+  const storageUsers = Object.values(storage[userSlice.key]) as Entity<User>[];
 
   adminUser = storageUsers.find((u) => u.handle === 'admin') as Entity<User>;
 
@@ -104,7 +102,7 @@ test('should add the current agent credential to the admin account and login', a
   /**
    * Set the OTP value.
    */
-  clientStore.dispatch(otpActions.set(messageOtp));
+  clientStore.dispatch(otpSlice.actions.set(messageOtp));
 
   /**
    * With the latest OTP stored and value set in the clientStore,
@@ -129,13 +127,13 @@ test('should add the current agent credential to the admin account and login', a
   /**
    * Test the client store to ensure data is updated properly
    */
-  const credential = credentialSelectors.selectById(
+  const credential = credentialSlice.selectors.byId(
     clientStore.getState(),
-    result[credentialKey][0].$id,
+    result[credentialSlice.key][0].$id,
   );
-  const user = userSelectors.selectById(
+  const user = userSlice.selectors.byId(
     clientStore.getState(),
-    result[userKey][0].$id,
+    result[userSlice.key][0].$id,
   );
 
   if (!credential || !user) {
@@ -144,10 +142,10 @@ test('should add the current agent credential to the admin account and login', a
     return;
   }
 
-  expect(credential).toEqual(result[credentialKey][0]);
+  expect(credential).toEqual(result[credentialSlice.key][0]);
   expect(credential.$id).toBe(credentialAgent.$id);
   expect(credential).toMatchObject(credentialAgent);
-  expect(user).toEqual(result[userKey][0]);
+  expect(user).toEqual(result[userSlice.key][0]);
   expect(user.$credentials.includes(credential.$id)).toBe(true);
 
   /**

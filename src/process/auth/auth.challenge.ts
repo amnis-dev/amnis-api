@@ -6,7 +6,7 @@ import type {
 } from '@amnis/state';
 import {
   ioOutputApply,
-  systemSelectors,
+  systemSlice,
 } from '@amnis/state';
 import type { ApiAuthChallenge } from '../../api.auth.types.js';
 import { mwValidate } from '../mw/index.js';
@@ -17,7 +17,7 @@ Io<ApiAuthChallenge, Challenge>
 > = (context) => (
   async (input, output) => {
     const { store } = context;
-    const system = systemSelectors.selectActive(store.getState());
+    const system = systemSlice.selectors.active(store.getState());
 
     if (!system) {
       output.status = 503;

@@ -5,13 +5,10 @@ import type {
   Profile,
 } from '@amnis/state';
 import {
+  historySlice,
+  profileSlice,
   accountsGet,
   agentUpdate,
-  historyKey,
-  profileKey,
-  historySelectors,
-  profileActions,
-  profileSelectors,
 } from '@amnis/state';
 import { apiAuth } from '../../auth/index.js';
 import { apiSys } from '../../sys/index.js';
@@ -54,12 +51,12 @@ test('should be able to update user profile', async () => {
    * Read profiles to put them in the state.
    */
   await clientStore.dispatch(apiCrud.endpoints.read.initiate({
-    [profileKey]: {
+    [profileSlice.key]: {
       $query: {},
     },
   }));
 
-  const profiles = profileSelectors.selectAll(clientStore.getState());
+  const profiles = profileSlice.selectors.all(clientStore.getState());
   expect(profiles).toHaveLength(3);
 
   const userProfile = profiles.find((profile) => profile.nameDisplay === 'User');
@@ -72,12 +69,12 @@ test('should be able to update user profile', async () => {
   /**
    * Update the user profile locally.
    */
-  clientStore.dispatch(profileActions.update({ $id: userProfile.$id, nameDisplay: 'UserUp' }));
-  const userProfileUp1 = profileSelectors.selectById(clientStore.getState(), userProfile.$id);
+  clientStore.dispatch(profileSlice.actions.update({ $id: userProfile.$id, nameDisplay: 'UserUp' }));
+  const userProfileUp1 = profileSlice.selectors.byId(clientStore.getState(), userProfile.$id);
   const {
     original: userProfileUp1Original,
     changes: userProfileUp1Changes,
-  } = profileSelectors.selectDifference(clientStore.getState(), userProfile.$id);
+  } = profileSlice.selectors.difference(clientStore.getState(), userProfile.$id);
   if (!userProfileUp1) {
     expect(userProfileUp1).toBeDefined();
     return;
@@ -90,12 +87,12 @@ test('should be able to update user profile', async () => {
   /**
    * Update to match the original object.
    */
-  clientStore.dispatch(profileActions.update({ $id: userProfile.$id, nameDisplay: 'User' }));
-  const userProfileUp2 = profileSelectors.selectById(clientStore.getState(), userProfile.$id);
+  clientStore.dispatch(profileSlice.actions.update({ $id: userProfile.$id, nameDisplay: 'User' }));
+  const userProfileUp2 = profileSlice.selectors.byId(clientStore.getState(), userProfile.$id);
   const {
     original: userProfileUp2Original,
     changes: userProfileUp2Changes,
-  } = profileSelectors.selectDifference(clientStore.getState(), userProfile.$id);
+  } = profileSlice.selectors.difference(clientStore.getState(), userProfile.$id);
   if (!userProfileUp2) {
     expect(userProfileUp2).toBeDefined();
     return;
@@ -108,13 +105,13 @@ test('should be able to update user profile', async () => {
   /**
    * Last local update...
    */
-  clientStore.dispatch(profileActions.update({ $id: userProfile.$id, nameDisplay: 'UserUpdated' }));
-  const userProfileUp3 = profileSelectors.selectById(clientStore.getState(), userProfile.$id);
+  clientStore.dispatch(profileSlice.actions.update({ $id: userProfile.$id, nameDisplay: 'UserUpdated' }));
+  const userProfileUp3 = profileSlice.selectors.byId(clientStore.getState(), userProfile.$id);
   const {
     original: userProfileUp3Original,
     changes: userProfileUp3Changes,
     updater: userProfileUp3Update,
-  } = profileSelectors.selectDifference(clientStore.getState(), userProfile.$id);
+  } = profileSlice.selectors.difference(clientStore.getState(), userProfile.$id);
   if (!userProfileUp3) {
     expect(userProfileUp3).toBeDefined();
     return;
@@ -129,7 +126,7 @@ test('should be able to update user profile', async () => {
    */
   const resultUpdate = await clientStore.dispatch(
     apiCrud.endpoints.update.initiate({
-      [profileKey]: [userProfileUp3Update],
+      [profileSlice.key]: [userProfileUp3Update],
     }),
   );
   if ('error' in resultUpdate) {
@@ -138,8 +135,8 @@ test('should be able to update user profile', async () => {
   }
 
   const { data } = resultUpdate;
-  const profileUpdated = data.result?.[profileKey][0] as Entity<Profile>;
-  const profileHistory = data.result?.[historyKey][0] as Entity<History>;
+  const profileUpdated = data.result?.[profileSlice.key][0] as Entity<Profile>;
+  const profileHistory = data.result?.[historySlice.key][0] as Entity<History>;
   if (!profileUpdated || !profileHistory) {
     expect(profileUpdated).toBeDefined();
     expect(profileHistory).toBeDefined();
@@ -151,13 +148,13 @@ test('should be able to update user profile', async () => {
     nameDisplay: 'UserUpdated',
   });
 
-  const profileClient = profileSelectors.selectById(
+  const profileClient = profileSlice.selectors.byId(
     clientStore.getState(),
     userProfileUp3Update.$id,
   );
   expect(profileClient).toMatchObject(profileUpdated);
 
-  const historyClient = historySelectors.selectById(
+  const historyClient = historySlice.selectors.byId(
     clientStore.getState(),
     profileHistory.$id,
   );

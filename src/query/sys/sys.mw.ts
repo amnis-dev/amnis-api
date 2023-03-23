@@ -1,5 +1,5 @@
 import {
-  dataActions, systemActions, systemKey,
+  dataActions, systemSlice, systemKey,
 } from '@amnis/state';
 import type { Middleware } from '@reduxjs/toolkit';
 import { apiSys } from './sys.api.js';
@@ -20,7 +20,7 @@ export const apiSysMiddleware: Middleware = () => (next) => (action) => {
     if (originalArgs?.set) {
       const system = result[systemKey]?.[0];
       if (system) {
-        next(systemActions.activeSet(system.$id));
+        next(systemSlice.actions.activeSet(system.$id));
       }
     }
   }

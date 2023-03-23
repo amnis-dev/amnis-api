@@ -3,8 +3,8 @@
 import type {
   Io,
   IoProcess,
-  StateCreator,
-  StateUpdater,
+  DataCreator,
+  DataUpdater,
 } from '@amnis/state';
 import {
   GrantTask,
@@ -12,7 +12,7 @@ import {
 import { mwAccess, mwState, mwValidate } from '../mw/index.js';
 
 export const process: IoProcess<
-Io<StateUpdater, StateCreator>
+Io<DataUpdater, DataCreator>
 > = (context) => (
   async (input, output) => {
     const { database } = context;
@@ -50,13 +50,13 @@ Io<StateUpdater, StateCreator>
 );
 
 export const processCrudUpdate = mwAccess()(
-  mwValidate('entities/StateUpdater')(
+  mwValidate('state/DataUpdater')(
     mwState(GrantTask.Update)(
       process,
     ),
   ),
 ) as IoProcess<
-Io<StateUpdater, StateCreator>
+Io<DataUpdater, DataCreator>
 >;
 
 export default processCrudUpdate;

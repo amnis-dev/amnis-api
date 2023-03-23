@@ -1,11 +1,12 @@
 import type {
   Io,
   IoProcess,
-  StateEntities,
+  EntityObjects,
 } from '@amnis/state';
 import {
+  systemSlice,
+
   ioOutputApply,
-  systemSelectors,
 } from '@amnis/state';
 import type { ApiAuthAuthenticate } from '../../api.auth.types.js';
 import {
@@ -18,7 +19,7 @@ import {
 import { authenticateFinalize, findUserById } from '../utility/index.js';
 
 const process: IoProcess<
-Io<ApiAuthAuthenticate, StateEntities>
+Io<ApiAuthAuthenticate, EntityObjects>
 > = (context) => (
   async (input, output) => {
     const { store } = context;
@@ -31,7 +32,7 @@ Io<ApiAuthAuthenticate, StateEntities>
     /**
      * Get the active system.
      */
-    const system = systemSelectors.selectActive(store.getState());
+    const system = systemSlice.selectors.active(store.getState());
 
     if (!system) {
       output.status = 503; // 503 Service Unavailable
@@ -76,7 +77,7 @@ export const processAuthAuthenticate = mwValidate('auth/ApiAuthAuthenticate')(
     ),
   ),
 ) as IoProcess<
-Io<ApiAuthAuthenticate, StateEntities>
+Io<ApiAuthAuthenticate, EntityObjects>
 >;
 
 export default { processAuthAuthenticate };

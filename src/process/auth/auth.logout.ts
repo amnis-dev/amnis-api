@@ -1,12 +1,12 @@
 import type {
   Io,
   IoProcess,
-  StateDeleter,
+  DataDeleter,
 } from '@amnis/state';
 import {
+  sessionSlice,
   uidList,
-  sessionKey,
-  systemSelectors,
+  systemSlice,
 } from '@amnis/state';
 import type { ApiAuthLogout } from '../../api.auth.types.js';
 import { mwSession, mwValidate } from '../mw/index.js';
@@ -15,7 +15,7 @@ import { mwSession, mwValidate } from '../mw/index.js';
  * Renews a session holder's session and access bearers.
  */
 const process: IoProcess<
-Io<ApiAuthLogout, StateDeleter>
+Io<ApiAuthLogout, DataDeleter>
 > = (context) => (
   async (input, output) => {
     const { session } = input;
@@ -23,7 +23,7 @@ Io<ApiAuthLogout, StateDeleter>
     /**
    * Get the active system.
    */
-    const system = systemSelectors.selectActive(context.store.getState());
+    const system = systemSlice.selectors.active(context.store.getState());
 
     if (!system) {
       output.status = 503;
@@ -45,7 +45,7 @@ Io<ApiAuthLogout, StateDeleter>
      */
     if (session) {
       output.json.result = {
-        [sessionKey]: uidList([session.$id]),
+        [sessionSlice.key]: uidList([session.$id]),
       };
     }
 
@@ -58,7 +58,7 @@ export const processAuthLogout = mwSession()(
     process,
   ),
 ) as IoProcess<
-Io<ApiAuthLogout, StateDeleter>
+Io<ApiAuthLogout, DataDeleter>
 >;
 
 export default { processAuthLogout };

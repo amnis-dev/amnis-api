@@ -2,26 +2,22 @@ import type {
   Credential,
   IoContext,
   IoOutput,
-  StateCreator,
-  StateEntities,
-  StateUpdater,
+  DataCreator,
+  EntityObjects,
+  DataUpdater,
   User,
 } from '@amnis/state';
 import {
-  contactCreator,
-  contactKey,
+  credentialSlice,
+  handleSlice,
+  profileSlice,
+  userSlice,
+  contactSlice,
   dataActions,
-  credentialKey,
   entityCreate,
-  handleCreator,
-  handleKey,
   ioOutput,
-  profileCreator,
-  profileKey,
   stateEntitiesCreate,
-  userCreator,
-  userKey,
-  systemSelectors,
+  systemSlice,
 } from '@amnis/state';
 import { findUserByHandle } from './find.js';
 
@@ -60,7 +56,7 @@ export interface AccountCreateOptions {
 export const accountCreate = async (
   context: IoContext,
   options: AccountCreateOptions,
-): Promise<IoOutput<StateEntities | undefined>> => {
+): Promise<IoOutput<EntityObjects | undefined>> => {
   const output = ioOutput();
   const { store, database, crypto } = context;
 
@@ -90,7 +86,7 @@ export const accountCreate = async (
   /**
    * Get the initial roles for a newly created user.
    */
-  const systemActive = systemSelectors.selectActive(store.getState());
+  const systemActive = systemSlice.selectors.active(store.getState());
 
   if (!systemActive) {
     output.status = 503;
@@ -115,14 +111,14 @@ export const accountCreate = async (
   /**
    * Create the new contact to link to the account profile.
    */
-  const contact = contactCreator({
+  const contact = contactSlice.create({
     name: handle,
   });
 
   /**
    * Initialize the new user creator.
    */
-  const user = userCreator({
+  const user = userSlice.create({
     handle,
     password: passwordHashed,
     email,
@@ -132,7 +128,7 @@ export const accountCreate = async (
   /**
    * Create a handle reference.
    */
-  const handleCreate = handleCreator({
+  const handleCreate = handleSlice.create({
     name: handle,
     $subject: user.$id,
   });
@@ -147,7 +143,7 @@ export const accountCreate = async (
   /**
    * Create a new profile
    */
-  const profile = profileCreator({
+  const profile = profileSlice.create({
     nameDisplay: nameDisplay ?? handle,
     $user: user.$id,
     $contact: contact.$id,
@@ -156,18 +152,18 @@ export const accountCreate = async (
   /**
    * Initalize an entities object to commit.
    */
-  const stateEntities: StateEntities = stateEntitiesCreate({
-    [userKey]: [user],
-    [handleKey]: [handleCreate],
-    [profileKey]: [profile],
-    [contactKey]: [contact],
+  const stateEntities: EntityObjects = stateEntitiesCreate({
+    [userSlice.key]: [user],
+    [handleSlice.key]: [handleCreate],
+    [profileSlice.key]: [profile],
+    [contactSlice.key]: [contact],
   }, { $owner: user.$id, new: false, committed: true });
 
   /**
    * Append credentials if set.
    */
   if (credential) {
-    stateEntities[credentialKey] = [
+    stateEntities[credentialSlice.key] = [
       entityCreate(credential, { $owner: user.$id, new: false, committed: true }),
     ];
   }
@@ -195,20 +191,20 @@ export const accountCredentialAdd = async (
   context: IoContext,
   user: User,
   credential: Credential,
-): Promise<IoOutput<StateEntities | undefined>> => {
+): Promise<IoOutput<EntityObjects | undefined>> => {
   const output = ioOutput();
   const { store, database } = context;
 
   const $credentials = [...user.$credentials, credential.$id];
 
-  const stateCreator: StateCreator = {
-    [credentialKey]: [credential],
+  const stateCreator: DataCreator = {
+    [credentialSlice.key]: [credential],
   };
   const stateEntities = stateEntitiesCreate(stateCreator);
   await database.create(stateEntities);
 
-  const stateUpdater: StateUpdater = {
-    [userKey]: [
+  const stateUpdater: DataUpdater = {
+    [userSlice.key]: [
       {
         $id: user.$id,
         $credentials,

@@ -4,7 +4,7 @@ import type {
 } from '@amnis/state';
 import {
   accountsGet,
-  systemSelectors,
+  systemSlice,
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
 import { authenticateLogin } from './authenticate.js';
@@ -15,7 +15,7 @@ let system: System;
 beforeAll(async () => {
   context = await contextSetup();
 
-  system = systemSelectors.selectActive(context.store.getState()) as System;
+  system = systemSlice.selectors.active(context.store.getState()) as System;
 });
 
 test('should authenticate as normal user account', async () => {

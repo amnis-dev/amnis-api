@@ -11,14 +11,13 @@ import type {
   Entity,
 } from '@amnis/state';
 import {
+  userSlice,
+  roleSlice,
+  sessionSlice,
   bearerCreate,
   dateNumeric,
-  sessionCreator,
   uidList,
   roleComboCreate,
-  entityCreate,
-  userCreator,
-  roleActions, roleSelectors,
 } from '@amnis/state';
 
 /**
@@ -41,7 +40,7 @@ export const generateSession = async (
   /**
    * Create the new user session.
    */
-  const session = sessionCreator({
+  const session = sessionSlice.create({
     $subject,
     $credential,
     exp: sessionExpires,
@@ -72,10 +71,10 @@ export const generateBearer = async (
    * Cache a combined grant list from the roles.
    */
   const roles = $roles.map(($role) => (
-    roleSelectors.selectById(store.getState(), $role)
+    roleSlice.selectors.byId(store.getState(), $role)
   )).filter((role) => !!role) as Entity<Role>[];
   const combo = roleComboCreate(roles);
-  store.dispatch(roleActions.insertCombo(combo));
+  store.dispatch(roleSlice.actions.insertCombo(combo));
 
   /**
    * Create the JWT data.
@@ -106,8 +105,8 @@ export const generateBearer = async (
  */
 export const generateUserAnonymous = (system: System) => {
   const { $anonymousRole } = system;
-  return entityCreate(userCreator({
+  return userSlice.createEntity({
     handle: 'anonymous',
     $roles: $anonymousRole ? [$anonymousRole] : [],
-  }));
+  });
 };

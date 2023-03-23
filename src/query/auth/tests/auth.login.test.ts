@@ -1,14 +1,10 @@
 import {
   accountsGet,
   agentUpdate,
-  contactKey,
-  profileKey,
-  sessionKey,
-  userKey,
-  contactSelectors,
-  profileSelectors,
-  sessionSelectors,
-  userSelectors,
+  contactSlice,
+  profileSlice,
+  sessionSlice,
+  userSlice,
 } from '@amnis/state';
 import { mockService } from '@amnis/mock';
 import { apiAuth } from '../index.js';
@@ -55,16 +51,16 @@ test('should be able to login as user', async () => {
   expect(data.bearers?.length).toBe(1);
 
   const state = clientStore.getState();
-  const userActive = userSelectors.selectActive(state);
-  const profileActive = profileSelectors.selectActive(state);
-  const sessionActive = sessionSelectors.selectActive(state);
-  const contactActive = contactSelectors.selectActive(state);
+  const userActive = userSlice.selectors.active(state);
+  const profileActive = profileSlice.selectors.active(state);
+  const sessionActive = sessionSlice.selectors.active(state);
+  const contactActive = contactSlice.selectors.active(state);
 
-  expect(userActive?.$id).toBe(data.result?.[userKey][0].$id);
-  expect(profileActive?.$id).toBe(data.result?.[profileKey][0].$id);
+  expect(userActive?.$id).toBe(data.result?.[userSlice.key][0].$id);
+  expect(profileActive?.$id).toBe(data.result?.[profileSlice.key][0].$id);
   expect(profileActive?.$user).toBe(userActive?.$id);
-  expect(sessionActive?.$id).toBe(data.result?.[sessionKey][0].$id);
-  expect(contactActive?.$id).toBe(data.result?.[contactKey][0].$id);
+  expect(sessionActive?.$id).toBe(data.result?.[sessionSlice.key][0].$id);
+  expect(contactActive?.$id).toBe(data.result?.[contactSlice.key][0].$id);
   expect(contactActive?.$id).toBe(profileActive?.$contact);
 });
 

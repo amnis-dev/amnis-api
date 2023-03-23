@@ -1,11 +1,11 @@
 import type {
   Io,
   IoProcess,
-  StateEntities,
+  EntityObjects,
 } from '@amnis/state';
 import {
   ioOutputApply,
-  systemSelectors,
+  systemSlice,
 } from '@amnis/state';
 import type { ApiAuthCreate } from '../../api.auth.types.js';
 import {
@@ -14,12 +14,12 @@ import {
 import { accountCreate } from '../utility/account.js';
 
 const process: IoProcess<
-Io<ApiAuthCreate, StateEntities>
+Io<ApiAuthCreate, EntityObjects>
 > = (context) => (
   async (input, output) => {
     const { store } = context;
     const { body, session } = input;
-    const system = systemSelectors.selectActive(store.getState());
+    const system = systemSlice.selectors.active(store.getState());
 
     if (!session) {
       output.status = 500;
@@ -71,7 +71,7 @@ export const processAuthCreate = mwValidate('auth/ApiAuthCreate')(
     ),
   ),
 ) as IoProcess<
-Io<ApiAuthCreate, StateEntities>
+Io<ApiAuthCreate, EntityObjects>
 >;
 
 export default { processAuthCreate };

@@ -7,16 +7,14 @@ import type {
   User,
 } from '@amnis/state';
 import {
+  userSlice,
+  otpSlice,
   databaseMemoryStorage,
   dateNumeric,
-  otpCreate,
   OtpMethod,
   sendMailboxStorage,
   uid,
-  userKey,
-  otpActions,
-  otpSelectors,
-  systemSelectors,
+  systemSlice,
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
 import { schemaAuth } from '../../schema/index.js';
@@ -35,25 +33,25 @@ beforeAll(async () => {
     initialize: true,
     schemas: [schemaAuth],
   });
-  system = systemSelectors.selectActive(context.store.getState()) as System;
-  otpValid = otpCreate({
+  system = systemSlice.selectors.active(context.store.getState()) as System;
+  otpValid = otpSlice.create({
     $sub: $subject,
     val: await otpPasswordCreate(context),
     exp: dateNumeric('5m'),
     mth: OtpMethod.Email,
   });
-  otpExpired = otpCreate({
+  otpExpired = otpSlice.create({
     $sub: $subject,
     val: await otpPasswordCreate(context),
     exp: 0 as DateNumeric,
     mth: OtpMethod.Email,
   });
 
-  context.store.dispatch(otpActions.insert(otpValid));
-  context.store.dispatch(otpActions.insert(otpExpired));
+  context.store.dispatch(otpSlice.actions.insert(otpValid));
+  context.store.dispatch(otpSlice.actions.insert(otpExpired));
 
   const storage = databaseMemoryStorage();
-  const storageUsers = Object.values(storage[userKey]) as Entity<User>[];
+  const storageUsers = Object.values(storage[userSlice.key]) as Entity<User>[];
 
   userUser = storageUsers.find((u) => u.handle === 'user') as Entity<User>;
 });
@@ -66,7 +64,7 @@ test('should successfully validate a valid OTP', async () => {
   /**
    * Should no longer find the OTP object in the context store.
    */
-  const otp = otpSelectors.selectById(
+  const otp = otpSlice.selectors.byId(
     context.store.getState(),
     otpValid.$id,
   );
@@ -97,7 +95,7 @@ test('should fail to validate an expired OTP', async () => {
   /**
    * Should not find the expired OTP object in the context store.
    */
-  const otp = otpSelectors.selectById(
+  const otp = otpSlice.selectors.byId(
     context.store.getState(),
     otpExpired.$id,
   );
@@ -105,7 +103,7 @@ test('should fail to validate an expired OTP', async () => {
 });
 
 test('should fail to validate an incorrect OTP value', async () => {
-  context.store.dispatch(otpActions.insert(otpValid));
+  context.store.dispatch(otpSlice.actions.insert(otpValid));
   const otpInvalidVal = {
     ...otpValid,
     val: await otpPasswordCreate(context),
@@ -123,7 +121,7 @@ test('should fail to validate an incorrect OTP value', async () => {
   /**
    * Should not find the valid OTP object in the context store anymore.
    */
-  const otp = otpSelectors.selectById(
+  const otp = otpSlice.selectors.byId(
     context.store.getState(),
     otpValid.$id,
   );

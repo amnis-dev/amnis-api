@@ -7,12 +7,12 @@ import type {
   User,
 } from '@amnis/state';
 import {
-  contactKey,
-  credentialKey,
-  profileKey,
-  userKey,
+  contactSlice,
+  credentialSlice,
+  profileSlice,
+  userSlice,
   agentCredential,
-  systemSelectors,
+  systemSlice,
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
 import type { ApiAuthRegister } from '../../api.auth.types.js';
@@ -48,12 +48,12 @@ test('should register a new account', async () => {
     return;
   }
 
-  const systemActive = systemSelectors.selectActive(context.store.getState());
+  const systemActive = systemSlice.selectors.active(context.store.getState());
 
-  const users = entities[userKey] as Entity<User>[];
-  const profiles = entities[profileKey] as Entity<Profile>[];
-  const contacts = entities[contactKey] as Entity<Contact>[];
-  const credentials = entities[credentialKey] as Entity<Credential>[];
+  const users = entities[userSlice.key] as Entity<User>[];
+  const profiles = entities[profileSlice.key] as Entity<Profile>[];
+  const contacts = entities[contactSlice.key] as Entity<Contact>[];
+  const credentials = entities[credentialSlice.key] as Entity<Credential>[];
 
   expect(users).toBeDefined();
   expect(users).toHaveLength(1);

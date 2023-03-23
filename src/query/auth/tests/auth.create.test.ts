@@ -2,12 +2,9 @@ import { mockService } from '@amnis/mock';
 import {
   accountsGet,
   agentUpdate,
-  contactKey,
-  profileKey,
-  userKey,
-  contactSelectors,
-  profileSelectors,
-  userSelectors,
+  contactSlice,
+  profileSlice,
+  userSlice,
 } from '@amnis/state';
 import { apiSys } from '../../sys/index.js';
 import { apiAuth } from '../index.js';
@@ -114,9 +111,15 @@ test('should create a new account as a privileged account', async () => {
 
   expect(Object.keys(result).length).toBe(4);
 
-  const user = userSelectors.selectById(clientStore.getState(), result[userKey][0].$id);
-  const profile = profileSelectors.selectById(clientStore.getState(), result[profileKey][0].$id);
-  const contact = contactSelectors.selectById(clientStore.getState(), result[contactKey][0].$id);
+  const user = userSlice.selectors.byId(clientStore.getState(), result[userSlice.key][0].$id);
+  const profile = profileSlice.selectors.byId(
+    clientStore.getState(),
+    result[profileSlice.key][0].$id,
+  );
+  const contact = contactSlice.selectors.byId(
+    clientStore.getState(),
+    result[contactSlice.key][0].$id,
+  );
 
   if (!user || !profile || !contact) {
     expect(user).toBeDefined();
@@ -125,7 +128,7 @@ test('should create a new account as a privileged account', async () => {
     return;
   }
 
-  expect(user).toEqual(result[userKey][0]);
-  expect(profile).toEqual(result[profileKey][0]);
-  expect(contact).toEqual(result[contactKey][0]);
+  expect(user).toEqual(result[userSlice.key][0]);
+  expect(profile).toEqual(result[profileSlice.key][0]);
+  expect(contact).toEqual(result[contactSlice.key][0]);
 });

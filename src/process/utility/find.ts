@@ -12,18 +12,13 @@ import type {
   Role,
 } from '@amnis/state';
 import {
-  credentialKey,
-  userKey,
-  profileKey,
-  contactKey,
-  handleKey,
-  roleKey,
+  credentialSlice,
+  userSlice,
+  profileSlice,
+  contactSlice,
+  handleSlice,
+  roleSlice,
   dataActions,
-  credentialActions,
-  credentialSelectors,
-  roleSelectors,
-  userActions,
-  userSelectors,
 } from '@amnis/state';
 
 /**
@@ -36,11 +31,11 @@ export const findUserById = async (
   const { store, database } = context;
 
   let user: Entity<User> | undefined;
-  user = userSelectors.selectById(store.getState(), $id);
+  user = userSlice.selectors.byId(store.getState(), $id);
 
   if (!user) {
     const results = await database.read({
-      [userKey]: {
+      [userSlice.key]: {
         $query: {
           $id: {
             $eq: $id,
@@ -48,10 +43,10 @@ export const findUserById = async (
         },
       },
     });
-    user = results[userKey]?.[0] as Entity<User> | undefined;
+    user = results[userSlice.key]?.[0] as Entity<User> | undefined;
 
     if (user) {
-      store.dispatch(userActions.insert(user));
+      store.dispatch(userSlice.actions.insert(user));
     }
   }
 
@@ -66,7 +61,7 @@ export const findUserByHandle = async (
   handle: HandleName,
 ): Promise<Entity<User> | undefined> => {
   const resultsHandle = await context.database.read({
-    [handleKey]: {
+    [handleSlice.key]: {
       $query: {
         name: {
           $eq: handle,
@@ -75,7 +70,7 @@ export const findUserByHandle = async (
     },
   });
 
-  const handleEntity = resultsHandle[handleKey]?.[0] as Entity<Handle> | undefined;
+  const handleEntity = resultsHandle[handleSlice.key]?.[0] as Entity<Handle> | undefined;
 
   if (!handleEntity) {
     return undefined;
@@ -109,11 +104,11 @@ export const findCredentialById = async (
   const { store, database } = context;
 
   let credential: Entity<Credential> | undefined;
-  credential = credentialSelectors.selectById(store.getState(), $id);
+  credential = credentialSlice.selectors.byId(store.getState(), $id);
 
   if (!credential) {
     const results = await database.read({
-      [credentialKey]: {
+      [credentialSlice.key]: {
         $query: {
           $id: {
             $eq: $id,
@@ -121,10 +116,10 @@ export const findCredentialById = async (
         },
       },
     });
-    credential = results[credentialKey]?.[0] as Entity<Credential> | undefined;
+    credential = results[credentialSlice.key]?.[0] as Entity<Credential> | undefined;
 
     if (credential) {
-      store.dispatch(credentialActions.insert(credential));
+      store.dispatch(credentialSlice.actions.insert(credential));
     }
   }
 
@@ -139,7 +134,7 @@ export const findProfileByUserId = async (
   id: UID<User>,
 ): Promise<Entity<Profile> | undefined> => {
   const results = await context.database.read({
-    [profileKey]: {
+    [profileSlice.key]: {
       $query: {
         $user: {
           $eq: id,
@@ -148,11 +143,11 @@ export const findProfileByUserId = async (
     },
   });
 
-  if (!results[profileKey]?.length) {
+  if (!results[profileSlice.key]?.length) {
     return undefined;
   }
 
-  return results[profileKey][0] as Entity<Profile>;
+  return results[profileSlice.key][0] as Entity<Profile>;
 };
 
 /**
@@ -163,7 +158,7 @@ export const findContactById = async (
   id: UID<Contact>,
 ): Promise<Entity<Contact> | undefined> => {
   const results = await context.database.read({
-    [contactKey]: {
+    [contactSlice.key]: {
       $query: {
         $id: {
           $eq: id,
@@ -172,11 +167,11 @@ export const findContactById = async (
     },
   });
 
-  if (!results[contactKey]?.length) {
+  if (!results[contactSlice.key]?.length) {
     return undefined;
   }
 
-  return results[contactKey][0] as Entity<Contact>;
+  return results[contactSlice.key][0] as Entity<Contact>;
 };
 
 /**
@@ -192,7 +187,7 @@ export const findRolesByIds = async (
    */
   const state = store.getState();
   const roles = ids
-    .map((id) => roleSelectors.selectById(state, id))
+    .map((id) => roleSlice.selectors.byId(state, id))
     .filter((role) => role !== undefined) as Entity<Role>[];
 
   /**
@@ -206,7 +201,7 @@ export const findRolesByIds = async (
    * Roles were missing from cache. Fetch from the database.
    */
   const results = await database.read({
-    [roleKey]: {
+    [roleSlice.key]: {
       $query: {
         $id: {
           $in: ids,
@@ -215,7 +210,7 @@ export const findRolesByIds = async (
     },
   });
 
-  if (!results[roleKey]?.length) {
+  if (!results[roleSlice.key]?.length) {
     return [];
   }
 
@@ -224,5 +219,5 @@ export const findRolesByIds = async (
    */
   store.dispatch(dataActions.create(results));
 
-  return results[roleKey] as Entity<Role>[];
+  return results[roleSlice.key] as Entity<Role>[];
 };

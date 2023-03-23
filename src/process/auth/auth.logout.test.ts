@@ -5,12 +5,12 @@ import type {
   System,
 } from '@amnis/state';
 import {
+  sessionSlice,
   accountsGet,
   accountsSign,
   base64JsonEncode,
   ioOutput,
-  sessionKey,
-  systemSelectors,
+  systemSlice,
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
 import type { ApiAuthLogin, ApiAuthLogout } from '../../api.auth.types.js';
@@ -27,7 +27,7 @@ beforeAll(async () => {
     schemas: [schemaAuth],
   });
 
-  system = systemSelectors.selectActive(context.store.getState()) as System;
+  system = systemSlice.selectors.active(context.store.getState()) as System;
 });
 
 /**
@@ -82,9 +82,9 @@ test('should login and then logout as administrator', async () => {
 
   expect(outputLogout.status).toBe(200);
   expect(Object.keys(outputLogout.json.result || {})).toHaveLength(1);
-  expect(outputLogout.json.result?.[sessionKey]).toBeDefined();
-  expect(outputLogout.json.result?.[sessionKey]).toHaveLength(1);
-  expect(outputLogout.json.result?.[sessionKey][0]).toEqual(expect.any(String));
+  expect(outputLogout.json.result?.[sessionSlice.key]).toBeDefined();
+  expect(outputLogout.json.result?.[sessionSlice.key]).toHaveLength(1);
+  expect(outputLogout.json.result?.[sessionSlice.key][0]).toEqual(expect.any(String));
 });
 
 /**

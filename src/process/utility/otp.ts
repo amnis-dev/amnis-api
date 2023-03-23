@@ -4,15 +4,15 @@ import type {
   Otp,
 } from '@amnis/state';
 import {
+  userSlice,
+
+  otpSlice,
+
   dataActions,
   dateNumeric,
   ioOutput,
-  otpCreate,
   OtpMethod,
-  userKey,
-  systemSelectors,
-  otpActions,
-  otpSelectors,
+  systemSlice,
 } from '@amnis/state';
 import { validate } from '@amnis/state/context';
 import type { ApiAuthOtp } from '../../api.auth.types.js';
@@ -49,7 +49,7 @@ export const otpNew = async (
   const { store, send } = context;
   const { $subject } = body;
 
-  const system = systemSelectors.selectActive(store.getState());
+  const system = systemSlice.selectors.active(store.getState());
 
   if (!system) {
     output.status = 503;
@@ -77,14 +77,14 @@ export const otpNew = async (
    * Remove any existing OTPs for this subject.
    * Should only have one OTP per subject.
    */
-  const otpsExisting = otpSelectors.selectBySubject(store.getState(), user.$id);
+  const otpsExisting = otpSlice.selectors.bySubject(store.getState(), user.$id);
   if (otpsExisting.length) {
-    store.dispatch(otpActions.deleteMany(otpsExisting.map((o) => o.$id)));
+    store.dispatch(otpSlice.actions.deleteMany(otpsExisting.map((o) => o.$id)));
   }
 
   const optPassword = await otpPasswordCreate(context, system.otpLength);
 
-  const otp = otpCreate({
+  const otp = otpSlice.create({
     $sub: user.$id,
     val: optPassword,
     exp: dateNumeric(`${system.otpExpiration}m`),
@@ -94,7 +94,7 @@ export const otpNew = async (
   /**
    * Store the challenge on the io store to check against later.
    */
-  store.dispatch(otpActions.insert(otp));
+  store.dispatch(otpSlice.actions.insert(otp));
 
   /**
    * Send the OTP to the subject's email.
@@ -145,7 +145,7 @@ export const otpValidate = async (
   /**
    * Verify that the OTP code is valid.
    */
-  const otpServer = otpSelectors.selectById(store.getState(), otp.$id);
+  const otpServer = otpSlice.selectors.byId(store.getState(), otp.$id);
 
   /**
    * OTP not found on the server store or doesn't match.
@@ -160,7 +160,7 @@ export const otpValidate = async (
     return output;
   }
 
-  store.dispatch(otpActions.delete(otp.$id));
+  store.dispatch(otpSlice.actions.delete(otp.$id));
 
   if (otp.val !== otpServer.val) {
     output.status = 401; // Not Authorized
@@ -221,7 +221,7 @@ export const otpValidate = async (
       const user = await findUser(context, otpServer.$sub);
       if (user && user.emailVerified !== true) {
         const result = await context.database.update({
-          [userKey]: [{
+          [userSlice.key]: [{
             $id: user.$id,
             emailVerified: true,
           }],
@@ -237,7 +237,7 @@ export const otpValidate = async (
   /**
    * Remove the OTP from the server store once verified.
    */
-  store.dispatch(otpActions.delete(otp.$id));
+  store.dispatch(otpSlice.actions.delete(otp.$id));
 
   return true;
 };

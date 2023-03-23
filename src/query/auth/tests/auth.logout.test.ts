@@ -1,11 +1,11 @@
 import { mockService } from '@amnis/mock';
 import {
-  contactSelectors,
-  profileSelectors,
-  sessionSelectors,
-  userSelectors,
   accountsGet,
-  selectBearer,
+  bearerSlice,
+  contactSlice,
+  profileSlice,
+  sessionSlice,
+  userSlice,
 } from '@amnis/state';
 import { apiSys } from '../../sys/index.js';
 import { apiAuth } from '../index.js';
@@ -40,7 +40,7 @@ test('should be able to login and logout', async () => {
     password: user.password,
   }));
 
-  const sessionLoginActive = sessionSelectors.selectActive(clientStore.getState());
+  const sessionLoginActive = sessionSlice.selectors.active(clientStore.getState());
 
   const result = await clientStore.dispatch(apiAuth.endpoints.logout.initiate({}));
 
@@ -53,12 +53,12 @@ test('should be able to login and logout', async () => {
   expect(data.result?.session?.[0]).toEqual(sessionLoginActive?.$id);
 
   const state = clientStore.getState();
-  const sessionActive = sessionSelectors.selectActive(state);
-  const userActive = userSelectors.selectActive(state);
-  const profileActive = profileSelectors.selectActive(state);
-  const contactActive = contactSelectors.selectActive(state);
+  const sessionActive = sessionSlice.selectors.active(state);
+  const userActive = userSlice.selectors.active(state);
+  const profileActive = profileSlice.selectors.active(state);
+  const contactActive = contactSlice.selectors.active(state);
 
-  const bearerToken = selectBearer(state, 'core');
+  const bearerToken = bearerSlice.selectors.byId(state, 'core');
 
   expect(sessionActive).toBeUndefined();
   expect(userActive).toBeUndefined();

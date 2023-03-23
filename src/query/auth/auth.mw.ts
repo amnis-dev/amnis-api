@@ -2,16 +2,15 @@ import type {
   DataCreator,
   DataDeleter,
   Entity,
-  MetaSetter,
+  DataMetaSetter,
   UID,
 } from '@amnis/state';
 import {
-  contactKey,
-  profileKey,
-  sessionKey,
-  userKey,
-  otpActions,
-  entityActions,
+  otpSlice,
+  userSlice,
+  profileSlice,
+  contactSlice,
+  sessionSlice,
   dataActions,
 } from '@amnis/state';
 import type { Middleware } from '@reduxjs/toolkit';
@@ -47,14 +46,14 @@ export const apiAuthMiddleware: Middleware = () => (next) => (action) => {
      */
 
     if (result) {
-      const metaSetter = Object.keys(result).reduce<MetaSetter>((acc, key) => {
+      const metaSetter = Object.keys(result).reduce<DataMetaSetter>((acc, key) => {
         const entity = result[key]?.[0] as Entity | undefined;
         if (entity) {
           acc[key] = { active: result[key]?.[0].$id };
         }
         return acc;
       }, {});
-      next(entityActions.meta(metaSetter));
+      next(dataActions.meta(metaSetter));
     }
   }
 
@@ -77,13 +76,13 @@ export const apiAuthMiddleware: Middleware = () => (next) => (action) => {
     /**
      * Need to unset some active entities manually after logout.
      */
-    const metaSetter: MetaSetter = {
-      [userKey]: { active: null },
-      [profileKey]: { active: null },
-      [contactKey]: { active: null },
-      [sessionKey]: { active: null },
+    const metaSetter: DataMetaSetter = {
+      [userSlice.key]: { active: null },
+      [profileSlice.key]: { active: null },
+      [contactSlice.key]: { active: null },
+      [sessionSlice.key]: { active: null },
     };
-    next(entityActions.meta(metaSetter));
+    next(dataActions.meta(metaSetter));
   }
 
   /**
@@ -95,7 +94,7 @@ export const apiAuthMiddleware: Middleware = () => (next) => (action) => {
     if (!result) {
       return next(action);
     }
-    next(otpActions.insert(result));
+    next(otpSlice.actions.insert(result));
   }
 
   return next(action);

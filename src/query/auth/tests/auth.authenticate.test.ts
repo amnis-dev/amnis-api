@@ -1,7 +1,7 @@
 import {
   accountsGet,
-  userSelectors,
   dataActions,
+  userSlice,
 } from '@amnis/state';
 import { mockService } from '@amnis/mock';
 import { apiAuth } from '../index.js';
@@ -53,7 +53,7 @@ test('should be able to login as user', async () => {
     password: user.password,
   }));
 
-  const userActive = userSelectors.selectActive(clientStore.getState());
+  const userActive = userSlice.selectors.active(clientStore.getState());
 
   expect(userActive?.$id).toBeDefined();
 });
@@ -67,7 +67,7 @@ test('should be able to authenticate with existing session', async () => {
     }, { forceRefetch: true }),
   );
 
-  const userActivePre = userSelectors.selectActive(clientStore.getState());
+  const userActivePre = userSlice.selectors.active(clientStore.getState());
   expect(userActivePre?.$id).toBeUndefined();
 
   const response = await clientStore.dispatch(apiAuth.endpoints.authenticate.initiate({}));
@@ -84,6 +84,6 @@ test('should be able to authenticate with existing session', async () => {
   expect(data.logs[0].level).toBe('success');
   expect(data.logs[0].title).toBe('Authentication Successful');
 
-  const userActivePost = userSelectors.selectActive(clientStore.getState());
+  const userActivePost = userSlice.selectors.active(clientStore.getState());
   expect(userActivePost?.$id).toBeDefined();
 });

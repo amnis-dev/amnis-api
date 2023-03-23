@@ -6,12 +6,12 @@ import type {
   Challenge,
   IoOutput,
   State,
-  StateEntities,
+  EntityObjects,
   System,
 } from '@amnis/state';
 import {
-  otpSelectors,
-  bearerSelectors,
+  otpSlice,
+  bearerSlice,
   agentSign,
   base64JsonEncode,
 } from '@amnis/state';
@@ -27,7 +27,7 @@ export const headersAuthorizationToken = async (
   system: System,
   apiAuth: Api,
 ): Promise<void> => {
-  const bearer = bearerSelectors.selectById(state as any, bearerId);
+  const bearer = bearerSlice.selectors.byId(state as any, bearerId);
 
   if (!bearer) {
     return;
@@ -41,7 +41,7 @@ export const headersAuthorizationToken = async (
       method: 'POST',
       body: JSON.stringify({}),
     });
-    const json = await result.json() as IoOutput<StateEntities>['json'];
+    const json = await result.json() as IoOutput<EntityObjects>['json'];
     const bearersNew = json?.bearers ?? [];
     const bearerNew = bearersNew.find((b) => b.$id === bearerId);
 
@@ -111,7 +111,7 @@ export const headersOtp = (
   headers: Headers,
   state: State,
 ) => {
-  const otp = otpSelectors.selectLatest(state as any);
+  const otp = otpSlice.selectors.latest(state as any);
 
   if (!otp) {
     return;

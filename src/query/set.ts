@@ -13,7 +13,7 @@ const reducerApi = {
   [apiCrud.reducerPath]: apiCrud.reducer,
 };
 
-export const setApi: Set<typeof reducerApi> = {
+export const apiSet: Set<typeof reducerApi> = {
   reducers: reducerApi,
   middleware: [
     apiSys.middleware,
@@ -26,4 +26,4 @@ export const setApi: Set<typeof reducerApi> = {
   ],
 };
 
-export default setApi;
+export default apiSet;

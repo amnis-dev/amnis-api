@@ -6,8 +6,7 @@ import type {
 import {
   challengeCreate,
   dateNumeric,
-  challengeActions,
-  challengeSelectors,
+  challengeSlice,
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
 import { schemaAuth } from '../../schema/index.js';
@@ -22,16 +21,16 @@ beforeAll(async () => {
     initialize: true,
     schemas: [schemaAuth],
   });
-  challengeValid = challengeCreate({
+  challengeValid = challengeSlice.create({
     val: await context.crypto.randomString(16),
     exp: dateNumeric('15m'),
   });
-  challengeExpired = challengeCreate({
+  challengeExpired = challengeSlice.create({
     val: await context.crypto.randomString(16),
     exp: dateNumeric() - 1000 as DateNumeric,
   });
-  context.store.dispatch(challengeActions.insert(challengeValid));
-  context.store.dispatch(challengeActions.insert(challengeExpired));
+  context.store.dispatch(challengeSlice.actions.insert(challengeValid));
+  context.store.dispatch(challengeSlice.actions.insert(challengeExpired));
 });
 
 test('should successfully validate a valid challenge', async () => {
@@ -42,7 +41,7 @@ test('should successfully validate a valid challenge', async () => {
   /**
    * Should no longer find the challenge entity in the context store.
    */
-  const challenge = challengeSelectors.selectById(
+  const challenge = challengeSlice.selectors.byId(
     context.store.getState(),
     challengeValid.$id,
   );

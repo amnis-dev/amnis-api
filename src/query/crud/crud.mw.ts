@@ -1,4 +1,4 @@
-import type { DataCreator, DataDeleter } from '@amnis/state';
+import type { DataDeleter, EntityObjects } from '@amnis/state';
 import { dataActions } from '@amnis/state';
 import type { Middleware } from '@reduxjs/toolkit';
 import { isAnyOf } from '@reduxjs/toolkit';
@@ -21,7 +21,7 @@ export const apiCrudMiddleware: Middleware = () => (next) => (action) => {
       return next(action);
     }
 
-    const dataCreator: DataCreator = { ...result };
+    const dataCreator: EntityObjects = { ...result };
     next(dataActions.create(dataCreator));
   }
 

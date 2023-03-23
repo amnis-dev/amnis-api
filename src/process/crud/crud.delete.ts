@@ -3,7 +3,7 @@
 import type {
   Io,
   IoProcess,
-  StateDeleter,
+  DataDeleter,
 } from '@amnis/state';
 import {
   GrantTask,
@@ -11,7 +11,7 @@ import {
 import { mwAccess, mwValidate, mwState } from '../mw/index.js';
 
 export const process: IoProcess<
-Io<StateDeleter, StateDeleter>
+Io<DataDeleter, DataDeleter>
 > = (context) => (
   async (input, output) => {
     const { database } = context;
@@ -44,13 +44,13 @@ Io<StateDeleter, StateDeleter>
 );
 
 export const processCrudDelete = mwAccess()(
-  mwValidate('entities/StateDeleter')(
+  mwValidate('state/DataDeleter')(
     mwState(GrantTask.Delete)(
       process,
     ),
   ),
 ) as IoProcess<
-Io<StateDeleter, StateDeleter>
+Io<DataDeleter, DataDeleter>
 >;
 
 export default { processCrudDelete };

@@ -3,17 +3,17 @@
 import type { EndpointBuilder } from '@reduxjs/toolkit/query';
 import type {
   IoOutputJson,
-  StateCreator,
-  StateDeleter,
-  StateEntities,
-  StateQuery,
-  StateUpdater,
+  DataCreator,
+  DataDeleter,
+  EntityObjects,
+  DataQuery,
+  DataUpdater,
 } from '@amnis/state';
 
 export const apiCrudQueries = <T extends EndpointBuilder<any, any, any>>(builder: T) => ({
   create: builder.mutation<
-  IoOutputJson<StateEntities>,
-  StateCreator
+  IoOutputJson<EntityObjects>,
+  DataCreator
   >({
     query: (payload) => ({
       url: 'create',
@@ -23,8 +23,8 @@ export const apiCrudQueries = <T extends EndpointBuilder<any, any, any>>(builder
   }),
 
   read: builder.query<
-  IoOutputJson<StateEntities>,
-  StateQuery
+  IoOutputJson<EntityObjects>,
+  DataQuery
   >({
     query: (payload) => ({
       url: 'read',
@@ -34,8 +34,8 @@ export const apiCrudQueries = <T extends EndpointBuilder<any, any, any>>(builder
   }),
 
   update: builder.mutation<
-  IoOutputJson<StateEntities>,
-  StateUpdater
+  IoOutputJson<EntityObjects>,
+  DataUpdater
   >({
     query: (payload) => ({
       url: 'update',
@@ -45,8 +45,8 @@ export const apiCrudQueries = <T extends EndpointBuilder<any, any, any>>(builder
   }),
 
   delete: builder.mutation<
-  IoOutputJson<StateDeleter>,
-  StateDeleter
+  IoOutputJson<DataDeleter>,
+  DataDeleter
   >({
     query: (payload) => ({
       url: 'delete',

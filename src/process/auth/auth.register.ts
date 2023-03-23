@@ -1,16 +1,18 @@
 import type {
   Io,
   IoProcess,
-  StateEntities,
+  EntityObjects,
   Entity,
   User,
   Credential,
 } from '@amnis/state';
 import {
-  userKey,
+  credentialSlice,
+
+  userSlice,
+
   ioOutputApply,
-  credentialKey,
-  systemSelectors,
+  systemSlice,
 } from '@amnis/state';
 import type { ApiAuthRegister } from '../../api.auth.types.js';
 import {
@@ -23,13 +25,13 @@ import { authenticateFinalize } from '../utility/authenticate.js';
 import { registerAccount } from '../utility/register.js';
 
 const process: IoProcess<
-Io<ApiAuthRegister, StateEntities>
+Io<ApiAuthRegister, EntityObjects>
 > = (context) => (
   async (input, output) => {
     const { store } = context;
     const { body } = input;
 
-    const system = systemSelectors.selectActive(store.getState());
+    const system = systemSlice.selectors.active(store.getState());
 
     if (!system) {
       output.status = 503;
@@ -61,7 +63,7 @@ Io<ApiAuthRegister, StateEntities>
       return output;
     }
 
-    const user = output.json.result?.[userKey]?.[0] as Entity<User>;
+    const user = output.json.result?.[userSlice.key]?.[0] as Entity<User>;
 
     if (!user) {
       output.status = 500; // Internal Server Error
@@ -73,7 +75,7 @@ Io<ApiAuthRegister, StateEntities>
       return output;
     }
 
-    const credential = output.json.result?.[credentialKey]?.[0] as Entity<Credential>;
+    const credential = output.json.result?.[credentialSlice.key]?.[0] as Entity<Credential>;
 
     if (!credential) {
       output.status = 500; // Internal Server Error
@@ -104,7 +106,7 @@ export const processAuthRegister = mwValidate('auth/ApiAuthRegister')(
     ),
   ),
 ) as IoProcess<
-Io<ApiAuthRegister, StateEntities>
+Io<ApiAuthRegister, EntityObjects>
 >;
 
 export default { processAuthRegister };

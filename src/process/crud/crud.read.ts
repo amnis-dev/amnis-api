@@ -5,22 +5,22 @@ import type {
   IoInput,
   IoOutput,
   IoProcess,
-  StateEntities,
-  StateQuery,
+  EntityObjects,
+  DataQuery,
 } from '@amnis/state';
 import {
   GrantTask,
-  stateEntitiesMerge,
+  stateMerge,
   stateReferenceQuery,
 } from '@amnis/state';
 import { mwAccess, mwValidate, mwState } from '../mw/index.js';
 
 export const process: IoProcess<
-Io<StateQuery, StateEntities>
+Io<DataQuery, EntityObjects>
 > = (context) => (
   async (input, output) => {
     const { database } = context;
-    const { body: stateQuery, scope, access } = input;
+    const { body: dataQuery, scope, access } = input;
 
     if (!access) {
       output.status = 401; // Unauthorized
@@ -46,16 +46,16 @@ Io<StateQuery, StateEntities>
      * Loop through each query slice.
      * Each slice has it's own depth, so recursively search when necessary.
      */
-    const results = await Promise.all<StateEntities>(Object.keys(stateQuery).map(async (key) => {
-      const depth = stateQuery[key].$depth ?? 0;
+    const results = await Promise.all<EntityObjects>(Object.keys(dataQuery).map(async (key) => {
+      const depth = dataQuery[key].$depth ?? 0;
 
       /**
        * Query the single slice.
        */
-      const stateQuerySingle = {
-        [key]: stateQuery[key],
+      const dataQuerySingle = {
+        [key]: dataQuery[key],
       };
-      const result = await database.read(stateQuerySingle, { subject: access.sub, scope });
+      const result = await database.read(dataQuerySingle, { subject: access.sub, scope });
 
       /**
        * Return without recurrsion if we've reached the bottom.
@@ -67,11 +67,11 @@ Io<StateQuery, StateEntities>
       /**
        * Create a new query based on the references in the results.
        */
-      const stateQueryNext = stateReferenceQuery(result);
-      Object.values(stateQueryNext).forEach((query) => { query.$depth = depth - 1; });
-      const inputNext: IoInput<StateQuery> = {
+      const dataQueryNext = stateReferenceQuery(result);
+      Object.values(dataQueryNext).forEach((query) => { query.$depth = depth - 1; });
+      const inputNext: IoInput<DataQuery> = {
         ...input,
-        body: stateQueryNext,
+        body: dataQueryNext,
       };
 
       /**
@@ -79,9 +79,9 @@ Io<StateQuery, StateEntities>
        */
       const outputNext = await mwState(GrantTask.Read)(
         process,
-      )(context)(inputNext, output) as IoOutput<StateEntities>;
+      )(context)(inputNext, output) as IoOutput<EntityObjects>;
 
-      const resultsMerged = stateEntitiesMerge(result, outputNext.json.result ?? {});
+      const resultsMerged = stateMerge(result, outputNext.json.result ?? {});
 
       return resultsMerged;
     }));
@@ -89,8 +89,8 @@ Io<StateQuery, StateEntities>
     /**
      * Merge all the results.
      */
-    output.json.result = results.reduce<StateEntities>(
-      (acc, cur) => stateEntitiesMerge(acc, cur),
+    output.json.result = results.reduce<EntityObjects>(
+      (acc, cur) => stateMerge(acc, cur),
       {},
     );
 
@@ -99,13 +99,13 @@ Io<StateQuery, StateEntities>
 );
 
 export const processCrudRead = mwAccess()(
-  mwValidate('state/StateQuery')(
+  mwValidate('state/DataQuery')(
     mwState(GrantTask.Read)(
       process,
     ),
   ),
 ) as IoProcess<
-Io<StateQuery, StateEntities>
+Io<DataQuery, EntityObjects>
 >;
 
 export default { processCrudRead };

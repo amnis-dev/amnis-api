@@ -3,13 +3,13 @@
 import type { EndpointBuilder } from '@reduxjs/toolkit/query';
 import type {
   IoOutputJson,
-  StateEntities,
+  EntityObjects,
 } from '@amnis/state';
 
 export const apiSysQueries = <T extends EndpointBuilder<any, any, any>>(builder: T) => ({
 
   system: builder.query<
-  IoOutputJson<StateEntities>,
+  IoOutputJson<EntityObjects>,
   { url: string; set?: boolean }
   >({
     query: ({ url }) => ({

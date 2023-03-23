@@ -8,16 +8,17 @@ import type {
   User,
 } from '@amnis/state';
 import {
+  contactSlice,
+  handleSlice,
+  profileSlice,
+  userSlice,
+
   accountsGet,
   accountsSign,
   base64JsonEncode,
-  contactKey,
-  handleKey,
   ioOutput,
-  profileKey,
   uid,
-  userKey,
-  systemSelectors,
+  systemSlice,
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
 import type { ApiAuthCreate } from '../../api.auth.types.js';
@@ -40,7 +41,7 @@ test('should create a new account as an admin', async () => {
   /**
    * Create an administrative session with the admin public key.
    */
-  const system = systemSelectors.selectActive(context.store.getState());
+  const system = systemSlice.selectors.active(context.store.getState());
   if (!system) {
     expect(system).toBeDefined();
     return;
@@ -85,10 +86,10 @@ test('should create a new account as an admin', async () => {
 
   expect(output.status).toBe(200);
 
-  const handles = output.json.result?.[handleKey] as Entity<Handle>[];
-  const users = output.json.result?.[userKey] as Entity<User>[];
-  const profiles = output.json.result?.[profileKey] as Entity<Profile>[];
-  const contact = output.json.result?.[contactKey] as Entity<Contact>[];
+  const handles = output.json.result?.[handleSlice.key] as Entity<Handle>[];
+  const users = output.json.result?.[userSlice.key] as Entity<User>[];
+  const profiles = output.json.result?.[profileSlice.key] as Entity<Profile>[];
+  const contact = output.json.result?.[contactSlice.key] as Entity<Contact>[];
 
   expect(users).toHaveLength(1);
   expect(users[0].new).toBe(false);

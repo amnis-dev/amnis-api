@@ -8,12 +8,13 @@ import type {
   Role,
 } from '@amnis/state';
 import {
+  roleSlice,
+
   databaseMemoryStorage,
-  userKey,
-  credentialKey,
-  contactKey,
-  profileKey,
-  roleKey,
+  userSlice,
+  credentialSlice,
+  contactSlice,
+  profileSlice,
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
 import {
@@ -33,23 +34,23 @@ beforeAll(async () => {
   });
 
   userExisting = Object.values(
-    databaseMemoryStorage()[userKey],
+    databaseMemoryStorage()[userSlice.key],
   )[0] as Entity<User>;
 
   profileExisting = Object.values(
-    databaseMemoryStorage()[profileKey],
+    databaseMemoryStorage()[profileSlice.key],
   )[0] as Entity<Profile>;
 
   credentialExisting = Object.values(
-    databaseMemoryStorage()[credentialKey],
+    databaseMemoryStorage()[credentialSlice.key],
   )[0] as Entity<Credential>;
 
   contactExisting = Object.values(
-    databaseMemoryStorage()[contactKey],
+    databaseMemoryStorage()[contactSlice.key],
   )[0] as Entity<Contact>;
 
   rolesExisting = Object.values(
-    databaseMemoryStorage()[roleKey],
+    databaseMemoryStorage()[roleSlice.key],
   ) as Entity<Role>[];
 });
 

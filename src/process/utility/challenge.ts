@@ -4,12 +4,11 @@ import type {
   IoOutput,
 } from '@amnis/state';
 import {
+  challengeSlice,
   challengeCreate,
   dateNumeric,
   ioOutput,
-  challengeActions,
-  challengeSelectors,
-  systemSelectors,
+  systemSlice,
 } from '@amnis/state';
 import { validate } from '@amnis/state/context';
 
@@ -21,7 +20,7 @@ export const challengeNew = async (
 ): Promise<IoOutput<Challenge>> => {
   const { store, crypto } = context;
 
-  const system = systemSelectors.selectActive(store.getState());
+  const system = systemSlice.selectors.active(store.getState());
 
   if (!system) {
     const output = ioOutput();
@@ -50,7 +49,7 @@ export const challengeNew = async (
   /**
    * Store the challenge on the io store to check against later.
    */
-  store.dispatch(challengeActions.insert(challengeItem));
+  store.dispatch(challengeSlice.actions.insert(challengeItem));
 
   const output = ioOutput();
   output.status = 200;
@@ -78,7 +77,7 @@ export const challengeValidate = (
   /**
    * Verify that the challenge code is valid.
    */
-  const challengeServer = challengeSelectors.selectById(store.getState(), challenge.$id);
+  const challengeServer = challengeSlice.selectors.byId(store.getState(), challenge.$id);
 
   /**
    * Challenge not found on the server store.
@@ -112,7 +111,7 @@ export const challengeValidate = (
   /**
    * Remove the challenge from the server store once verified.
    */
-  store.dispatch(challengeActions.delete(challenge.$id));
+  store.dispatch(challengeSlice.actions.delete(challenge.$id));
 
   return true;
 };

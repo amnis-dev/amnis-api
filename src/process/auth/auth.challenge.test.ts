@@ -4,7 +4,7 @@ import type {
 } from '@amnis/state';
 import {
   ioOutput,
-  challengeSelectors,
+  challengeSlice,
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
 import type { ApiAuthChallenge } from '../../api.auth.types.js';
@@ -44,7 +44,7 @@ test('should generate a challenge entity', async () => {
    * Check the challenge on the context store.
    */
   const state = context.store.getState();
-  const ioChallenge = challengeSelectors.selectById(state, challenge.$id);
+  const ioChallenge = challengeSlice.selectors.byId(state, challenge.$id);
 
   if (!ioChallenge) {
     expect(ioChallenge).toBeDefined();

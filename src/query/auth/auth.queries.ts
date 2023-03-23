@@ -3,8 +3,8 @@
 import type {
   IoOutputJson,
   Otp,
-  StateDeleter,
-  StateEntities,
+  DataDeleter,
+  EntityObjects,
 } from '@amnis/state';
 import type { EndpointBuilder } from '@reduxjs/toolkit/query';
 import type {
@@ -22,7 +22,7 @@ import type {
 export const apiAuthQueries = <T extends EndpointBuilder<any, any, any>>(builder: T) => ({
 
   authenticate: builder.mutation<
-  IoOutputJson<StateEntities>,
+  IoOutputJson<EntityObjects>,
   ApiAuthAuthenticate
   >({
     query: (payload) => ({
@@ -34,7 +34,7 @@ export const apiAuthQueries = <T extends EndpointBuilder<any, any, any>>(builder
   }),
 
   login: builder.mutation<
-  IoOutputJson<StateEntities>,
+  IoOutputJson<EntityObjects>,
   Omit<ApiAuthLogin, '$credential'>
   >({
     query: (payload) => ({
@@ -46,7 +46,7 @@ export const apiAuthQueries = <T extends EndpointBuilder<any, any, any>>(builder
   }),
 
   logout: builder.mutation<
-  IoOutputJson<StateDeleter>,
+  IoOutputJson<DataDeleter>,
   ApiAuthLogout
   >({
     query: (payload) => ({
@@ -58,7 +58,7 @@ export const apiAuthQueries = <T extends EndpointBuilder<any, any, any>>(builder
   }),
 
   create: builder.mutation<
-  IoOutputJson<StateEntities>,
+  IoOutputJson<EntityObjects>,
   ApiAuthCreate
   >({
     query: (payload) => ({
@@ -70,7 +70,7 @@ export const apiAuthQueries = <T extends EndpointBuilder<any, any, any>>(builder
   }),
 
   pkce: builder.mutation<
-  IoOutputJson<StateEntities>,
+  IoOutputJson<EntityObjects>,
   ApiAuthPkce
   >({
     query: (payload) => ({
@@ -82,7 +82,7 @@ export const apiAuthQueries = <T extends EndpointBuilder<any, any, any>>(builder
   }),
 
   register: builder.mutation<
-  IoOutputJson<StateEntities>,
+  IoOutputJson<EntityObjects>,
   Omit<ApiAuthRegister, 'credential'>
   >({
     query: (payload) => ({
@@ -93,7 +93,7 @@ export const apiAuthQueries = <T extends EndpointBuilder<any, any, any>>(builder
   }),
 
   credential: builder.mutation<
-  IoOutputJson<StateEntities>,
+  IoOutputJson<EntityObjects>,
   Omit<ApiAuthCredential, 'credential'>
   >({
     query: (payload) => ({

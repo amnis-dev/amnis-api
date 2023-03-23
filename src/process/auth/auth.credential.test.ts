@@ -6,14 +6,15 @@ import type {
   IoInput,
 } from '@amnis/state';
 import {
+  otpSlice,
+
+  userSlice,
+  credentialSlice,
   base64Encode,
   base64JsonEncode,
-  credentialCreator,
   databaseMemoryStorage,
-  userKey,
   ioOutput,
   accountsGet,
-  otpSelectors,
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
 import type { ApiAuthCredential, ApiAuthLogin } from '../../api.auth.types.js';
@@ -38,13 +39,13 @@ beforeAll(async () => {
    */
   const credentialKeys = await context.crypto.asymGenerate('signer');
   credentialNewPrivateKey = credentialKeys.privateKey;
-  credentialNew = credentialCreator({
+  credentialNew = credentialSlice.create({
     name: 'New Credential',
     publicKey: await context.crypto.keyExport(credentialKeys.publicKey),
   });
 
   const storage = databaseMemoryStorage();
-  const storageUsers = Object.values(storage[userKey]) as Entity<User>[];
+  const storageUsers = Object.values(storage[userSlice.key]) as Entity<User>[];
 
   userUser = storageUsers.find((u) => u.handle === 'user') as Entity<User>;
 });
@@ -79,7 +80,7 @@ test('should add a new credential to the user account', async () => {
     return;
   }
   expect(otp.val).toBeUndefined();
-  const otpServer = otpSelectors.selectById(context.store.getState(), otp.$id);
+  const otpServer = otpSlice.selectors.byId(context.store.getState(), otp.$id);
   const otpEncoded = base64JsonEncode({ ...otp, val: otpServer?.val });
 
   const apiAuthCredential: ApiAuthCredential = {
@@ -182,7 +183,7 @@ test('should NOT add a new credential without a challenge object', async () => {
     return;
   }
   expect(otp.val).toBeUndefined();
-  const otpServer = otpSelectors.selectById(context.store.getState(), otp.$id);
+  const otpServer = otpSlice.selectors.byId(context.store.getState(), otp.$id);
   const otpEncoded = base64JsonEncode({ ...otp, val: otpServer?.val });
 
   const apiAuthCredential: ApiAuthCredential = {

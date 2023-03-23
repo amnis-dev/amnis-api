@@ -1,7 +1,7 @@
 import type {
   Io,
   IoProcess,
-  StateEntities,
+  EntityObjects,
 } from '@amnis/state';
 import {
   ioOutputApply,
@@ -13,7 +13,7 @@ import {
 import { authenticateLogin } from '../utility/authenticate.js';
 
 const process: IoProcess<
-Io<ApiAuthLogin, StateEntities>
+Io<ApiAuthLogin, EntityObjects>
 > = (context) => (
   async (input, output) => {
     const { body } = input;
@@ -54,7 +54,7 @@ export const processAuthLogin = mwValidate('auth/ApiAuthLogin')(
     ),
   ),
 ) as IoProcess<
-Io<ApiAuthLogin, StateEntities>
+Io<ApiAuthLogin, EntityObjects>
 >;
 
 export default { processAuthLogin };

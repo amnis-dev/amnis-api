@@ -4,12 +4,12 @@ import type {
   User,
 } from '@amnis/state';
 import {
-  credentialKey,
+  credentialSlice,
   databaseMemoryStorage,
   dateNumeric,
   uid,
-  userKey,
-  systemSelectors,
+  userSlice,
+  systemSlice,
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
 import { generateBearer, generateSession } from './generate.js';
@@ -22,19 +22,19 @@ beforeAll(async () => {
   context = await contextSetup();
 
   userExisting = Object.values(
-    databaseMemoryStorage()[userKey],
+    databaseMemoryStorage()[userSlice.key],
   )[0] as Entity<User>;
 });
 
 test('should generate a session', async () => {
-  const system = systemSelectors.selectActive(context.store.getState());
+  const system = systemSlice.selectors.active(context.store.getState());
 
   if (!system) {
     expect(system).toBeDefined();
     return;
   }
 
-  const session = await generateSession(system, userExisting.$id, uid(credentialKey));
+  const session = await generateSession(system, userExisting.$id, uid(credentialSlice.key));
 
   expect(session).toMatchObject({
     $id: expect.any(String),
@@ -45,7 +45,7 @@ test('should generate a session', async () => {
 });
 
 test('should generate a bearer', async () => {
-  const system = systemSelectors.selectActive(context.store.getState());
+  const system = systemSlice.selectors.active(context.store.getState());
 
   if (!system) {
     expect(system).toBeDefined();

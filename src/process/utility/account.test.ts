@@ -5,15 +5,14 @@ import type {
   User,
 } from '@amnis/state';
 import {
-  contactKey,
-  credentialCreator,
-  credentialKey,
+  contactSlice,
+  credentialSlice,
+  profileSlice,
+  handleSlice,
+  userSlice,
   cryptoWeb,
   databaseMemoryClear,
-  handleKey,
   ioOutputErrored,
-  profileKey,
-  userKey,
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
 import { accountCreate, accountCredentialAdd } from './account.js';
@@ -59,7 +58,7 @@ test('should create a new account with minial options', async () => {
 
   expect(Object.keys(result)).toHaveLength(4);
 
-  const users = result[userKey] as Entity<User>[];
+  const users = result[userSlice.key] as Entity<User>[];
   expect(users).toBeDefined();
   expect(users).toHaveLength(1);
   expect(users[0]).toMatchObject({
@@ -74,7 +73,7 @@ test('should create a new account with minial options', async () => {
   const isPasswordSame = await cryptoWeb.passCompare(password, users[0].password ?? '');
   expect(isPasswordSame).toBe(true);
 
-  const handle = result[handleKey];
+  const handle = result[handleSlice.key];
   expect(handle).toBeDefined();
   expect(handle).toHaveLength(1);
   expect(handle[0]).toMatchObject({
@@ -84,7 +83,7 @@ test('should create a new account with minial options', async () => {
     committed: true,
   });
 
-  const contacts = result[contactKey];
+  const contacts = result[contactSlice.key];
   expect(contacts).toBeDefined();
   expect(contacts).toHaveLength(1);
   expect(contacts[0]).toMatchObject({
@@ -94,7 +93,7 @@ test('should create a new account with minial options', async () => {
     committed: true,
   });
 
-  const profiles = result[profileKey];
+  const profiles = result[profileSlice.key];
   expect(profiles).toBeDefined();
   expect(profiles).toHaveLength(1);
   expect(profiles[0]).toMatchObject({
@@ -106,7 +105,7 @@ test('should create a new account with minial options', async () => {
     committed: true,
   });
 
-  expect(result[credentialKey]).toBeUndefined();
+  expect(result[credentialSlice.key]).toBeUndefined();
 });
 
 /**
@@ -176,7 +175,7 @@ test('should create a new account with different display name', async () => {
 
   expect(Object.keys(result)).toHaveLength(4);
 
-  const users = result[userKey];
+  const users = result[userSlice.key];
   expect(users).toBeDefined();
   expect(users).toHaveLength(1);
   expect(users[0]).toMatchObject({
@@ -186,7 +185,7 @@ test('should create a new account with different display name', async () => {
     $owner: users[0].$id,
   });
 
-  const handle = result[handleKey];
+  const handle = result[handleSlice.key];
   expect(handle).toBeDefined();
   expect(handle).toHaveLength(1);
   expect(handle[0]).toMatchObject({
@@ -194,7 +193,7 @@ test('should create a new account with different display name', async () => {
     $subject: users[0].$id,
   });
 
-  const contacts = result[contactKey];
+  const contacts = result[contactSlice.key];
   expect(contacts).toBeDefined();
   expect(contacts).toHaveLength(1);
   expect(contacts[0]).toMatchObject({
@@ -202,7 +201,7 @@ test('should create a new account with different display name', async () => {
     $owner: users[0].$id,
   });
 
-  const profiles = result[profileKey];
+  const profiles = result[profileSlice.key];
   expect(profiles).toBeDefined();
   expect(profiles).toHaveLength(1);
   expect(profiles[0]).toMatchObject({
@@ -212,7 +211,7 @@ test('should create a new account with different display name', async () => {
     $owner: users[0].$id,
   });
 
-  expect(result[credentialKey]).toBeUndefined();
+  expect(result[credentialSlice.key]).toBeUndefined();
 });
 
 /**
@@ -223,7 +222,7 @@ test('should create a new account with different display name', async () => {
 test('should create a new account with a credential', async () => {
   const handleName = 'newbie';
   const password = 'passwd12';
-  const credential = credentialCreator({
+  const credential = credentialSlice.create({
     name: 'Jest Agent',
     publicKey: '1234abcd',
   });
@@ -249,7 +248,7 @@ test('should create a new account with a credential', async () => {
 
   expect(Object.keys(result)).toHaveLength(5);
 
-  const credentials = result[credentialKey];
+  const credentials = result[credentialSlice.key];
   expect(credentials).toBeDefined();
   expect(credentials).toHaveLength(1);
   expect(credentials[0]).toMatchObject({
@@ -257,7 +256,7 @@ test('should create a new account with a credential', async () => {
     publicKey: '1234abcd',
   });
 
-  const users = result[userKey];
+  const users = result[userSlice.key];
   expect(users).toBeDefined();
   expect(users).toHaveLength(1);
   expect(users[0]).toMatchObject({
@@ -267,7 +266,7 @@ test('should create a new account with a credential', async () => {
     $owner: users[0].$id,
   });
 
-  const handle = result[handleKey];
+  const handle = result[handleSlice.key];
   expect(handle).toBeDefined();
   expect(handle).toHaveLength(1);
   expect(handle[0]).toMatchObject({
@@ -275,7 +274,7 @@ test('should create a new account with a credential', async () => {
     $subject: users[0].$id,
   });
 
-  const contacts = result[contactKey];
+  const contacts = result[contactSlice.key];
   expect(contacts).toBeDefined();
   expect(contacts).toHaveLength(1);
   expect(contacts[0]).toMatchObject({
@@ -283,7 +282,7 @@ test('should create a new account with a credential', async () => {
     $owner: users[0].$id,
   });
 
-  const profiles = result[profileKey];
+  const profiles = result[profileSlice.key];
   expect(profiles).toBeDefined();
   expect(profiles).toHaveLength(1);
   expect(profiles[0]).toMatchObject({
@@ -310,14 +309,14 @@ test('should add credential to existing user', async () => {
     },
   );
 
-  const userAccount = outputAccount.json.result?.[userKey]?.[0] as Entity<User>;
+  const userAccount = outputAccount.json.result?.[userSlice.key]?.[0] as Entity<User>;
 
   if (!userAccount) {
     expect(userAccount).toBeDefined();
     return;
   }
 
-  const credentialNew = credentialCreator({
+  const credentialNew = credentialSlice.create({
     name: 'Jest Agent',
     publicKey: '1234abcd',
   });
@@ -339,16 +338,16 @@ test('should add credential to existing user', async () => {
   }
 
   expect(Object.keys(result)).toHaveLength(2);
-  expect(result[userKey]).toHaveLength(1);
-  expect(result[credentialKey]).toHaveLength(1);
+  expect(result[userSlice.key]).toHaveLength(1);
+  expect(result[credentialSlice.key]).toHaveLength(1);
 
-  const credential = result[credentialKey][0] as Entity<Credential>;
+  const credential = result[credentialSlice.key][0] as Entity<Credential>;
   expect(credential).toMatchObject({
     name: 'Jest Agent',
     publicKey: '1234abcd',
   });
 
-  const user = result[userKey][0] as Entity<User>;
+  const user = result[userSlice.key][0] as Entity<User>;
   expect(user).toBeDefined();
   expect(user).toMatchObject({
     $id: userAccount.$id,

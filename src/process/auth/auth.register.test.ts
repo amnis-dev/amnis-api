@@ -10,16 +10,15 @@ import type {
 } from '@amnis/state';
 import {
   ioOutputErrored,
-  userKey,
-  profileKey,
-  contactKey,
-  sessionKey,
+  userSlice,
+  profileSlice,
+  contactSlice,
+  sessionSlice,
   ioOutput,
   accountsGenerateCrypto,
   base64JsonEncode,
   accountsSign,
-  systemActions,
-  systemSelectors,
+  systemSlice,
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
 import type { ApiAuthRegister } from '../../api.auth.types.js';
@@ -129,12 +128,12 @@ test('should start ritual and complete registration', async () => {
     return;
   }
 
-  const systemActive = systemSelectors.selectActive(context.store.getState());
+  const systemActive = systemSlice.selectors.active(context.store.getState());
 
-  const users = entities[userKey] as Entity<User>[];
-  const profiles = entities[profileKey] as Entity<Profile>[];
-  const contacts = entities[contactKey] as Entity<Contact>[];
-  const session = entities[sessionKey] as Entity<Session>[];
+  const users = entities[userSlice.key] as Entity<User>[];
+  const profiles = entities[profileSlice.key] as Entity<Profile>[];
+  const contacts = entities[contactSlice.key] as Entity<Contact>[];
+  const session = entities[sessionSlice.key] as Entity<Session>[];
 
   expect(users).toBeDefined();
   expect(users).toHaveLength(1);
@@ -180,14 +179,14 @@ test('should start ritual and complete registration', async () => {
  * ================================================================================================
  */
 test('should not be able to register when turned off by the system', async () => {
-  const system = systemSelectors.selectActive(context.store.getState());
+  const system = systemSlice.selectors.active(context.store.getState());
 
   if (!system) {
     expect(system).toBeDefined();
     return;
   }
 
-  context.store.dispatch(systemActions.update({
+  context.store.dispatch(systemSlice.actions.update({
     $id: system.$id,
     registrationOpen: false,
   }));

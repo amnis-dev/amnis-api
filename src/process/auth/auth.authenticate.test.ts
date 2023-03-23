@@ -9,7 +9,8 @@ import type {
   Session,
 } from '@amnis/state';
 import {
-  userKey,
+  systemSlice,
+  userSlice,
   databaseMemoryStorage,
   ioOutput,
   cryptoWeb,
@@ -20,7 +21,6 @@ import {
   dateNumeric,
   agentSign,
   base64JsonEncode,
-  systemSelectors,
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
 import type { ApiAuthAuthenticate, ApiAuthChallenge } from '../../api.auth.types.js';
@@ -37,9 +37,9 @@ beforeAll(async () => {
   context = await contextSetup({
     schemas: [schemaAuth],
   });
-  system = systemSelectors.selectActive(context.store.getState()) as Entity<System>;
+  system = systemSlice.selectors.active(context.store.getState()) as Entity<System>;
   const storage = databaseMemoryStorage();
-  storageUsers = Object.values(storage[userKey]) as Entity<User>[];
+  storageUsers = Object.values(storage[userSlice.key]) as Entity<User>[];
 });
 
 /**

@@ -3,25 +3,24 @@ import type {
   IoInput,
   IoMiddleware,
   State,
-  StateEntities,
-  StateUpdater,
+  EntityObjects,
+  DataUpdater,
   Entity,
   User,
   UID,
 } from '@amnis/state';
 import {
+  roleSlice,
+  historySlice,
+  userSlice,
   dataActions,
   GrantTask,
   grantStateFilter,
   entityStrip,
   grantStateScope,
-  userKey,
-  roleKey,
   historyMake,
-  historyKey,
   stateEntitiesCreate,
-  roleSelectors,
-  systemSelectors,
+  systemSlice,
 } from '@amnis/state';
 import { findUserById } from '../utility/find.js';
 import { generateUserAnonymous } from '../utility/generate.js';
@@ -63,7 +62,7 @@ export const mwState: IoMiddleware<GrantTask> = (
     /**
      * Obtain the system entity.
      */
-    const system = systemSelectors.selectActive(store.getState());
+    const system = systemSlice.selectors.active(store.getState());
 
     if (!system) {
       output.status = 503; // Service Unavailable
@@ -87,7 +86,7 @@ export const mwState: IoMiddleware<GrantTask> = (
      * If there's a permissions reference, find and set the grants.
      */
     if ($permission) {
-      const comboGrants = roleSelectors.selectComboGrants(store.getState(), $permission);
+      const comboGrants = roleSlice.selectors.selectComboGrants(store.getState(), $permission);
       if (comboGrants) {
         grants = comboGrants;
       }
@@ -97,7 +96,7 @@ export const mwState: IoMiddleware<GrantTask> = (
      * If no grants are found, provide anonymous grants.
      */
     if (!grants) {
-      const roleAnon = roleSelectors.selectById(store.getState(), system.$anonymousRole);
+      const roleAnon = roleSlice.selectors.byId(store.getState(), system.$anonymousRole);
       if (!roleAnon) {
         output.status = 401; // Unauthorized
         output.json.logs.push({
@@ -122,7 +121,7 @@ export const mwState: IoMiddleware<GrantTask> = (
      */
     if (task === GrantTask.Create || task === GrantTask.Update) {
       stateKeys.forEach((key) => {
-        stateFiltered[key] = (stateFiltered as StateEntities)[key]
+        stateFiltered[key] = (stateFiltered as EntityObjects)[key]
           .map((entity) => entityStrip(entity));
       });
     }
@@ -130,7 +129,7 @@ export const mwState: IoMiddleware<GrantTask> = (
     /**
      * USER SLICE PROTECTIONS
      */
-    if (stateKeys.includes(userKey)) {
+    if (stateKeys.includes(userSlice.key)) {
       /**
        * Get information about the user executing this process.
        * If no user is found, an anonymous version is created.
@@ -145,7 +144,7 @@ export const mwState: IoMiddleware<GrantTask> = (
          * If the user does not belong to the subject...
          * And the user does not hold an administrative role...
          */
-        const stateFilteredUsers = stateFiltered[userKey] as Entity<User>[];
+        const stateFilteredUsers = stateFiltered[userSlice.key] as Entity<User>[];
         if (
           (stateFilteredUsers.length !== 1 || stateFilteredUsers[0].$id !== $subject)
           && (!isAdmin && !isExec)
@@ -161,7 +160,7 @@ export const mwState: IoMiddleware<GrantTask> = (
       }
 
       if (task & GrantTask.Delete) {
-        const stateFilteredUsers = stateFiltered[userKey] as UID[];
+        const stateFilteredUsers = stateFiltered[userSlice.key] as UID[];
         if (
           (stateFilteredUsers.length !== 1 || stateFilteredUsers[0] !== $subject)
           && (!isAdmin && !isExec)
@@ -183,7 +182,7 @@ export const mwState: IoMiddleware<GrantTask> = (
          */
         // eslint-disable-next-line no-restricted-syntax
         for await (
-          const entity of (stateFiltered as StateUpdater)[userKey] as Partial<Entity<User>>[]
+          const entity of (stateFiltered as DataUpdater)[userSlice.key] as Partial<Entity<User>>[]
         ) {
           if (!entity || !entity.$id) {
             output.status = 500; // Internal Server Error
@@ -275,7 +274,7 @@ export const mwState: IoMiddleware<GrantTask> = (
     /**
      * ROLE SLICE PROTECTION
      */
-    if (stateKeys.includes(roleKey)) {
+    if (stateKeys.includes(roleSlice.key)) {
       /**
        * Get information about the user executing this process.
        * If no user is found, an anonymous version is created.
@@ -366,7 +365,7 @@ export const mwState: IoMiddleware<GrantTask> = (
         && outputNext.json.result
       ) {
         const stateCreateHistory = stateEntitiesCreate({
-          [historyKey]: historyMake(
+          [historySlice.key]: historyMake(
             outputNext.json.result as State,
             task,
           ),
@@ -376,8 +375,8 @@ export const mwState: IoMiddleware<GrantTask> = (
           new: false,
         });
         const resultHistory = await context.database.create(stateCreateHistory);
-        if (resultHistory[historyKey]?.length) {
-          outputNext.json.result[historyKey] = resultHistory[historyKey];
+        if (resultHistory[historySlice.key]?.length) {
+          outputNext.json.result[historySlice.key] = resultHistory[historySlice.key];
         }
       }
     }

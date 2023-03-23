@@ -2,20 +2,20 @@ import type {
   IoContext,
   IoOutput,
   User,
-  StateEntities,
-  StateUpdater,
+  EntityObjects,
+  DataUpdater,
   UID,
 } from '@amnis/state';
 import {
+  credentialSlice,
+  userSlice,
+  profileSlice,
+  contactSlice,
+  sessionSlice,
   ioOutput,
   entityCreate,
-  userKey,
-  profileKey,
-  contactKey,
-  sessionKey,
   dateJSON,
-  credentialKey,
-  systemSelectors,
+  systemSlice,
 } from '@amnis/state';
 import type { ApiAuthLogin } from '../../api.auth.types.js';
 import {
@@ -59,7 +59,7 @@ export const authenticateFinalize = async (
   context: IoContext,
   $user: UID<User>,
   $credential: UID<Credential>,
-): Promise<IoOutput<StateEntities>> => {
+): Promise<IoOutput<EntityObjects>> => {
   const user = await findUserById(context, $user);
 
   if (!user) {
@@ -104,7 +104,7 @@ export const authenticateFinalize = async (
   /**
    * Get the active system.
    */
-  const system = systemSelectors.selectActive(context.store.getState());
+  const system = systemSlice.selectors.active(context.store.getState());
 
   if (!system) {
     const output = ioOutput();
@@ -147,11 +147,11 @@ export const authenticateFinalize = async (
    */
   const bearerAccess = await generateBearer(context, system, user.$id, user.$roles);
 
-  const stateEntities: StateEntities = {
-    [userKey]: [user],
-    [profileKey]: [profile],
-    [contactKey]: [contact],
-    [sessionKey]: [session],
+  const stateEntities: EntityObjects = {
+    [userSlice.key]: [user],
+    [profileSlice.key]: [profile],
+    [contactSlice.key]: [contact],
+    [sessionSlice.key]: [session],
   };
 
   const output = ioOutput();
@@ -233,12 +233,12 @@ export const authenticateLogin = async (
    * Update the user and credential timestamps.
    */
   const dateTime = dateJSON();
-  const updater: StateUpdater = {
-    [userKey]: [{
+  const updater: DataUpdater = {
+    [userSlice.key]: [{
       $id: user.$id,
       logged: dateTime,
     }],
-    [credentialKey]: [{
+    [credentialSlice.key]: [{
       $id: $credential,
       updated: dateTime,
       used: dateTime,

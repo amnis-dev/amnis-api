@@ -1,13 +1,10 @@
 import { mockService } from '@amnis/mock';
 import {
-  contactKey,
   entityStrip,
-  contactCreator,
   accountsGet,
   agentUpdate,
-  contactActions,
-  contactSelectors,
-  userSelectors,
+  contactSlice,
+  userSlice,
 } from '@amnis/state';
 import { apiAuth } from '../../auth/index.js';
 import { apiSys } from '../../sys/index.js';
@@ -46,13 +43,13 @@ test('should be able to create a new contact', async () => {
     password: admin.password,
   }));
 
-  const contactCreatorAction = contactActions.create(contactCreator({
+  const contactCreatorAction = contactSlice.actions.create({
     name: 'New Contact',
     emails: ['new@email.com'],
     phones: [],
     socials: [],
-  }));
-  const contactActionEntityId = contactCreatorAction.payload.entity.$id;
+  });
+  const contactActionEntityId = contactCreatorAction.payload[contactSlice.key][0].$id;
 
   /**
    * Locally create the entity.
@@ -62,7 +59,7 @@ test('should be able to create a new contact', async () => {
   /**
    * Select the newly created entity.
    */
-  const contactLocal = contactSelectors.selectById(clientStore.getState(), contactActionEntityId);
+  const contactLocal = contactSlice.selectors.byId(clientStore.getState(), contactActionEntityId);
   if (!contactLocal) {
     expect(contactLocal).toBeDefined();
     return;
@@ -72,7 +69,7 @@ test('should be able to create a new contact', async () => {
 
   const contactStripped = entityStrip(contactLocal);
   const result = await clientStore.dispatch(apiCrud.endpoints.create.initiate({
-    [contactKey]: [contactStripped],
+    [contactSlice.key]: [contactStripped],
   }));
 
   if ('error' in result) {
@@ -81,13 +78,13 @@ test('should be able to create a new contact', async () => {
   }
 
   const { data } = result;
-  const contactResult = data.result?.[contactKey]?.[0];
+  const contactResult = data.result?.[contactSlice.key]?.[0];
 
   expect(contactResult).toBeDefined();
 
   const state = clientStore.getState();
-  const user = userSelectors.selectActive(state);
-  const contact = contactSelectors.selectById(state, contactResult?.$id || '');
+  const user = userSlice.selectors.active(state);
+  const contact = contactSlice.selectors.byId(state, contactResult?.$id || '');
 
   expect(contact).toMatchObject({
     name: 'New Contact',

@@ -1,10 +1,10 @@
 import type {
   IoContext,
   IoOutput,
-  StateEntities,
+  EntityObjects,
 } from '@amnis/state';
 import {
-  credentialCreator,
+  credentialSlice,
 } from '@amnis/state';
 import type { ApiAuthRegister } from '../../api.auth.types.js';
 import { accountCreate } from './account.js';
@@ -16,11 +16,11 @@ export const registerAccount = async (
   context: IoContext,
   apiAuthRegistration: ApiAuthRegister,
   ip?: string,
-): Promise<IoOutput<StateEntities | undefined>> => {
+): Promise<IoOutput<EntityObjects | undefined>> => {
   /**
    * Create the new credential to store in the database.
    */
-  const credential = credentialCreator({
+  const credential = credentialSlice.create({
     name: apiAuthRegistration.credential.name,
     publicKey: apiAuthRegistration.credential.publicKey,
     ip,

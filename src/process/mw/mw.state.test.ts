@@ -6,32 +6,29 @@ import type {
   IoInput,
   IoProcess,
   JWTAccess,
-  StateCreator,
-  StateDeleter,
-  StateQuery,
-  StateUpdater,
+  DataCreator,
+  DataDeleter,
+  DataQuery,
+  DataUpdater,
   System,
   UID,
   User,
 } from '@amnis/state';
 import {
+  roleSlice,
+  userSlice,
   databaseMemoryStorage,
   dateNumeric,
-  entityCreate,
   GrantScope,
   grantTask,
   GrantTask,
   ioOutput,
   ioOutputErrored,
   roleComboCreate,
-  roleCreator,
   uid,
-  userKey,
-  roleActions,
-  systemActions,
-  systemSelectors,
+  systemSlice,
 } from '@amnis/state';
-import { schemaEntity, schemaState } from '@amnis/state/schema';
+import { schemaState } from '@amnis/state/schema';
 import { contextSetup } from '@amnis/state/context';
 import { schemaAuth } from '../../schema/index.js';
 import { mwState } from './mw.state.js';
@@ -45,10 +42,10 @@ let accessFull: JWTAccess;
 let accessFullAdmin: JWTAccess;
 
 type TestInputs = [
-  IoInput<StateCreator>,
-  IoInput<StateQuery>,
-  IoInput<StateUpdater>,
-  IoInput<StateDeleter>,
+  IoInput<DataCreator>,
+  IoInput<DataQuery>,
+  IoInput<DataUpdater>,
+  IoInput<DataDeleter>,
 ]
 
 const testIteration = [
@@ -105,13 +102,13 @@ const noprocess: IoProcess = () => async (i, o) => o;
  */
 beforeAll(async () => {
   context = await contextSetup({
-    schemas: [schemaAuth, schemaState, schemaEntity],
+    schemas: [schemaAuth, schemaState],
   });
 
-  const system = systemSelectors.selectActive(context.store.getState()) as Entity<System>;
+  const system = systemSlice.selectors.active(context.store.getState()) as Entity<System>;
 
   const storage = databaseMemoryStorage();
-  const usersStored = Object.values(storage[userKey]) as Entity<User>[];
+  const usersStored = Object.values(storage[userSlice.key]) as Entity<User>[];
   userExisting = usersStored.find((u) => u.handle === 'user') as Entity<User>;
   const adminUser = usersStored.find((u) => u.handle === 'admin') as Entity<User>;
 
@@ -121,12 +118,12 @@ beforeAll(async () => {
   const grantsAnon: Grant[] = [
     ['sliceC', GrantScope.Global, grantTask(0, 1, 1, 0)],
   ];
-  const roleAnon = entityCreate(roleCreator({
+  const roleAnon = roleSlice.createEntity({
     name: 'Anon Access Role',
     grants: grantsAnon,
-  }));
-  context.store.dispatch(roleActions.insert(roleAnon));
-  context.store.dispatch(systemActions.update({
+  });
+  context.store.dispatch(roleSlice.actions.insert(roleAnon));
+  context.store.dispatch(systemSlice.actions.update({
     $id: system.$id,
     $anonymousRole: roleAnon.$id,
   }));
@@ -140,13 +137,13 @@ beforeAll(async () => {
     ['sliceB', GrantScope.Global, grantTask(1, 1, 1, 1)],
     ['sliceC', GrantScope.Global, grantTask(1, 1, 1, 1)],
   ];
-  const roleFull = roleCreator({
+  const roleFull = roleSlice.create({
     name: 'Full Access Role',
     grants: grantsFull,
   });
   const comboFull = roleComboCreate([roleFull]);
 
-  context.store.dispatch(roleActions.insertCombo(comboFull));
+  context.store.dispatch(roleSlice.actions.insertCombo(comboFull));
 
   /**
    * Define the access varieties to test with.

@@ -1,19 +1,19 @@
 import type {
   Io,
   IoProcess,
-  StateEntities,
+  EntityObjects,
 } from '@amnis/state';
 import {
-  apiSelectors,
+  apiSlice,
   systemKey,
-  systemSelectors,
+  systemSlice,
 } from '@amnis/state';
 
 /**
  * Verifies the validity of an access bearer.
  */
 export const process: IoProcess<
-Io<undefined, StateEntities>
+Io<undefined, EntityObjects>
 > = (context) => (
   async (input, output) => {
     const { store } = context;
@@ -21,7 +21,7 @@ Io<undefined, StateEntities>
     /**
      * Get the active system.
      */
-    const system = systemSelectors.selectActive(store.getState());
+    const system = systemSlice.selectors.active(store.getState());
 
     if (!system) {
       output.status = 503; // 503 Service Unavailable
@@ -36,7 +36,7 @@ Io<undefined, StateEntities>
     /**
      * Return system apis.
      */
-    const apis = apiSelectors.selectSystemApis(store.getState(), system.$id);
+    const apis = apiSlice.selectors.systemApis(store.getState(), system.$id);
 
     output.json.result = {
       [systemKey]: [system],
@@ -48,7 +48,7 @@ Io<undefined, StateEntities>
 );
 
 export const processSysSystem = process as IoProcess<
-Io<undefined, StateEntities>
+Io<undefined, EntityObjects>
 >;
 
 export default processSysSystem;

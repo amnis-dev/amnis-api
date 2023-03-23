@@ -3,13 +3,12 @@ import type {
   IoOutput,
 } from '@amnis/state';
 import {
+  logSlice,
+
   apiCreate,
   apiKey,
   bearerKey,
   dataActions,
-  entityCreate,
-  logCreator,
-  logKey,
 } from '@amnis/state';
 import type { Middleware } from '@reduxjs/toolkit';
 import { isFulfilled } from '@reduxjs/toolkit';
@@ -33,7 +32,7 @@ export const apiMiddleware: Middleware = () => (next) => (action) => {
     const dataCreator: DataCreator = {};
 
     if (logs) {
-      dataCreator[logKey] = logs.map((log) => entityCreate(logCreator(log)));
+      dataCreator[logSlice.key] = logs.map((log) => logSlice.createEntity(log));
     }
 
     if (bearers) {
