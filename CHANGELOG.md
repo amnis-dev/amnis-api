@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.16.1](https://github.com/amnis-dev/amnis-api/compare/v0.16.0...v0.16.1) (2023-03-24)
+
+
+### Features
+
+* **CRUD:** Reading data persists local changes ([9e410e2](https://github.com/amnis-dev/amnis-api/commit/9e410e2a7ef2a96c843d99c4b81c9b1436587cd1))
+
 ## [0.16.0](https://github.com/amnis-dev/amnis-api/compare/v0.15.4...v0.16.0) (2023-03-24)
 
 
