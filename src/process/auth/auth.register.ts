@@ -31,7 +31,7 @@ Io<ApiAuthRegister, EntityObjects>
     const { store } = context;
     const { body } = input;
 
-    const system = systemSlice.selectors.active(store.getState());
+    const system = systemSlice.select.active(store.getState());
 
     if (!system) {
       output.status = 503;

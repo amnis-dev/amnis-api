@@ -94,7 +94,7 @@ export const apiAuthMiddleware: Middleware = () => (next) => (action) => {
     if (!result) {
       return next(action);
     }
-    next(otpSlice.actions.insert(result));
+    next(otpSlice.action.insert(result));
   }
 
   return next(action);

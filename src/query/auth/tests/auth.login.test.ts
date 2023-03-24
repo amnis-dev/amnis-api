@@ -51,10 +51,10 @@ test('should be able to login as user', async () => {
   expect(data.bearers?.length).toBe(1);
 
   const state = clientStore.getState();
-  const userActive = userSlice.selectors.active(state);
-  const profileActive = profileSlice.selectors.active(state);
-  const sessionActive = sessionSlice.selectors.active(state);
-  const contactActive = contactSlice.selectors.active(state);
+  const userActive = userSlice.select.active(state);
+  const profileActive = profileSlice.select.active(state);
+  const sessionActive = sessionSlice.select.active(state);
+  const contactActive = contactSlice.select.active(state);
 
   expect(userActive?.$id).toBe(data.result?.[userSlice.key][0].$id);
   expect(profileActive?.$id).toBe(data.result?.[profileSlice.key][0].$id);

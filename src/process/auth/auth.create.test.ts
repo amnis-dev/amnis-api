@@ -41,7 +41,7 @@ test('should create a new account as an admin', async () => {
   /**
    * Create an administrative session with the admin public key.
    */
-  const system = systemSlice.selectors.active(context.store.getState());
+  const system = systemSlice.select.active(context.store.getState());
   if (!system) {
     expect(system).toBeDefined();
     return;

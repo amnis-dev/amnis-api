@@ -86,7 +86,7 @@ export const accountCreate = async (
   /**
    * Get the initial roles for a newly created user.
    */
-  const systemActive = systemSlice.selectors.active(store.getState());
+  const systemActive = systemSlice.select.active(store.getState());
 
   if (!systemActive) {
     output.status = 503;

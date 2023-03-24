@@ -1,4 +1,3 @@
-import type { Set } from '@amnis/state';
 import { apiSys } from './sys/index.react.js';
 import { apiSysMiddleware } from './sys/sys.mw.js';
 import { apiAuth } from './auth/index.react.js';
@@ -13,7 +12,7 @@ const reducerApi = {
   [apiCrud.reducerPath]: apiCrud.reducer,
 };
 
-export const apiSet: Set<typeof reducerApi> = {
+export const apiSet = {
   reducers: reducerApi,
   middleware: [
     apiSys.middleware,

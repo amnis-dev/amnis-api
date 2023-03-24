@@ -56,7 +56,7 @@ test('should be able to update user profile', async () => {
     },
   }));
 
-  const profiles = profileSlice.selectors.all(clientStore.getState());
+  const profiles = profileSlice.select.all(clientStore.getState());
   expect(profiles).toHaveLength(3);
 
   const userProfile = profiles.find((profile) => profile.nameDisplay === 'User');
@@ -69,12 +69,12 @@ test('should be able to update user profile', async () => {
   /**
    * Update the user profile locally.
    */
-  clientStore.dispatch(profileSlice.actions.update({ $id: userProfile.$id, nameDisplay: 'UserUp' }));
-  const userProfileUp1 = profileSlice.selectors.byId(clientStore.getState(), userProfile.$id);
+  clientStore.dispatch(profileSlice.action.update({ $id: userProfile.$id, nameDisplay: 'UserUp' }));
+  const userProfileUp1 = profileSlice.select.byId(clientStore.getState(), userProfile.$id);
   const {
     original: userProfileUp1Original,
     changes: userProfileUp1Changes,
-  } = profileSlice.selectors.difference(clientStore.getState(), userProfile.$id);
+  } = profileSlice.select.difference(clientStore.getState(), userProfile.$id);
   if (!userProfileUp1) {
     expect(userProfileUp1).toBeDefined();
     return;
@@ -87,12 +87,12 @@ test('should be able to update user profile', async () => {
   /**
    * Update to match the original object.
    */
-  clientStore.dispatch(profileSlice.actions.update({ $id: userProfile.$id, nameDisplay: 'User' }));
-  const userProfileUp2 = profileSlice.selectors.byId(clientStore.getState(), userProfile.$id);
+  clientStore.dispatch(profileSlice.action.update({ $id: userProfile.$id, nameDisplay: 'User' }));
+  const userProfileUp2 = profileSlice.select.byId(clientStore.getState(), userProfile.$id);
   const {
     original: userProfileUp2Original,
     changes: userProfileUp2Changes,
-  } = profileSlice.selectors.difference(clientStore.getState(), userProfile.$id);
+  } = profileSlice.select.difference(clientStore.getState(), userProfile.$id);
   if (!userProfileUp2) {
     expect(userProfileUp2).toBeDefined();
     return;
@@ -105,13 +105,13 @@ test('should be able to update user profile', async () => {
   /**
    * Last local update...
    */
-  clientStore.dispatch(profileSlice.actions.update({ $id: userProfile.$id, nameDisplay: 'UserUpdated' }));
-  const userProfileUp3 = profileSlice.selectors.byId(clientStore.getState(), userProfile.$id);
+  clientStore.dispatch(profileSlice.action.update({ $id: userProfile.$id, nameDisplay: 'UserUpdated' }));
+  const userProfileUp3 = profileSlice.select.byId(clientStore.getState(), userProfile.$id);
   const {
     original: userProfileUp3Original,
     changes: userProfileUp3Changes,
     updater: userProfileUp3Update,
-  } = profileSlice.selectors.difference(clientStore.getState(), userProfile.$id);
+  } = profileSlice.select.difference(clientStore.getState(), userProfile.$id);
   if (!userProfileUp3) {
     expect(userProfileUp3).toBeDefined();
     return;
@@ -148,13 +148,13 @@ test('should be able to update user profile', async () => {
     nameDisplay: 'UserUpdated',
   });
 
-  const profileClient = profileSlice.selectors.byId(
+  const profileClient = profileSlice.select.byId(
     clientStore.getState(),
     userProfileUp3Update.$id,
   );
   expect(profileClient).toMatchObject(profileUpdated);
 
-  const historyClient = historySlice.selectors.byId(
+  const historyClient = historySlice.select.byId(
     clientStore.getState(),
     profileHistory.$id,
   );

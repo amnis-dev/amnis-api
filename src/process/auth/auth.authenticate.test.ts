@@ -37,7 +37,7 @@ beforeAll(async () => {
   context = await contextSetup({
     schemas: [schemaAuth],
   });
-  system = systemSlice.selectors.active(context.store.getState()) as Entity<System>;
+  system = systemSlice.select.active(context.store.getState()) as Entity<System>;
   const storage = databaseMemoryStorage();
   storageUsers = Object.values(storage[userSlice.key]) as Entity<User>[];
 });

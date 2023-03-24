@@ -111,12 +111,12 @@ test('should create a new account as a privileged account', async () => {
 
   expect(Object.keys(result).length).toBe(4);
 
-  const user = userSlice.selectors.byId(clientStore.getState(), result[userSlice.key][0].$id);
-  const profile = profileSlice.selectors.byId(
+  const user = userSlice.select.byId(clientStore.getState(), result[userSlice.key][0].$id);
+  const profile = profileSlice.select.byId(
     clientStore.getState(),
     result[profileSlice.key][0].$id,
   );
-  const contact = contactSlice.selectors.byId(
+  const contact = contactSlice.select.byId(
     clientStore.getState(),
     result[contactSlice.key][0].$id,
   );

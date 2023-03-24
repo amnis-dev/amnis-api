@@ -19,7 +19,7 @@ Io<ApiAuthCreate, EntityObjects>
   async (input, output) => {
     const { store } = context;
     const { body, session } = input;
-    const system = systemSlice.selectors.active(store.getState());
+    const system = systemSlice.select.active(store.getState());
 
     if (!session) {
       output.status = 500;

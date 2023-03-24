@@ -27,7 +27,7 @@ beforeAll(async () => {
 });
 
 test('should generate a session', async () => {
-  const system = systemSlice.selectors.active(context.store.getState());
+  const system = systemSlice.select.active(context.store.getState());
 
   if (!system) {
     expect(system).toBeDefined();
@@ -45,7 +45,7 @@ test('should generate a session', async () => {
 });
 
 test('should generate a bearer', async () => {
-  const system = systemSlice.selectors.active(context.store.getState());
+  const system = systemSlice.select.active(context.store.getState());
 
   if (!system) {
     expect(system).toBeDefined();

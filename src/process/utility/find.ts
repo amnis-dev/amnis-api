@@ -31,7 +31,7 @@ export const findUserById = async (
   const { store, database } = context;
 
   let user: Entity<User> | undefined;
-  user = userSlice.selectors.byId(store.getState(), $id);
+  user = userSlice.select.byId(store.getState(), $id);
 
   if (!user) {
     const results = await database.read({
@@ -46,7 +46,7 @@ export const findUserById = async (
     user = results[userSlice.key]?.[0] as Entity<User> | undefined;
 
     if (user) {
-      store.dispatch(userSlice.actions.insert(user));
+      store.dispatch(userSlice.action.insert(user));
     }
   }
 
@@ -104,7 +104,7 @@ export const findCredentialById = async (
   const { store, database } = context;
 
   let credential: Entity<Credential> | undefined;
-  credential = credentialSlice.selectors.byId(store.getState(), $id);
+  credential = credentialSlice.select.byId(store.getState(), $id);
 
   if (!credential) {
     const results = await database.read({
@@ -119,7 +119,7 @@ export const findCredentialById = async (
     credential = results[credentialSlice.key]?.[0] as Entity<Credential> | undefined;
 
     if (credential) {
-      store.dispatch(credentialSlice.actions.insert(credential));
+      store.dispatch(credentialSlice.action.insert(credential));
     }
   }
 
@@ -187,7 +187,7 @@ export const findRolesByIds = async (
    */
   const state = store.getState();
   const roles = ids
-    .map((id) => roleSlice.selectors.byId(state, id))
+    .map((id) => roleSlice.select.byId(state, id))
     .filter((role) => role !== undefined) as Entity<Role>[];
 
   /**

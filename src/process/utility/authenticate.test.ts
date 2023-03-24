@@ -15,7 +15,7 @@ let system: System;
 beforeAll(async () => {
   context = await contextSetup();
 
-  system = systemSlice.selectors.active(context.store.getState()) as System;
+  system = systemSlice.select.active(context.store.getState()) as System;
 });
 
 test('should authenticate as normal user account', async () => {

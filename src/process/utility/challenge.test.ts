@@ -29,8 +29,8 @@ beforeAll(async () => {
     val: await context.crypto.randomString(16),
     exp: dateNumeric() - 1000 as DateNumeric,
   });
-  context.store.dispatch(challengeSlice.actions.insert(challengeValid));
-  context.store.dispatch(challengeSlice.actions.insert(challengeExpired));
+  context.store.dispatch(challengeSlice.action.insert(challengeValid));
+  context.store.dispatch(challengeSlice.action.insert(challengeExpired));
 });
 
 test('should successfully validate a valid challenge', async () => {
@@ -41,7 +41,7 @@ test('should successfully validate a valid challenge', async () => {
   /**
    * Should no longer find the challenge entity in the context store.
    */
-  const challenge = challengeSlice.selectors.byId(
+  const challenge = challengeSlice.select.byId(
     context.store.getState(),
     challengeValid.$id,
   );

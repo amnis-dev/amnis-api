@@ -102,7 +102,7 @@ test('should add the current agent credential to the admin account and login', a
   /**
    * Set the OTP value.
    */
-  clientStore.dispatch(otpSlice.actions.set(messageOtp));
+  clientStore.dispatch(otpSlice.action.set(messageOtp));
 
   /**
    * With the latest OTP stored and value set in the clientStore,
@@ -127,11 +127,11 @@ test('should add the current agent credential to the admin account and login', a
   /**
    * Test the client store to ensure data is updated properly
    */
-  const credential = credentialSlice.selectors.byId(
+  const credential = credentialSlice.select.byId(
     clientStore.getState(),
     result[credentialSlice.key][0].$id,
   );
-  const user = userSlice.selectors.byId(
+  const user = userSlice.select.byId(
     clientStore.getState(),
     result[userSlice.key][0].$id,
   );

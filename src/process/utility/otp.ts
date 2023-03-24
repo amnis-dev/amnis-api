@@ -49,7 +49,7 @@ export const otpNew = async (
   const { store, send } = context;
   const { $subject } = body;
 
-  const system = systemSlice.selectors.active(store.getState());
+  const system = systemSlice.select.active(store.getState());
 
   if (!system) {
     output.status = 503;
@@ -77,9 +77,9 @@ export const otpNew = async (
    * Remove any existing OTPs for this subject.
    * Should only have one OTP per subject.
    */
-  const otpsExisting = otpSlice.selectors.bySubject(store.getState(), user.$id);
+  const otpsExisting = otpSlice.select.bySubject(store.getState(), user.$id);
   if (otpsExisting.length) {
-    store.dispatch(otpSlice.actions.deleteMany(otpsExisting.map((o) => o.$id)));
+    store.dispatch(otpSlice.action.deleteMany(otpsExisting.map((o) => o.$id)));
   }
 
   const optPassword = await otpPasswordCreate(context, system.otpLength);
@@ -94,7 +94,7 @@ export const otpNew = async (
   /**
    * Store the challenge on the io store to check against later.
    */
-  store.dispatch(otpSlice.actions.insert(otp));
+  store.dispatch(otpSlice.action.insert(otp));
 
   /**
    * Send the OTP to the subject's email.
@@ -145,7 +145,7 @@ export const otpValidate = async (
   /**
    * Verify that the OTP code is valid.
    */
-  const otpServer = otpSlice.selectors.byId(store.getState(), otp.$id);
+  const otpServer = otpSlice.select.byId(store.getState(), otp.$id);
 
   /**
    * OTP not found on the server store or doesn't match.
@@ -160,7 +160,7 @@ export const otpValidate = async (
     return output;
   }
 
-  store.dispatch(otpSlice.actions.delete(otp.$id));
+  store.dispatch(otpSlice.action.delete(otp.$id));
 
   if (otp.val !== otpServer.val) {
     output.status = 401; // Not Authorized
@@ -237,7 +237,7 @@ export const otpValidate = async (
   /**
    * Remove the OTP from the server store once verified.
    */
-  store.dispatch(otpSlice.actions.delete(otp.$id));
+  store.dispatch(otpSlice.action.delete(otp.$id));
 
   return true;
 };

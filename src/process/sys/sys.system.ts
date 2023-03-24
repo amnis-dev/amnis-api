@@ -21,7 +21,7 @@ Io<undefined, EntityObjects>
     /**
      * Get the active system.
      */
-    const system = systemSlice.selectors.active(store.getState());
+    const system = systemSlice.select.active(store.getState());
 
     if (!system) {
       output.status = 503; // 503 Service Unavailable
@@ -36,7 +36,7 @@ Io<undefined, EntityObjects>
     /**
      * Return system apis.
      */
-    const apis = apiSlice.selectors.systemApis(store.getState(), system.$id);
+    const apis = apiSlice.select.systemApis(store.getState(), system.$id);
 
     output.json.result = {
       [systemKey]: [system],

@@ -71,10 +71,10 @@ export const generateBearer = async (
    * Cache a combined grant list from the roles.
    */
   const roles = $roles.map(($role) => (
-    roleSlice.selectors.byId(store.getState(), $role)
+    roleSlice.select.byId(store.getState(), $role)
   )).filter((role) => !!role) as Entity<Role>[];
   const combo = roleComboCreate(roles);
-  store.dispatch(roleSlice.actions.insertCombo(combo));
+  store.dispatch(roleSlice.action.insertCombo(combo));
 
   /**
    * Create the JWT data.

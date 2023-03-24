@@ -52,13 +52,13 @@ test('should register a new account', async () => {
 
   expect(logs.length).toBeGreaterThanOrEqual(1);
 
-  const userActive = userSlice.selectors.active(clientStore.getState());
-  const credentialActive = credentialSlice.selectors.active(clientStore.getState());
-  const profileActive = profileSlice.selectors.active(clientStore.getState());
-  const contactActive = contactSlice.selectors.active(clientStore.getState());
-  const sessionActive = sessionSlice.selectors.active(clientStore.getState());
+  const userActive = userSlice.select.active(clientStore.getState());
+  const credentialActive = credentialSlice.select.active(clientStore.getState());
+  const profileActive = profileSlice.select.active(clientStore.getState());
+  const contactActive = contactSlice.select.active(clientStore.getState());
+  const sessionActive = sessionSlice.select.active(clientStore.getState());
 
-  const bearerActive = bearerSlice.selectors.byId(clientStore.getState(), 'core');
+  const bearerActive = bearerSlice.select.byId(clientStore.getState(), 'core');
 
   if (
     !userActive

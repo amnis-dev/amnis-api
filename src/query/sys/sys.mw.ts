@@ -20,7 +20,7 @@ export const apiSysMiddleware: Middleware = () => (next) => (action) => {
     if (originalArgs?.set) {
       const system = result[systemKey]?.[0];
       if (system) {
-        next(systemSlice.actions.activeSet(system.$id));
+        next(systemSlice.action.activeSet(system.$id));
       }
     }
   }

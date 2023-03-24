@@ -32,7 +32,7 @@ Io<ApiAuthAuthenticate, EntityObjects>
     /**
      * Get the active system.
      */
-    const system = systemSlice.selectors.active(store.getState());
+    const system = systemSlice.select.active(store.getState());
 
     if (!system) {
       output.status = 503; // 503 Service Unavailable

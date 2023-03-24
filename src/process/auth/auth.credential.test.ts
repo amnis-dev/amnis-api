@@ -80,7 +80,7 @@ test('should add a new credential to the user account', async () => {
     return;
   }
   expect(otp.val).toBeUndefined();
-  const otpServer = otpSlice.selectors.byId(context.store.getState(), otp.$id);
+  const otpServer = otpSlice.select.byId(context.store.getState(), otp.$id);
   const otpEncoded = base64JsonEncode({ ...otp, val: otpServer?.val });
 
   const apiAuthCredential: ApiAuthCredential = {
@@ -183,7 +183,7 @@ test('should NOT add a new credential without a challenge object', async () => {
     return;
   }
   expect(otp.val).toBeUndefined();
-  const otpServer = otpSlice.selectors.byId(context.store.getState(), otp.$id);
+  const otpServer = otpSlice.select.byId(context.store.getState(), otp.$id);
   const otpEncoded = base64JsonEncode({ ...otp, val: otpServer?.val });
 
   const apiAuthCredential: ApiAuthCredential = {

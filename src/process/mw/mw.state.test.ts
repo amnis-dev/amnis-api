@@ -105,7 +105,7 @@ beforeAll(async () => {
     schemas: [schemaAuth, schemaState],
   });
 
-  const system = systemSlice.selectors.active(context.store.getState()) as Entity<System>;
+  const system = systemSlice.select.active(context.store.getState()) as Entity<System>;
 
   const storage = databaseMemoryStorage();
   const usersStored = Object.values(storage[userSlice.key]) as Entity<User>[];
@@ -122,8 +122,8 @@ beforeAll(async () => {
     name: 'Anon Access Role',
     grants: grantsAnon,
   });
-  context.store.dispatch(roleSlice.actions.insert(roleAnon));
-  context.store.dispatch(systemSlice.actions.update({
+  context.store.dispatch(roleSlice.action.insert(roleAnon));
+  context.store.dispatch(systemSlice.action.update({
     $id: system.$id,
     $anonymousRole: roleAnon.$id,
   }));
@@ -143,7 +143,7 @@ beforeAll(async () => {
   });
   const comboFull = roleComboCreate([roleFull]);
 
-  context.store.dispatch(roleSlice.actions.insertCombo(comboFull));
+  context.store.dispatch(roleSlice.action.insertCombo(comboFull));
 
   /**
    * Define the access varieties to test with.

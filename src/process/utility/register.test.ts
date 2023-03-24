@@ -48,7 +48,7 @@ test('should register a new account', async () => {
     return;
   }
 
-  const systemActive = systemSlice.selectors.active(context.store.getState());
+  const systemActive = systemSlice.select.active(context.store.getState());
 
   const users = entities[userSlice.key] as Entity<User>[];
   const profiles = entities[profileSlice.key] as Entity<Profile>[];

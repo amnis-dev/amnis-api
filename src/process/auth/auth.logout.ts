@@ -23,7 +23,7 @@ Io<ApiAuthLogout, DataDeleter>
     /**
    * Get the active system.
    */
-    const system = systemSlice.selectors.active(context.store.getState());
+    const system = systemSlice.select.active(context.store.getState());
 
     if (!system) {
       output.status = 503;

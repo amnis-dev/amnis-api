@@ -62,7 +62,7 @@ export const mwState: IoMiddleware<GrantTask> = (
     /**
      * Obtain the system entity.
      */
-    const system = systemSlice.selectors.active(store.getState());
+    const system = systemSlice.select.active(store.getState());
 
     if (!system) {
       output.status = 503; // Service Unavailable
@@ -86,7 +86,7 @@ export const mwState: IoMiddleware<GrantTask> = (
      * If there's a permissions reference, find and set the grants.
      */
     if ($permission) {
-      const comboGrants = roleSlice.selectors.selectComboGrants(store.getState(), $permission);
+      const comboGrants = roleSlice.select.selectComboGrants(store.getState(), $permission);
       if (comboGrants) {
         grants = comboGrants;
       }
@@ -96,7 +96,7 @@ export const mwState: IoMiddleware<GrantTask> = (
      * If no grants are found, provide anonymous grants.
      */
     if (!grants) {
-      const roleAnon = roleSlice.selectors.byId(store.getState(), system.$anonymousRole);
+      const roleAnon = roleSlice.select.byId(store.getState(), system.$anonymousRole);
       if (!roleAnon) {
         output.status = 401; // Unauthorized
         output.json.logs.push({

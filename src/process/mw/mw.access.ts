@@ -15,7 +15,7 @@ import {
 export const mwAccess: IoMiddleware = () => (next) => (context) => async (input, output) => {
   const { accessEncoded } = input;
 
-  const system = systemSlice.selectors.active(context.store.getState());
+  const system = systemSlice.select.active(context.store.getState());
   if (!system) {
     output.status = 503; // 503 Service Unavailable
     output.json.logs.push({
@@ -29,7 +29,7 @@ export const mwAccess: IoMiddleware = () => (next) => (context) => async (input,
   /**
    * Fetch the auth service public key from the store.
    */
-  const publicKeyExport = keySlice.selectors.byId(
+  const publicKeyExport = keySlice.select.byId(
     context.store.getState(),
     'core',
   )?.value;

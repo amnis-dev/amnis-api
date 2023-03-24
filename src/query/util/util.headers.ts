@@ -27,7 +27,7 @@ export const headersAuthorizationToken = async (
   system: System,
   apiAuth: Api,
 ): Promise<void> => {
-  const bearer = bearerSlice.selectors.byId(state as any, bearerId);
+  const bearer = bearerSlice.select.byId(state as any, bearerId);
 
   if (!bearer) {
     return;
@@ -111,7 +111,7 @@ export const headersOtp = (
   headers: Headers,
   state: State,
 ) => {
-  const otp = otpSlice.selectors.latest(state as any);
+  const otp = otpSlice.select.latest(state as any);
 
   if (!otp) {
     return;

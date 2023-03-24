@@ -40,7 +40,7 @@ test('should be able to login and logout', async () => {
     password: user.password,
   }));
 
-  const sessionLoginActive = sessionSlice.selectors.active(clientStore.getState());
+  const sessionLoginActive = sessionSlice.select.active(clientStore.getState());
 
   const result = await clientStore.dispatch(apiAuth.endpoints.logout.initiate({}));
 
@@ -53,12 +53,12 @@ test('should be able to login and logout', async () => {
   expect(data.result?.session?.[0]).toEqual(sessionLoginActive?.$id);
 
   const state = clientStore.getState();
-  const sessionActive = sessionSlice.selectors.active(state);
-  const userActive = userSlice.selectors.active(state);
-  const profileActive = profileSlice.selectors.active(state);
-  const contactActive = contactSlice.selectors.active(state);
+  const sessionActive = sessionSlice.select.active(state);
+  const userActive = userSlice.select.active(state);
+  const profileActive = profileSlice.select.active(state);
+  const contactActive = contactSlice.select.active(state);
 
-  const bearerToken = bearerSlice.selectors.byId(state, 'core');
+  const bearerToken = bearerSlice.select.byId(state, 'core');
 
   expect(sessionActive).toBeUndefined();
   expect(userActive).toBeUndefined();

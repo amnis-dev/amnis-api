@@ -33,7 +33,7 @@ beforeAll(async () => {
     initialize: true,
     schemas: [schemaAuth],
   });
-  system = systemSlice.selectors.active(context.store.getState()) as System;
+  system = systemSlice.select.active(context.store.getState()) as System;
   otpValid = otpSlice.create({
     $sub: $subject,
     val: await otpPasswordCreate(context),
@@ -47,8 +47,8 @@ beforeAll(async () => {
     mth: OtpMethod.Email,
   });
 
-  context.store.dispatch(otpSlice.actions.insert(otpValid));
-  context.store.dispatch(otpSlice.actions.insert(otpExpired));
+  context.store.dispatch(otpSlice.action.insert(otpValid));
+  context.store.dispatch(otpSlice.action.insert(otpExpired));
 
   const storage = databaseMemoryStorage();
   const storageUsers = Object.values(storage[userSlice.key]) as Entity<User>[];
@@ -64,7 +64,7 @@ test('should successfully validate a valid OTP', async () => {
   /**
    * Should no longer find the OTP object in the context store.
    */
-  const otp = otpSlice.selectors.byId(
+  const otp = otpSlice.select.byId(
     context.store.getState(),
     otpValid.$id,
   );
@@ -95,7 +95,7 @@ test('should fail to validate an expired OTP', async () => {
   /**
    * Should not find the expired OTP object in the context store.
    */
-  const otp = otpSlice.selectors.byId(
+  const otp = otpSlice.select.byId(
     context.store.getState(),
     otpExpired.$id,
   );
@@ -103,7 +103,7 @@ test('should fail to validate an expired OTP', async () => {
 });
 
 test('should fail to validate an incorrect OTP value', async () => {
-  context.store.dispatch(otpSlice.actions.insert(otpValid));
+  context.store.dispatch(otpSlice.action.insert(otpValid));
   const otpInvalidVal = {
     ...otpValid,
     val: await otpPasswordCreate(context),
@@ -121,7 +121,7 @@ test('should fail to validate an incorrect OTP value', async () => {
   /**
    * Should not find the valid OTP object in the context store anymore.
    */
-  const otp = otpSlice.selectors.byId(
+  const otp = otpSlice.select.byId(
     context.store.getState(),
     otpValid.$id,
   );

@@ -27,7 +27,7 @@ beforeAll(async () => {
     schemas: [schemaAuth],
   });
 
-  system = systemSlice.selectors.active(context.store.getState()) as System;
+  system = systemSlice.select.active(context.store.getState()) as System;
 });
 
 /**

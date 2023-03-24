@@ -20,7 +20,7 @@ export const challengeNew = async (
 ): Promise<IoOutput<Challenge>> => {
   const { store, crypto } = context;
 
-  const system = systemSlice.selectors.active(store.getState());
+  const system = systemSlice.select.active(store.getState());
 
   if (!system) {
     const output = ioOutput();
@@ -49,7 +49,7 @@ export const challengeNew = async (
   /**
    * Store the challenge on the io store to check against later.
    */
-  store.dispatch(challengeSlice.actions.insert(challengeItem));
+  store.dispatch(challengeSlice.action.insert(challengeItem));
 
   const output = ioOutput();
   output.status = 200;
@@ -77,7 +77,7 @@ export const challengeValidate = (
   /**
    * Verify that the challenge code is valid.
    */
-  const challengeServer = challengeSlice.selectors.byId(store.getState(), challenge.$id);
+  const challengeServer = challengeSlice.select.byId(store.getState(), challenge.$id);
 
   /**
    * Challenge not found on the server store.
@@ -111,7 +111,7 @@ export const challengeValidate = (
   /**
    * Remove the challenge from the server store once verified.
    */
-  store.dispatch(challengeSlice.actions.delete(challenge.$id));
+  store.dispatch(challengeSlice.action.delete(challenge.$id));
 
   return true;
 };

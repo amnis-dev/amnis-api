@@ -44,7 +44,7 @@ test('should generate a challenge entity', async () => {
    * Check the challenge on the context store.
    */
   const state = context.store.getState();
-  const ioChallenge = challengeSlice.selectors.byId(state, challenge.$id);
+  const ioChallenge = challengeSlice.select.byId(state, challenge.$id);
 
   if (!ioChallenge) {
     expect(ioChallenge).toBeDefined();

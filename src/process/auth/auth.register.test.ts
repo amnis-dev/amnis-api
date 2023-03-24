@@ -128,7 +128,7 @@ test('should start ritual and complete registration', async () => {
     return;
   }
 
-  const systemActive = systemSlice.selectors.active(context.store.getState());
+  const systemActive = systemSlice.select.active(context.store.getState());
 
   const users = entities[userSlice.key] as Entity<User>[];
   const profiles = entities[profileSlice.key] as Entity<Profile>[];
@@ -179,14 +179,14 @@ test('should start ritual and complete registration', async () => {
  * ================================================================================================
  */
 test('should not be able to register when turned off by the system', async () => {
-  const system = systemSlice.selectors.active(context.store.getState());
+  const system = systemSlice.select.active(context.store.getState());
 
   if (!system) {
     expect(system).toBeDefined();
     return;
   }
 
-  context.store.dispatch(systemSlice.actions.update({
+  context.store.dispatch(systemSlice.action.update({
     $id: system.$id,
     registrationOpen: false,
   }));

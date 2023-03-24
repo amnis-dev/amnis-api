@@ -17,7 +17,7 @@ Io<ApiAuthChallenge, Challenge>
 > = (context) => (
   async (input, output) => {
     const { store } = context;
-    const system = systemSlice.selectors.active(store.getState());
+    const system = systemSlice.select.active(store.getState());
 
     if (!system) {
       output.status = 503;

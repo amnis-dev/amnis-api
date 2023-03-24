@@ -34,7 +34,7 @@ type DynamicBaseQuerySetup = (reducerPath: string, bearerId?: string) => Dynamic
 export const dynamicBaseQuery: DynamicBaseQuerySetup = (
   reducerPath,
 ) => async (args, store, extraOptions) => {
-  const system = systemSlice.selectors.active(store.getState() as State);
+  const system = systemSlice.select.active(store.getState() as State);
 
   let apiMeta: Api;
   let apiAuth: Api | undefined;
@@ -45,7 +45,7 @@ export const dynamicBaseQuery: DynamicBaseQuerySetup = (
     });
   } else {
     baseUrl = system.domain;
-    const api = apiSlice.selectors.systemApi(store.getState() as State, system.$id, reducerPath);
+    const api = apiSlice.select.systemApi(store.getState() as State, system.$id, reducerPath);
     if (!api) {
       apiMeta = apiCreate({
         reducerPath,
@@ -57,7 +57,7 @@ export const dynamicBaseQuery: DynamicBaseQuerySetup = (
       }
       baseUrl += apiMeta.baseUrl;
     }
-    const apis = apiSlice.selectors.systemApis(store.getState() as State, system.$id);
+    const apis = apiSlice.select.systemApis(store.getState() as State, system.$id);
     apiAuth = apis.find((a) => a.auth === true);
   }
 

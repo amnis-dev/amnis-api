@@ -43,7 +43,7 @@ test('should be able to create a new contact', async () => {
     password: admin.password,
   }));
 
-  const contactCreatorAction = contactSlice.actions.create({
+  const contactCreatorAction = contactSlice.action.create({
     name: 'New Contact',
     emails: ['new@email.com'],
     phones: [],
@@ -59,7 +59,7 @@ test('should be able to create a new contact', async () => {
   /**
    * Select the newly created entity.
    */
-  const contactLocal = contactSlice.selectors.byId(clientStore.getState(), contactActionEntityId);
+  const contactLocal = contactSlice.select.byId(clientStore.getState(), contactActionEntityId);
   if (!contactLocal) {
     expect(contactLocal).toBeDefined();
     return;
@@ -83,8 +83,8 @@ test('should be able to create a new contact', async () => {
   expect(contactResult).toBeDefined();
 
   const state = clientStore.getState();
-  const user = userSlice.selectors.active(state);
-  const contact = contactSlice.selectors.byId(state, contactResult?.$id || '');
+  const user = userSlice.select.active(state);
+  const contact = contactSlice.select.byId(state, contactResult?.$id || '');
 
   expect(contact).toMatchObject({
     name: 'New Contact',
