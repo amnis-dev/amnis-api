@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.16.2](https://github.com/amnis-dev/amnis-api/compare/v0.16.1...v0.16.2) (2023-03-24)
+
+
+### Bug Fixes
+
+* **Read:** Fixed issue with CRUD Read not updating the correct entity field ([952622d](https://github.com/amnis-dev/amnis-api/commit/952622d35723e3888815211c8a9b8fce9ef40510))
+
 ### [0.16.1](https://github.com/amnis-dev/amnis-api/compare/v0.16.0...v0.16.1) (2023-03-24)
 
 
