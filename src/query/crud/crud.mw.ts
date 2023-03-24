@@ -58,8 +58,11 @@ export const apiCrudMiddleware: Middleware = (store) => (next) => (action) => {
         }
         if (differences.length > 0) {
           const changes = differences.reduce<Record<string, any>>((acc, k) => {
-            /** @ts-ignore */
-            acc[k] = entity[k];
+            const entityPrev = stateSlice.entities[$id];
+            if (entityPrev) {
+              /** @ts-ignore */
+              acc[k] = entityPrev[k];
+            }
             return acc;
           }, {});
 
