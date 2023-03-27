@@ -20,7 +20,7 @@ patchedDependencies:
 specifiers:
   '@amnis/eslint-config-node': ^2.2.4
   '@amnis/mock': ^0.16.0
-  '@amnis/state': ^0.16.2
+  '@amnis/state': ^0.16.4
   '@amnis/tsconfig-node': ^2.2.4
   '@reduxjs/toolkit': 2.0.0-alpha.2
   '@types/fs-extra': ^11.0.1
@@ -45,8 +45,8 @@ specifiers:
 
 devDependencies:
   '@amnis/eslint-config-node': 2.2.4_7kw3g6rralp5ps6mg3uyzz6azm
-  '@amnis/mock': 0.16.0_vvuasnacob4vmkyyoptggzqz5q
-  '@amnis/state': 0.16.2_p2kloprhvm246wfzyzkz4xuium
+  '@amnis/mock': 0.16.0_57hoqpa6odh77h22vji6avqbpu
+  '@amnis/state': 0.16.4_p2kloprhvm246wfzyzkz4xuium
   '@amnis/tsconfig-node': 2.2.4_typescript@4.9.5
   '@reduxjs/toolkit': 2.0.0-alpha.2_ae36ob5555zws74dr6bsopdgji_k4ae6lp43ej6mezo3ztvx6pykq
   '@types/fs-extra': 11.0.1
@@ -89,12 +89,12 @@ packages:
       - typescript
     dev: true
 
-  /@amnis/mock/0.16.0_vvuasnacob4vmkyyoptggzqz5q:
+  /@amnis/mock/0.16.0_57hoqpa6odh77h22vji6avqbpu:
     resolution: {integrity: sha512-31PdbgXn+Qfbqppwpfn2YHmBHXDlExEhWyAH3Zbz21n6BPVxIYwi8SWcJLIy3Cnm7R0vf5sq+T507Q+qH8vqQQ==}
     peerDependencies:
       '@amnis/state': ^0
     dependencies:
-      '@amnis/state': 0.16.2_p2kloprhvm246wfzyzkz4xuium
+      '@amnis/state': 0.16.4_p2kloprhvm246wfzyzkz4xuium
       msw: 1.2.0_typescript@4.9.5
     transitivePeerDependencies:
       - encoding
@@ -102,8 +102,8 @@ packages:
       - typescript
     dev: true
 
-  /@amnis/state/0.16.2_p2kloprhvm246wfzyzkz4xuium:
-    resolution: {integrity: sha512-L5/VWwFTXOPnod0kFtJ4i9zX9ij2lZg1lf339pIG5UV7jr4azTxsoWxASoMX81SaWLkHrrXQVudQMYZfwlhzbg==}
+  /@amnis/state/0.16.4_p2kloprhvm246wfzyzkz4xuium:
+    resolution: {integrity: sha512-kDEeDH+NsmG41Z9/5z9r+1k8LNlC9xUa5fNQZAMxwV8tj7UTqPg88GE7mLyw0ZYDbf+WWrwjNC4mKw+YDwMoLQ==}
     peerDependencies:
       '@reduxjs/toolkit': '*'
     dependencies:
