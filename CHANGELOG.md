@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.16.3](https://github.com/amnis-dev/amnis-api/compare/v0.16.2...v0.16.3) (2023-03-28)
+
+
+### Features
+
+* **Middleware:** Simplified CRUD middleware with state reducer improvements ([6ba232c](https://github.com/amnis-dev/amnis-api/commit/6ba232cdff245a7b13ef6c65e5704319e0e2064a))
+* **State:** Updated amnis state to latest ([716c689](https://github.com/amnis-dev/amnis-api/commit/716c6898bf4a59270a2cda6321818ef3248d4fc3))
+
 ### [0.16.2](https://github.com/amnis-dev/amnis-api/compare/v0.16.1...v0.16.2) (2023-03-24)
 
 
