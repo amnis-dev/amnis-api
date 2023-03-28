@@ -11,14 +11,28 @@ import { apiCrud } from './crud.api.js';
 export const apiCrudMiddleware: Middleware = () => (next) => (action) => {
   /**
    * ================================================================================
-   * CASE: Create, Read, Update
+   * CASE: Create, Update
    */
   if (
     isAnyOf(
       apiCrud.endpoints.create.matchFulfilled,
-      apiCrud.endpoints.read.matchFulfilled,
       apiCrud.endpoints.update.matchFulfilled,
     )(action)
+  ) {
+    const { payload: { result } } = action;
+    if (!result) {
+      return next(action);
+    }
+
+    next(dataActions.insert(result));
+  }
+
+  /**
+   * ================================================================================
+   * CASE: Read
+   */
+  if (
+    apiCrud.endpoints.read.matchFulfilled(action)
   ) {
     const { payload: { result } } = action;
     if (!result) {
