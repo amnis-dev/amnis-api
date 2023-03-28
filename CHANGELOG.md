@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.16.4](https://github.com/amnis-dev/amnis-api/compare/v0.16.3...v0.16.4) (2023-03-28)
+
+
+### Features
+
+* **CRUD:** Create and update responses perform inserts instead of creates ([e43d127](https://github.com/amnis-dev/amnis-api/commit/e43d1278aed5806dec55c56422974353fcf55dde))
+
 ### [0.16.3](https://github.com/amnis-dev/amnis-api/compare/v0.16.2...v0.16.3) (2023-03-28)
 
 
