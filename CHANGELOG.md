@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.16.5](https://github.com/amnis-dev/amnis-api/compare/v0.16.4...v0.16.5) (2023-03-29)
+
+
+### Features
+
+* **System:** System records are now applied with an insert action ([fb539da](https://github.com/amnis-dev/amnis-api/commit/fb539da1df353144ba614e81202bba47600f10da))
+
 ### [0.16.4](https://github.com/amnis-dev/amnis-api/compare/v0.16.3...v0.16.4) (2023-03-28)
 
 
