@@ -15,7 +15,7 @@ export const apiSysMiddleware: Middleware = () => (next) => (action) => {
       return next(action);
     }
 
-    next(dataActions.create(result));
+    next(dataActions.insert(result));
 
     if (originalArgs?.set) {
       const system = result[systemKey]?.[0];
