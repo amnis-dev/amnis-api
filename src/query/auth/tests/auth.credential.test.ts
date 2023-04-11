@@ -10,7 +10,7 @@ import {
   accountsGet,
   agentCredential,
   databaseMemoryStorage,
-  sendMailboxStorage,
+  emailerboxStorage,
 } from '@amnis/state';
 import { apiSys } from '../../sys/index.js';
 import { apiAuth } from '../index.js';
@@ -90,7 +90,7 @@ test('should add the current agent credential to the admin account and login', a
   /**
    * Get the OTP value from the memory mailbox.
    */
-  const mailbox = sendMailboxStorage();
+  const mailbox = emailerboxStorage();
   const message = mailbox[adminUser.email as string][0];
   const messageOtp = message.text.match(/"([A-Za-z0-9]+)"/)?.[1];
 

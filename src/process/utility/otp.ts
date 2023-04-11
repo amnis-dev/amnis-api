@@ -46,7 +46,7 @@ export const otpNew = async (
   body: ApiAuthOtp,
 ): Promise<IoOutput<Otp>> => {
   const output = ioOutput();
-  const { store, send } = context;
+  const { store, emailer } = context;
   const { $subject } = body;
 
   const system = systemSlice.select.active(store.getState());
@@ -100,7 +100,7 @@ export const otpNew = async (
    * Send the OTP to the subject's email.
    */
   if (user.email) {
-    send.email({
+    emailer.send({
       to: user.email,
       from: system.emailAuth,
       fromName: system.name,

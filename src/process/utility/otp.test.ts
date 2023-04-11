@@ -12,7 +12,7 @@ import {
   databaseMemoryStorage,
   dateNumeric,
   OtpMethod,
-  sendMailboxStorage,
+  emailerboxStorage,
   uid,
   systemSlice,
 } from '@amnis/state';
@@ -156,7 +156,7 @@ test('should create a new OTP and validate against it', async () => {
   /**
    * Get the OTP value from the memory mailbox.
    */
-  const mailbox = sendMailboxStorage();
+  const mailbox = emailerboxStorage();
   const message = mailbox[userUser.email as string][0];
   const messageOtp = message.text.match(/"([A-Za-z0-9]+)"/)?.[1];
 

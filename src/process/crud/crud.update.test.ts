@@ -7,6 +7,8 @@ import type {
   IoMap,
   Entity,
   User,
+  DataQuery,
+  History,
 } from '@amnis/state';
 import {
   historySlice,
@@ -26,11 +28,12 @@ import {
 import { schemaAuth } from '../../schema/index.js';
 import { authenticateFinalize } from '../utility/authenticate.js';
 import { processCrudUpdate } from './crud.update.js';
+import { processCrudRead } from './crud.read.js';
 
 let context: IoContext;
 let dataUsers: Entity<User>[];
 let dataProfiles: Entity<Profile>[];
-let io: IoMap<'update'>;
+let io: IoMap<'update' | 'read'>;
 
 beforeAll(async () => {
   context = await contextSetup({
@@ -44,6 +47,7 @@ beforeAll(async () => {
     context,
     {
       update: processCrudUpdate,
+      read: processCrudRead,
     },
   );
 });
@@ -315,4 +319,42 @@ test('should login as user and be denied updating another profile', async () => 
 
   expect(outputUpdate.json.logs).toHaveLength(1);
   expect(outputUpdate.json.logs[0].title).toBe('Update Disallowed');
+});
+
+test('should login as user and view history of own profile', async () => {
+  const user = dataUsers.find((e) => e.handle === 'user') as Entity<User>;
+  const outputLogin = await authenticateFinalize(
+    context,
+    user.$id,
+    user.$credentials[0],
+  );
+  const bearerAccess = outputLogin.json.bearers?.[0] as Bearer;
+
+  const readQuery: IoInput<DataQuery> = {
+    accessEncoded: bearerAccess.access,
+    body: {
+      [profileSlice.key]: {
+        $query: {
+          $user: {
+            $eq: user.$id,
+          },
+        },
+        $history: true,
+      }
+    },
+    query: {},
+  };
+
+  const outputRead = await io.read(readQuery, ioOutput());
+
+  console.log(JSON.stringify(outputRead.json, null, 2));
+
+  const profiles = outputRead.json.result?.[profileSlice.key] as Entity<Profile>[];
+  const histories = outputRead.json.result?.[historySlice.key] as Entity<History>[];
+
+  expect(outputRead.status).toBe(200);
+  expect(ioOutputErrored(outputRead)).toBe(false);
+
+  expect(profiles).toHaveLength(1);
+  expect(histories).toHaveLength(2);
 });

@@ -300,6 +300,22 @@ export const mwState: IoMiddleware<GrantTask> = (
     }
 
     /**
+     * HISTORY SLICE PROTECTION
+     */
+    if (stateKeys.includes(historySlice.key)) {
+      /**
+       * History cannot be modified, read, created, or delete by normal means.
+       */
+      output.status = 401; // Unauthorized
+      output.json.logs.push({
+        level: 'error',
+        title: 'Unauthorized',
+        description: 'Operations cannot be performed on history.',
+      });
+      return output;
+    }
+
+    /**
      * Create the new input object to pass on.
      */
     const inputNew: IoInput<State> = {
