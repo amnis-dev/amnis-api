@@ -340,7 +340,7 @@ test('should login as user and view history of own profile', async () => {
           },
         },
         $history: true,
-      }
+      },
     },
     query: {},
   };
