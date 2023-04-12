@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.16.6](https://github.com/amnis-dev/amnis-api/compare/v0.16.5...v0.16.6) (2023-04-12)
+
+
+### Features
+
+* **History:** Added state protection for history slices ([eb437bb](https://github.com/amnis-dev/amnis-api/commit/eb437bbb17618211db37a844128c99109628ec62))
+
+
+### Bug Fixes
+
+* **Lint:** Resolved linting issues in tests ([61aca4f](https://github.com/amnis-dev/amnis-api/commit/61aca4f9c28c9949564500d45f6a636e3ac5f61d))
+* **Workflow:** PNPM is now set to use the latest version ([7b49818](https://github.com/amnis-dev/amnis-api/commit/7b4981843df13be25735b95cd76a1eb6d9fba2df))
+
 ### [0.16.5](https://github.com/amnis-dev/amnis-api/compare/v0.16.4...v0.16.5) (2023-03-29)
 
 
