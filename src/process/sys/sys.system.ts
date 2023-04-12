@@ -10,7 +10,8 @@ import {
 } from '@amnis/state';
 
 /**
- * Verifies the validity of an access bearer.
+ * Obtains system and api information.
+ * This is fundemental information needed by the client to function.
  */
 export const process: IoProcess<
 Io<undefined, EntityObjects>

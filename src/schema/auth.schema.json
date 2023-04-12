@@ -82,8 +82,7 @@
       "type": "object",
       "properties": {
         "$id": {
-          "$ref": "#/definitions/UID",
-          "description": "All objects that can be composed into an entity must have an identifier."
+          "$ref": "#/definitions/UID"
         },
         "name": {
           "$ref": "#/definitions/Name",

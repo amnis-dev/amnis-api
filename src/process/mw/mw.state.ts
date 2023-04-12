@@ -24,6 +24,7 @@ import {
 } from '@amnis/state';
 import { findUserById } from '../utility/find.js';
 import { generateUserAnonymous } from '../utility/generate.js';
+import { permissionGrants } from '../utility/permission.js';
 
 /**
  * Mapping of operation names.
@@ -80,33 +81,19 @@ export const mwState: IoMiddleware<GrantTask> = (
     /**
      * Get the grants from the role combination created during the user authentication.
      */
-    let grants;
-
-    /**
-     * If there's a permissions reference, find and set the grants.
-     */
-    if ($permission) {
-      const comboGrants = roleSlice.select.selectComboGrants(store.getState(), $permission);
-      if (comboGrants) {
-        grants = comboGrants;
-      }
-    }
+    const grants = permissionGrants(system, context, $permission);
 
     /**
      * If no grants are found, provide anonymous grants.
      */
-    if (!grants) {
-      const roleAnon = roleSlice.select.byId(store.getState(), system.$anonymousRole);
-      if (!roleAnon) {
-        output.status = 401; // Unauthorized
-        output.json.logs.push({
-          level: 'error',
-          title: 'Unauthorized',
-          description: 'Client is not authorized to complete the process.',
-        });
-        return output;
-      }
-      grants = roleAnon.grants;
+    if (grants.length === 0) {
+      output.status = 401; // Unauthorized
+      output.json.logs.push({
+        level: 'error',
+        title: 'Unauthorized',
+        description: 'Client is not authorized to complete the process.',
+      });
+      return output;
     }
 
     /**

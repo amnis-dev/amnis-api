@@ -5,6 +5,7 @@ import type {
   IoOutputJson,
   EntityObjects,
 } from '@amnis/state';
+import type { ApiSysSchema } from '../../api.sys.types.js';
 
 export const apiSysQueries = <T extends EndpointBuilder<any, any, any>>(builder: T) => ({
 
@@ -15,6 +16,17 @@ export const apiSysQueries = <T extends EndpointBuilder<any, any, any>>(builder:
     query: ({ url }) => ({
       url: url ?? 'system',
       method: 'get',
+    }),
+  }),
+
+  schema: builder.query<
+  IoOutputJson<JSON>,
+  ApiSysSchema
+  >({
+    query: (payload) => ({
+      url: 'schema',
+      method: 'get',
+      body: payload,
     }),
   }),
 

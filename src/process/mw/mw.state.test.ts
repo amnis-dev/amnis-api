@@ -350,9 +350,6 @@ test('should fail through the state create middleware as anonymous', async () =>
       ioOutput(),
     );
 
-    /**
-     * The status should still be 200 even though everything was filtered off the state.
-     */
     expect(output.status).toBe(200);
     expect(ioOutputErrored(output)).toBe(true);
 

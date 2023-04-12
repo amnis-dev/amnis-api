@@ -1,5 +1,6 @@
 import type { IoProcessDefinition } from '@amnis/state';
 import { processSysSystem } from './sys.system.js';
+import { processSysSchema } from './sys.schema.js';
 
 export const processSys: IoProcessDefinition = {
   meta: {
@@ -8,6 +9,7 @@ export const processSys: IoProcessDefinition = {
   endpoints: {
     get: {
       system: processSysSystem,
+      schema: processSysSchema,
     },
   },
 };
