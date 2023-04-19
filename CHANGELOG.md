@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.16.7](https://github.com/amnis-dev/amnis-api/compare/v0.16.6...v0.16.7) (2023-04-19)
+
+
+### Features
+
+* **Schema:** Now possible to request schema definitions ([5fe7011](https://github.com/amnis-dev/amnis-api/commit/5fe70112827d88e4c5e308e0ddb8bbc64cbf6f6d))
+* **Schema:** Updated schema files after amnis state version bump ([f7c3a73](https://github.com/amnis-dev/amnis-api/commit/f7c3a736e24e2cc62a83ca2887cdc9808d6ce883))
+
 ### [0.16.6](https://github.com/amnis-dev/amnis-api/compare/v0.16.5...v0.16.6) (2023-04-12)
 
 

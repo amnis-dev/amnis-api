@@ -1,6 +1,6 @@
 {
   "name": "@amnis/api",
-  "version": "0.16.6",
+  "version": "0.16.7",
   "description": "Core API Queries and Processing functions for Amnis State",
   "keywords": [],
   "author": "Eric Crowell <admin@amnis.dev>",
