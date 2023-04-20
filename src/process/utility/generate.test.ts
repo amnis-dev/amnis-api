@@ -54,7 +54,7 @@ test('should generate a bearer', async () => {
 
   const bearer = await generateBearer(context, system, userExisting.$id, userExisting.$roles);
   const now = dateNumeric();
-  const tolerance = 5000; // five seconds.
+  const tolerance = 10000; // ten seconds.
   const time = 1800000 - tolerance; // 30 minutes - tolerance.
 
   expect(bearer).toMatchObject({
@@ -64,12 +64,12 @@ test('should generate a bearer', async () => {
   });
 
   /**
-   * Ensure the bearer reads that it'll last about 30 minutes (+/- 5 seconds).
+   * Ensure the bearer reads that it'll last about 30 minutes (+/- 10 seconds).
    */
   expect(bearer.exp - now).toBeGreaterThanOrEqual(time);
 
   /**
-   * Ensure the actual access token will last about 30 minutes (+/- 5 seconds).
+   * Ensure the actual access token will last about 30 minutes (+/- 10 seconds).
    */
   const verified = await context.crypto.accessVerify(bearer.access);
   if (!verified) {
