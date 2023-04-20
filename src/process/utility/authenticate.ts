@@ -229,8 +229,8 @@ export const authenticateLogin = async (
   const credentialData = await findCredentialById(context, credential.$id);
   if (!credentialData) {
     return authenticateFailedOutput(
-      'Invalid Credential',
-      'The provided credential is not valid for this user.',
+      'Missing Credential',
+      'The provided credential could not be located for this user.',
     );
   }
 
@@ -245,19 +245,9 @@ export const authenticateLogin = async (
   );
 
   if (!signatureVerified) {
-    if (passwordMatched) {
-      const output = ioOutput();
-      output.status = 401; // Unauthorized
-      output.json.logs.push({
-        level: 'error',
-        title: 'Unknown Agent',
-        description: 'The client agent requesting authentication is unrecognized.',
-      });
-      return output;
-    }
     return authenticateFailedOutput(
-      'Invalid Credential',
-      'The provided credential is not valid for this user.',
+      'Invalid Credential Signature',
+      'The provided credential signature is not valid for this user.',
     );
   }
 
