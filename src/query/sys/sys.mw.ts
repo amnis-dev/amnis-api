@@ -19,8 +19,20 @@ export const apiSysMiddleware: Middleware = () => (next) => (action) => {
     /**
      * Remap the API base URLs to be absolute if they aren't.
      */
-    const url = new URL(originalArgs.url);
-    const { origin } = url;
+    let origin = 'http://localhost';
+
+    if (typeof window !== 'undefined') {
+      origin = window.location.origin;
+    }
+
+    try {
+      origin = new URL(originalArgs.url).origin;
+    } catch (e) {
+      /**
+       * If the URL is invalid, we'll just use the default origin.
+       */
+    }
+
     const apis = (result[apiSlice.key] ?? []) as Entity<Api>[];
     const apisRemapped = apis.map<Entity<Api>>((api) => {
       const baseUrl = api.baseUrl ?? '';
@@ -30,7 +42,7 @@ export const apiSysMiddleware: Middleware = () => (next) => (action) => {
         return api;
       }
 
-      const newBaseUrl = new URL(baseUrl, origin ?? 'http://localhost').href;
+      const newBaseUrl = new URL(baseUrl, origin).href;
 
       return {
         ...api,
