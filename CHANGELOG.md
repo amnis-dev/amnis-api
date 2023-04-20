@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.16.8](https://github.com/amnis-dev/amnis-api/compare/v0.16.7...v0.16.8) (2023-04-20)
+
+
+### Features
+
+* **Sys:** System now ensures api URLs are absolute ([fb9874d](https://github.com/amnis-dev/amnis-api/commit/fb9874db5b0d1a643c1f82b69e26b663c9aaddb0))
+
+
+### Bug Fixes
+
+* **System:** Fixed issue when invalid URLs are used with system fetching ([9dff3a7](https://github.com/amnis-dev/amnis-api/commit/9dff3a75b87d73584a90ff0e0b97d3390c103710))
+* **Tests:** Removed deprecated initialize option on context ([9ce2f08](https://github.com/amnis-dev/amnis-api/commit/9ce2f086a445ca5c2cb10656c963fd702b96749d))
+* **Types:** Resolved issue with reduc store needing system api types to be exported ([ddf3669](https://github.com/amnis-dev/amnis-api/commit/ddf3669c38dbc03d7b3b86eead230a076f4f1379))
+
 ### [0.16.7](https://github.com/amnis-dev/amnis-api/compare/v0.16.6...v0.16.7) (2023-04-19)
 
 
