@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.16.9](https://github.com/amnis-dev/amnis-api/compare/v0.16.8...v0.16.9) (2023-04-20)
+
+
+### Bug Fixes
+
+* **Api:** Fixed issue with api values not getting set correctly in middleware ([900a248](https://github.com/amnis-dev/amnis-api/commit/900a248258f17bac9082dbfeaecb16932f93856c))
+
 ### [0.16.8](https://github.com/amnis-dev/amnis-api/compare/v0.16.7...v0.16.8) (2023-04-20)
 
 
