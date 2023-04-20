@@ -3,11 +3,13 @@ import type {
   System,
 } from '@amnis/state';
 import {
+  agentFingerprint,
   accountsGet,
   systemSlice,
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
 import { authenticateLogin } from './authenticate.js';
+import type { ApiAuthLogin } from '../../api.auth.types.js';
 
 let context: IoContext;
 let system: System;
@@ -21,13 +23,19 @@ beforeAll(async () => {
 test('should authenticate as normal user account', async () => {
   const { user: userAccount } = await accountsGet();
 
+  const fingerprint = await context.crypto.hashData(agentFingerprint());
+  const body: ApiAuthLogin = {
+    handle: userAccount.handle,
+    password: userAccount.password,
+    credential: userAccount.credential,
+  };
+  const privateKey = await context.crypto.keyUnwrap(userAccount.privateKey, fingerprint);
+  const signature = await context.crypto.asymSign(JSON.stringify(body), privateKey);
+
   const output = await authenticateLogin(
     context,
-    {
-      handle: userAccount.handle,
-      password: userAccount.password,
-      $credential: userAccount.credential.$id,
-    },
+    signature,
+    body,
   );
 
   expect(output.status).toBe(200);
@@ -83,13 +91,19 @@ test('should authenticate as normal user account', async () => {
 test('should authenticate as executive account', async () => {
   const { exec: execAccount } = await accountsGet();
 
+  const fingerprint = await context.crypto.hashData(agentFingerprint());
+  const body: ApiAuthLogin = {
+    handle: execAccount.handle,
+    password: execAccount.password,
+    credential: execAccount.credential,
+  };
+  const privateKey = await context.crypto.keyUnwrap(execAccount.privateKey, fingerprint);
+  const signature = await context.crypto.asymSign(JSON.stringify(body), privateKey);
+
   const output = await authenticateLogin(
     context,
-    {
-      handle: execAccount.handle,
-      password: execAccount.password,
-      $credential: execAccount.credential.$id,
-    },
+    signature,
+    body,
   );
 
   expect(output.status).toBe(200);
@@ -113,13 +127,19 @@ test('should authenticate as executive account', async () => {
 test('should authenticate as administrator account', async () => {
   const { admin: adminAccount } = await accountsGet();
 
+  const fingerprint = await context.crypto.hashData(agentFingerprint());
+  const body: ApiAuthLogin = {
+    handle: adminAccount.handle,
+    password: adminAccount.password,
+    credential: adminAccount.credential,
+  };
+  const privateKey = await context.crypto.keyUnwrap(adminAccount.privateKey, fingerprint);
+  const signature = await context.crypto.asymSign(JSON.stringify(body), privateKey);
+
   const output = await authenticateLogin(
     context,
-    {
-      handle: adminAccount.handle,
-      password: adminAccount.password,
-      $credential: adminAccount.credential.$id,
-    },
+    signature,
+    body,
   );
 
   expect(output.status).toBe(200);
@@ -145,13 +165,19 @@ test('should not authenticate with non-existing user', async () => {
 
   const handle = 'i-dont-exist';
 
+  const fingerprint = await context.crypto.hashData(agentFingerprint());
+  const body: ApiAuthLogin = {
+    handle,
+    password: userAccount.password,
+    credential: userAccount.credential,
+  };
+  const privateKey = await context.crypto.keyUnwrap(userAccount.privateKey, fingerprint);
+  const signature = await context.crypto.asymSign(JSON.stringify(body), privateKey);
+
   const output = await authenticateLogin(
     context,
-    {
-      handle,
-      password: userAccount.password,
-      $credential: userAccount.credential.$id,
-    },
+    signature,
+    body,
   );
 
   expect(output.status).toBe(401);
@@ -164,13 +190,19 @@ test('should not authenticate with non-existing user', async () => {
 test('should not authenticate using different credentials', async () => {
   const { user: userAccount, exec: execAccount } = await accountsGet();
 
+  const fingerprint = await context.crypto.hashData(agentFingerprint());
+  const body: ApiAuthLogin = {
+    handle: userAccount.handle,
+    password: userAccount.password,
+    credential: execAccount.credential,
+  };
+  const privateKey = await context.crypto.keyUnwrap(execAccount.privateKey, fingerprint);
+  const signature = await context.crypto.asymSign(JSON.stringify(body), privateKey);
+
   const output = await authenticateLogin(
     context,
-    {
-      handle: userAccount.handle,
-      password: userAccount.password,
-      $credential: execAccount.credential.$id,
-    },
+    signature,
+    body,
   );
 
   expect(output.status).toBe(401);
@@ -183,13 +215,19 @@ test('should not authenticate using different credentials', async () => {
 test('should not authenticate using a wrong password', async () => {
   const { user: userAccount } = await accountsGet();
 
+  const fingerprint = await context.crypto.hashData(agentFingerprint());
+  const body: ApiAuthLogin = {
+    handle: userAccount.handle,
+    password: userAccount.password.slice(-1),
+    credential: userAccount.credential,
+  };
+  const privateKey = await context.crypto.keyUnwrap(userAccount.privateKey, fingerprint);
+  const signature = await context.crypto.asymSign(JSON.stringify(body), privateKey);
+
   const output = await authenticateLogin(
     context,
-    {
-      handle: userAccount.handle,
-      password: userAccount.password.slice(-1),
-      $credential: userAccount.credential.$id,
-    },
+    signature,
+    body,
   );
 
   expect(output.status).toBe(401);
@@ -202,13 +240,19 @@ test('should not authenticate using a wrong password', async () => {
 test('should not authenticate using different credentials and wrong password', async () => {
   const { user: userAccount, exec: execAccount } = await accountsGet();
 
+  const fingerprint = await context.crypto.hashData(agentFingerprint());
+  const body = {
+    handle: userAccount.handle,
+    password: userAccount.password.slice(-1),
+    credential: execAccount.credential,
+  };
+  const privateKey = await context.crypto.keyUnwrap(userAccount.privateKey, fingerprint);
+  const signature = await context.crypto.asymSign(JSON.stringify(body), privateKey);
+
   const output = await authenticateLogin(
     context,
-    {
-      handle: userAccount.handle,
-      password: userAccount.password.slice(-1),
-      $credential: execAccount.credential.$id,
-    },
+    signature,
+    body,
   );
 
   expect(output.status).toBe(401);

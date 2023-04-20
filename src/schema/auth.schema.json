@@ -239,14 +239,14 @@
           "$ref": "#/definitions/Password",
           "description": "The login password"
         },
-        "$credential": {
-          "$ref": "#/definitions/UID",
-          "description": "Credential identifier to use on the user account."
+        "credential": {
+          "$ref": "#/definitions/Credential",
+          "description": "Credential value that should match the credential on the user account."
         }
       },
       "required": [
         "handle",
-        "$credential"
+        "credential"
       ],
       "additionalProperties": false,
       "description": "Payload for a login request."

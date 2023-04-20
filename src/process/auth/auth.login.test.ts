@@ -83,7 +83,7 @@ test('should login as a admin', async () => {
 
   const apiAuthLogin: ApiAuthLogin = {
     handle: adminAccount.handle,
-    $credential: adminAccount.credential.$id,
+    credential: adminAccount.credential,
     password: adminAccount.password,
   };
 
@@ -153,7 +153,7 @@ test('should NOT login as an admin signed with a different private key', async (
 
   const apiAuthLogin: ApiAuthLogin = {
     handle: adminAccount.handle,
-    $credential: adminAccount.credential.$id,
+    credential: adminAccount.credential,
     password: adminAccount.password,
   };
 
@@ -213,7 +213,7 @@ test('should NOT login as an admin with different challenge', async () => {
 
   const apiAuthLogin: ApiAuthLogin = {
     handle: adminAccount.handle,
-    $credential: adminAccount.credential.$id,
+    credential: adminAccount.credential,
     password: adminAccount.password,
   };
 

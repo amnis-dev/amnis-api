@@ -16,21 +16,22 @@ const process: IoProcess<
 Io<ApiAuthLogin, EntityObjects>
 > = (context) => (
   async (input, output) => {
-    const { body } = input;
+    const { body, signature } = input;
 
-    const {
-      handle,
-      $credential,
-      password,
-    } = body;
+    if (!signature) {
+      output.status = 401;
+      output.json.logs.push({
+        level: 'error',
+        title: 'Missing Signature',
+        description: 'A cryptographic signature is required.',
+      });
+      return output;
+    }
 
     const outputAuthentication = await authenticateLogin(
       context,
-      {
-        handle,
-        $credential,
-        password,
-      },
+      signature,
+      body,
     );
 
     /**
@@ -47,7 +48,7 @@ Io<ApiAuthLogin, EntityObjects>
 
 export const processAuthLogin = mwValidate('auth/ApiAuthLogin')(
   mwChallenge()(
-    mwCredential()(
+    mwCredential(true)(
       mwSignature()(
         process,
       ),

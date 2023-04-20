@@ -173,9 +173,10 @@ export const authenticateFinalize = async (
  */
 export const authenticateLogin = async (
   context: IoContext,
+  signature: ArrayBuffer,
   login: ApiAuthLogin,
 ): Promise<IoOutput> => {
-  const { handle, $credential, password } = login;
+  const { handle, credential, password } = login;
 
   /**
    * Find the user
@@ -205,7 +206,45 @@ export const authenticateLogin = async (
   /**
    * Find the credentials on the user.
    */
-  if (!user.$credentials.includes($credential)) {
+  if (!user.$credentials.includes(credential.$id)) {
+    if (passwordMatched) {
+      const output = ioOutput();
+      output.status = 401; // Unauthorized
+      output.json.logs.push({
+        level: 'error',
+        title: 'Unknown Agent',
+        description: 'The client agent requesting authentication is unrecognized.',
+      });
+      return output;
+    }
+    return authenticateFailedOutput(
+      'Invalid Credential',
+      'The provided credential is not valid for this user.',
+    );
+  }
+
+  /**
+   * Find the credentials in the database.
+   */
+  const credentialData = await findCredentialById(context, credential.$id);
+  if (!credentialData) {
+    return authenticateFailedOutput(
+      'Invalid Credential',
+      'The provided credential is not valid for this user.',
+    );
+  }
+
+  /**
+   * Verify the signature with the credentialData public key.
+   */
+  const publicKey = await context.crypto.keyImport(credentialData.publicKey);
+  const signatureVerified = await context.crypto.asymVerify(
+    JSON.stringify(login),
+    signature,
+    publicKey,
+  );
+
+  if (!signatureVerified) {
     if (passwordMatched) {
       const output = ioOutput();
       output.status = 401; // Unauthorized
@@ -239,7 +278,7 @@ export const authenticateLogin = async (
       logged: dateTime,
     }],
     [credentialSlice.key]: [{
-      $id: $credential,
+      $id: credential.$id,
       updated: dateTime,
       used: dateTime,
     }],
@@ -249,7 +288,7 @@ export const authenticateLogin = async (
   /**
    * All authentication checks can been completed.
    */
-  const output = await authenticateFinalize(context, user.$id, $credential);
+  const output = await authenticateFinalize(context, user.$id, credential.$id);
 
   return output;
 };

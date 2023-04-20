@@ -54,7 +54,7 @@ test('should login and then logout as administrator', async () => {
 
   const apiAuthLogin: ApiAuthLogin = {
     handle: adminAccount.handle,
-    $credential: adminAccount.credential.$id,
+    credential: adminAccount.credential,
     password: adminAccount.password,
   };
 

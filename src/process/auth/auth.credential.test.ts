@@ -143,7 +143,7 @@ test('should add a new credential to the user account', async () => {
   const apiAuthLogin: ApiAuthLogin = {
     handle: user.handle,
     password: user.password,
-    $credential: credentialNew.$id,
+    credential: credentialNew,
   };
 
   const signatureLogin = await context.crypto.asymSign(

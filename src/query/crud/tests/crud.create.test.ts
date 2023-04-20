@@ -35,6 +35,7 @@ test('should be able to create a new contact', async () => {
 
   await agentUpdate({
     credentialId: admin.credential.$id,
+    publicKey: admin.credential.publicKey,
     privateKey: admin.privateKey,
   });
 

@@ -95,6 +95,7 @@ test('should not login as admin with improper agent private key', async () => {
 
   await agentUpdate({
     credentialId: admin.credential.$id,
+    publicKey: admin.credential.publicKey,
   });
 
   const result = await clientStore.dispatch(apiAuth.endpoints.login.initiate({

@@ -37,6 +37,7 @@ test('should NOT create a new account as a regular user', async () => {
   const { user } = await accountsGet();
   await agentUpdate({
     credentialId: user.credential.$id,
+    publicKey: user.credential.publicKey,
     privateKey: user.privateKey,
   });
 
@@ -74,6 +75,7 @@ test('should create a new account as a privileged account', async () => {
   const { admin } = await accountsGet();
   await agentUpdate({
     credentialId: admin.credential.$id,
+    publicKey: admin.credential.publicKey,
     privateKey: admin.privateKey,
   });
 

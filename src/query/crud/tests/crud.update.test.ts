@@ -39,6 +39,7 @@ test('should be able to update user profile', async () => {
 
   await agentUpdate({
     credentialId: admin.credential.$id,
+    publicKey: admin.credential.publicKey,
     privateKey: admin.privateKey,
   });
 

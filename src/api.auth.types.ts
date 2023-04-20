@@ -101,9 +101,9 @@ export interface ApiAuthLogin {
   password?: Password;
 
   /**
-   * Credential identifier to use on the user account.
+   * Credential value that should match the credential on the user account.
    */
-  $credential: UID;
+  credential: Credential;
 }
 
 /**

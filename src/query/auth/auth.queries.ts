@@ -35,7 +35,7 @@ export const apiAuthQueries = <T extends EndpointBuilder<any, any, any>>(builder
 
   login: builder.mutation<
   IoOutputJson<EntityObjects>,
-  Omit<ApiAuthLogin, '$credential'>
+  Omit<ApiAuthLogin, '$credential' | 'credential'>
   >({
     query: (payload) => ({
       url: 'login',

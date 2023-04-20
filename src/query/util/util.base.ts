@@ -65,11 +65,11 @@ export const dynamicBaseQuery: DynamicBaseQuerySetup = (
     reducerPath === 'apiAuth'
     && typeof args !== 'string'
   ) {
-    if (['login', 'reset'].includes(args.url)) {
+    if (['reset'].includes(args.url)) {
       const agent = await agentGet();
       args.body.$credential = agent.credentialId;
     }
-    if (['register', 'credential'].includes(args.url)) {
+    if (['login', 'register', 'credential'].includes(args.url)) {
       const credential = await agentCredential();
       args.body.credential = credential;
     }
