@@ -29,9 +29,7 @@ let contactExisting: Entity<Contact>;
 let rolesExisting: Entity<Role>[];
 
 beforeAll(async () => {
-  context = await contextSetup({
-    initialize: true,
-  });
+  context = await contextSetup();
 
   userExisting = Object.values(
     databaseMemoryStorage()[userSlice.key],

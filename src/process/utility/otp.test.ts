@@ -30,7 +30,6 @@ const $subject = uid('subject');
 
 beforeAll(async () => {
   context = await contextSetup({
-    initialize: true,
     schemas: [schemaAuth],
   });
   system = systemSlice.select.active(context.store.getState()) as System;

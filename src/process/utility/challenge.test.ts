@@ -18,7 +18,6 @@ let challengeExpired: Challenge;
 
 beforeAll(async () => {
   context = await contextSetup({
-    initialize: true,
     schemas: [schemaAuth],
   });
   challengeValid = challengeSlice.create({
