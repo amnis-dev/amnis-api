@@ -38,13 +38,12 @@ export const dynamicBaseQuery: DynamicBaseQuerySetup = (
 
   let apiMeta: Api;
   let apiAuth: Api | undefined;
-  let baseUrl = '';
+  let baseUrl = '/';
   if (!system) {
     apiMeta = apiCreate({
       reducerPath,
     });
   } else {
-    baseUrl = system.domain;
     const api = apiSlice.select.systemApi(store.getState() as State, system.$id, reducerPath);
     if (!api) {
       apiMeta = apiCreate({
@@ -52,10 +51,7 @@ export const dynamicBaseQuery: DynamicBaseQuerySetup = (
       });
     } else {
       apiMeta = api;
-      if (apiMeta.baseUrl?.charAt(0) !== '/') {
-        baseUrl += '/';
-      }
-      baseUrl += apiMeta.baseUrl;
+      baseUrl = apiMeta.baseUrl ?? '/';
     }
     const apis = apiSlice.select.systemApis(store.getState() as State, system.$id);
     apiAuth = apis.find((a) => a.auth === true);

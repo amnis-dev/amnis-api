@@ -1,6 +1,5 @@
-import type { Api, Entity } from '@amnis/state';
 import {
-  dataActions, systemSlice, systemKey, apiSlice,
+  dataActions, systemSlice, systemKey,
 } from '@amnis/state';
 import type { Middleware } from '@reduxjs/toolkit';
 import { apiSys } from './sys.api.js';
@@ -11,49 +10,13 @@ export const apiSysMiddleware: Middleware = () => (next) => (action) => {
    * CASE: System
    */
   if (apiSys.endpoints.system.matchFulfilled(action)) {
-    const { payload: { result }, meta: { arg: { originalArgs } } } = action;
+    const { payload, meta: { arg: { originalArgs } } } = action;
+    const result = payload?.result;
     if (!result) {
       return next(action);
     }
 
-    /**
-     * Remap the API base URLs to be absolute if they aren't.
-     */
-    let origin = 'http://localhost';
-
-    if (typeof window !== 'undefined') {
-      origin = window.location.origin;
-    }
-
-    try {
-      origin = new URL(originalArgs.url).origin;
-    } catch (e) {
-      /**
-       * If the URL is invalid, we'll just use the default origin.
-       */
-    }
-
-    const apis = (result[apiSlice.key] ?? []) as Entity<Api>[];
-    const apisRemapped = apis.map<Entity<Api>>((api) => {
-      const baseUrl = api.baseUrl ?? '';
-      const apiUrlAbsolute = /^(?:[a-z+]+:)?\/\//.test(baseUrl);
-
-      if (apiUrlAbsolute) {
-        return api;
-      }
-
-      const newBaseUrl = new URL(baseUrl, origin).href;
-
-      return {
-        ...api,
-        baseUrl: newBaseUrl,
-      };
-    });
-
-    next(dataActions.insert({
-      ...result,
-      [apiSlice.key]: apisRemapped,
-    }));
+    next(dataActions.insert(result));
 
     if (originalArgs?.set) {
       const system = result[systemKey]?.[0];

@@ -1,11 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type {
+  Api,
   DataCreator,
   IoOutput,
 } from '@amnis/state';
 import {
-  logSlice,
-
   apiCreate,
+
+  logSlice,
   apiKey,
   bearerKey,
   dataActions,
@@ -18,7 +20,7 @@ export const apiMiddleware: Middleware = () => (next) => (action) => {
    * IoOutput should be returned from all api requests.
    */
   if (isFulfilled(action)) {
-    const { payload } = action;
+    const { payload, meta } = action;
 
     if (!payload || typeof payload !== 'object') {
       return next(action);
@@ -40,7 +42,42 @@ export const apiMiddleware: Middleware = () => (next) => (action) => {
     }
 
     if (apis) {
-      dataCreator[apiKey] = apis.map((api) => apiCreate(api));
+      const { originalArgs } = meta.arg as Record<string, any>;
+      /**
+       * Remap the API base URLs to be absolute if they aren't.
+       */
+      let origin: string;
+
+      try {
+        origin = new URL(originalArgs?.url).origin;
+      } catch (e) {
+      /**
+       * If the URL is invalid, we'll just use the default origin.
+       */
+        if (typeof window !== 'undefined') {
+          origin = window.location.origin;
+        } else {
+          origin = 'http://localhost';
+        }
+      }
+
+      const apisRemapped = apis.map<Api>((api) => {
+        const baseUrl = api.baseUrl ?? '';
+        const apiUrlAbsolute = /^(?:[a-z+]+:)?\/\//.test(baseUrl);
+
+        if (apiUrlAbsolute) {
+          return api;
+        }
+
+        const newBaseUrl = new URL(baseUrl, origin).href;
+
+        return {
+          ...api,
+          baseUrl: newBaseUrl,
+        };
+      });
+
+      dataCreator[apiKey] = apisRemapped.map((api) => apiCreate(api));
     }
 
     if (Object.keys(dataCreator).length > 0) {

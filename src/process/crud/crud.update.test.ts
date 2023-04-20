@@ -347,8 +347,6 @@ test('should login as user and view history of own profile', async () => {
 
   const outputRead = await io.read(readQuery, ioOutput());
 
-  console.log(JSON.stringify(outputRead.json, null, 2));
-
   const profiles = outputRead.json.result?.[profileSlice.key] as Entity<Profile>[];
   const histories = outputRead.json.result?.[historySlice.key] as Entity<History>[];
 
