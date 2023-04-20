@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.16.10](https://github.com/amnis-dev/amnis-api/compare/v0.16.9...v0.16.10) (2023-04-20)
+
+
+### Features
+
+* **Authn:** Improved error responses ([5aa430b](https://github.com/amnis-dev/amnis-api/commit/5aa430b48f5810b1f6939f55a902c54e0d1e71ff))
+* **Credentials:** Improved credential verification on login ([e671397](https://github.com/amnis-dev/amnis-api/commit/e67139768c02dbcb729c3e0ddb7d22041dfe51d0))
+
 ### [0.16.9](https://github.com/amnis-dev/amnis-api/compare/v0.16.8...v0.16.9) (2023-04-20)
 
 
