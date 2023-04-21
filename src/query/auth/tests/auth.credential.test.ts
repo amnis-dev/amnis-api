@@ -53,13 +53,14 @@ test('should NOT login as an administrator without matching credentials', async 
     password: admin.password,
   }));
 
-  if ('error' in response) {
-    expect(response.error).toBeUndefined();
+  if ('data' in response) {
+    expect(response.data).toBeUndefined();
     return;
   }
 
-  const { data: { logs, result } } = response;
+  const { error: { data: { logs, result } } } = response;
 
+  expect(response.error.status).toBe(401);
   expect(result).toBeUndefined();
   expect(logs[0].title).toBe('Unknown Agent');
 });

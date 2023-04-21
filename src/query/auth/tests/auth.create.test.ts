@@ -57,15 +57,17 @@ test('should NOT create a new account as a regular user', async () => {
     password: 'newpass123',
   }));
 
-  if ('error' in response) {
-    expect(response.error).toBeUndefined();
+  if ('data' in response) {
+    expect(response.data).toBeUndefined();
     return;
   }
 
-  expect(response.data.result).toBeUndefined();
-  expect(response.data.logs).toHaveLength(1);
-  expect(response.data.logs[0].level).toBe('error');
-  expect(response.data.logs[0].title).toBe('Unauthorized');
+  const { error: { data } } = response;
+
+  expect(data.result).toBeUndefined();
+  expect(data.logs).toHaveLength(1);
+  expect(data.logs[0].level).toBe('error');
+  expect(data.logs[0].title).toBe('Unauthorized');
 });
 
 test('should create a new account as a privileged account', async () => {

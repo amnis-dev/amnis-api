@@ -29,12 +29,12 @@ afterAll(() => {
 test('should not be able to authenticate without existing session', async () => {
   const response = await clientStore.dispatch(apiAuth.endpoints.authenticate.initiate({}));
 
-  if ('error' in response) {
-    expect(response.error).toBeUndefined();
+  if ('data' in response) {
+    expect(response.data).toBeUndefined();
     return;
   }
 
-  const { data } = response;
+  const { error: { data } } = response;
   expect(data.result).toBeUndefined();
   expect(data.bearers).toBeUndefined();
   expect(data.logs.length).toBe(1);

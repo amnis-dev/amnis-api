@@ -22,11 +22,11 @@ devDependencies:
     specifier: ^2.2.4
     version: 2.2.4(eslint@8.34.0)(typescript@4.9.5)
   '@amnis/mock':
-    specifier: ^0.16.0
-    version: 0.16.0(@amnis/state@0.16.18)(typescript@4.9.5)
+    specifier: ^0.16.2
+    version: 0.16.2(@amnis/state@0.16.19)(typescript@4.9.5)
   '@amnis/state':
-    specifier: ^0.16.18
-    version: 0.16.18(@reduxjs/toolkit@2.0.0-alpha.2)
+    specifier: ^0.16.19
+    version: 0.16.19(@reduxjs/toolkit@2.0.0-alpha.2)
   '@amnis/tsconfig-node':
     specifier: ^2.2.4
     version: 2.2.4(typescript@4.9.5)
@@ -111,12 +111,12 @@ packages:
       - typescript
     dev: true
 
-  /@amnis/mock@0.16.0(@amnis/state@0.16.18)(typescript@4.9.5):
-    resolution: {integrity: sha512-31PdbgXn+Qfbqppwpfn2YHmBHXDlExEhWyAH3Zbz21n6BPVxIYwi8SWcJLIy3Cnm7R0vf5sq+T507Q+qH8vqQQ==}
+  /@amnis/mock@0.16.2(@amnis/state@0.16.19)(typescript@4.9.5):
+    resolution: {integrity: sha512-p/zdwnNIm2Djp+PhRRhJ2js7NSbMK0ZpbiEm89r4bg6bpsYMW1obXpkfOg0DP100QvVd03h9V4UxVTTin5++AQ==}
     peerDependencies:
       '@amnis/state': ^0
     dependencies:
-      '@amnis/state': 0.16.18(@reduxjs/toolkit@2.0.0-alpha.2)
+      '@amnis/state': 0.16.19(@reduxjs/toolkit@2.0.0-alpha.2)
       msw: 1.2.0(typescript@4.9.5)
     transitivePeerDependencies:
       - encoding
@@ -124,8 +124,8 @@ packages:
       - typescript
     dev: true
 
-  /@amnis/state@0.16.18(@reduxjs/toolkit@2.0.0-alpha.2):
-    resolution: {integrity: sha512-2WnbrX4YQiY5ABONTMNrbr/evXY1au69PTVjTskPaTFBr7YPyqMiaSY0pRQmvCvBmWp3My1SOPkyA8tyc76JTw==}
+  /@amnis/state@0.16.19(@reduxjs/toolkit@2.0.0-alpha.2):
+    resolution: {integrity: sha512-YNWjiV7IaDym8E0CVaz+swXmLH5PzIxLnmQHO8nq4dIHSjLB7ugqhJzQV6UhBn61JFa40wWfDNkZykmxeKSQ3A==}
     peerDependencies:
       '@reduxjs/toolkit': '*'
     dependencies:

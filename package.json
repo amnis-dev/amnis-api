@@ -59,8 +59,8 @@
   },
   "devDependencies": {
     "@amnis/eslint-config-node": "^2.2.4",
-    "@amnis/mock": "^0.16.0",
-    "@amnis/state": "^0.16.18",
+    "@amnis/mock": "^0.16.2",
+    "@amnis/state": "^0.16.19",
     "@amnis/tsconfig-node": "^2.2.4",
     "@reduxjs/toolkit": "2.0.0-alpha.2",
     "@types/fs-extra": "^11.0.1",

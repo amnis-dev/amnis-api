@@ -75,13 +75,13 @@ test('should NOT be able to login with a bad password', async () => {
     password: user.password.slice(1),
   }));
 
-  if ('error' in result) {
-    expect(result.error).toBeUndefined();
+  if ('data' in result) {
+    expect(result.data).toBeUndefined();
     return;
   }
 
-  const { data } = result;
-  const { logs } = data;
+  const { error } = result;
+  const { data: { logs } } = error;
 
   expect(logs).toHaveLength(1);
   expect(logs?.[0]?.title).toBe('Authentication Failed: Wrong Password');
@@ -103,13 +103,13 @@ test('should not login as admin with improper agent private key', async () => {
     password: admin.password,
   }));
 
-  if ('error' in result) {
-    expect(result.error).toBeUndefined();
+  if ('data' in result) {
+    expect(result.data).toBeUndefined();
     return;
   }
 
-  const { data } = result;
-  const { logs } = data;
+  const { error } = result;
+  const { data: { logs } } = error;
 
   expect(logs).toHaveLength(1);
   expect(logs?.[0]?.title).toBe('Invalid Signature');
