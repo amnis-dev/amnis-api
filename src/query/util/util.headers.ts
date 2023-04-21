@@ -37,7 +37,7 @@ export const headersAuthorizationToken = async (
    * If the bearer token expired, attempt to fetch it again.
    */
   if (bearer.exp <= Date.now()) {
-    const result = await fetch(`${system.domain}${apiAuth.baseUrl}/authenticate`, {
+    const result = await fetch(`${apiAuth.baseUrl}/authenticate`, {
       method: 'POST',
       body: JSON.stringify({}),
     });
@@ -82,7 +82,7 @@ export const headersChallenge = async (
   system: System,
   apiAuth: Api,
 ) => {
-  const result = await fetch(`${system.domain}${apiAuth.baseUrl}/challenge`, {
+  const result = await fetch(`${apiAuth.baseUrl}/challenge`, {
     method: 'POST',
     body: JSON.stringify({}),
   });
