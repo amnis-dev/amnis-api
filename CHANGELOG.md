@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.16.11](https://github.com/amnis-dev/amnis-api/compare/v0.16.10...v0.16.11) (2023-04-21)
+
+
+### Features
+
+* **Logs:** Logs are added to the store on rejected repsonses ([8a68b7b](https://github.com/amnis-dev/amnis-api/commit/8a68b7b02ca796dd569a5161fbe7f24c9f3e9b73))
+
 ### [0.16.10](https://github.com/amnis-dev/amnis-api/compare/v0.16.9...v0.16.10) (2023-04-20)
 
 
