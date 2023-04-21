@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.16.12](https://github.com/amnis-dev/amnis-api/compare/v0.16.11...v0.16.12) (2023-04-21)
+
+
+### Bug Fixes
+
+* **Headers:** Headers no longer use the system domain for requests ([2995fe4](https://github.com/amnis-dev/amnis-api/commit/2995fe42188b3402509bc7a9c0cb431f560907bb))
+
 ### [0.16.11](https://github.com/amnis-dev/amnis-api/compare/v0.16.10...v0.16.11) (2023-04-21)
 
 
