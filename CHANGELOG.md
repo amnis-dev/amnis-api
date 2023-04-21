@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.16.13](https://github.com/amnis-dev/amnis-api/compare/v0.16.12...v0.16.13) (2023-04-21)
+
+
+### Bug Fixes
+
+* **Status:** Fixed issue with return status failure when using mocked services ([8143008](https://github.com/amnis-dev/amnis-api/commit/81430088f2518060412fb299448026f7fd3b08f7))
+
 ### [0.16.12](https://github.com/amnis-dev/amnis-api/compare/v0.16.11...v0.16.12) (2023-04-21)
 
 
