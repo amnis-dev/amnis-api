@@ -3,6 +3,7 @@ import type {
   Api,
   DataCreator,
   IoOutput,
+  Log,
 } from '@amnis/state';
 import {
   apiCreate,
@@ -13,7 +14,7 @@ import {
   dataActions,
 } from '@amnis/state';
 import type { Middleware } from '@reduxjs/toolkit';
-import { isFulfilled } from '@reduxjs/toolkit';
+import { isRejected, isFulfilled } from '@reduxjs/toolkit';
 
 export const apiMiddleware: Middleware = () => (next) => (action) => {
   /**
@@ -82,6 +83,22 @@ export const apiMiddleware: Middleware = () => (next) => (action) => {
 
     if (Object.keys(dataCreator).length > 0) {
       next(dataActions.create(dataCreator));
+    }
+  }
+
+  /**
+   * On a rejected action, just capture the logs and add them to the store.
+   */
+  if (isRejected(action)) {
+    const { payload } = action;
+
+    const logs = (payload as any)?.data?.logs as Log[] | undefined;
+
+    if (logs) {
+      const logEntities = logs.map((log) => logSlice.createEntity(log));
+      next(dataActions.create({
+        [logSlice.key]: logEntities,
+      }));
     }
   }
 
