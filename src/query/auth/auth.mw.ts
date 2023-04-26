@@ -6,6 +6,7 @@ import type {
   UID,
 } from '@amnis/state';
 import {
+  systemSlice,
   otpSlice,
   userSlice,
   profileSlice,
@@ -17,7 +18,7 @@ import type { Middleware } from '@reduxjs/toolkit';
 import { isAnyOf } from '@reduxjs/toolkit';
 import { apiAuth } from './auth.api.js';
 
-export const apiAuthMiddleware: Middleware = () => (next) => (action) => {
+export const apiAuthMiddleware: Middleware = (store) => (next) => (action) => {
   /**
    * ================================================================================
    * CASES: Login, Register, Create, Credential
@@ -67,9 +68,31 @@ export const apiAuthMiddleware: Middleware = () => (next) => (action) => {
       return next(action);
     }
 
+    const system = systemSlice.select.active(store.getState());
+
     const dataDeleter: DataDeleter = {
       ...result,
-      bearer: ['core' as UID],
+      bearer: [system ? system.handle as UID : 'core' as UID],
+    };
+    next(dataActions.delete(dataDeleter));
+
+    /**
+     * Need to unset some active entities manually after logout.
+     */
+    const metaSetter: DataMetaSetter = {
+      [userSlice.key]: { active: null },
+      [profileSlice.key]: { active: null },
+      [contactSlice.key]: { active: null },
+      [sessionSlice.key]: { active: null },
+    };
+    next(dataActions.meta(metaSetter));
+  }
+
+  if (apiAuth.endpoints.logout.matchRejected(action)) {
+    const system = systemSlice.select.active(store.getState());
+
+    const dataDeleter: DataDeleter = {
+      bearer: [system ? system.handle as UID : 'core' as UID],
     };
     next(dataActions.delete(dataDeleter));
 
