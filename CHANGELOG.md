@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.16.14](https://github.com/amnis-dev/amnis-api/compare/v0.16.13...v0.16.14) (2023-04-27)
+
+
+### Features
+
+* **Logout:** Added smarter logout process ([3428ffe](https://github.com/amnis-dev/amnis-api/commit/3428ffe7d85e5af7a17d015f716d253e9a8b8145))
+* **Session:** Session now check to ensure it hasn't expired ([bf611a9](https://github.com/amnis-dev/amnis-api/commit/bf611a99b5fe21a557d3e9725516de05233f4859))
+
 ### [0.16.13](https://github.com/amnis-dev/amnis-api/compare/v0.16.12...v0.16.13) (2023-04-21)
 
 
