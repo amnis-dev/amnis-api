@@ -41,7 +41,7 @@ Io<ApiAuthLogout, DataDeleter>
     output.cookies[system.sessionKey] = undefined;
 
     /**
-     * Tell the client to delete with the session other entities with the session removal.
+     * Tell the client to delete with the session.
      */
     if (session) {
       output.json.result = {
