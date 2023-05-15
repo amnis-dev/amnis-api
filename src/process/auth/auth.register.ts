@@ -8,9 +8,7 @@ import type {
 } from '@amnis/state';
 import {
   credentialSlice,
-
   userSlice,
-
   ioOutputApply,
   systemSlice,
 } from '@amnis/state';
@@ -29,7 +27,7 @@ Io<ApiAuthRegister, EntityObjects>
 > = (context) => (
   async (input, output) => {
     const { store } = context;
-    const { body } = input;
+    const { body, ip } = input;
 
     const system = systemSlice.select.active(store.getState());
 
@@ -56,7 +54,7 @@ Io<ApiAuthRegister, EntityObjects>
     ioOutputApply(output, await registerAccount(
       context,
       body,
-      input.ip,
+      ip,
     ));
 
     if (output.status !== 200) {

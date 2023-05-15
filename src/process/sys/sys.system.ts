@@ -2,6 +2,8 @@ import type {
   Io,
   IoProcess,
   EntityObjects,
+  System,
+  Entity,
 } from '@amnis/state';
 import {
   apiSlice,
@@ -39,8 +41,14 @@ Io<undefined, EntityObjects>
      */
     const apis = apiSlice.select.systemApis(store.getState(), system.$id);
 
+    const systemReturned: Entity<System> = {
+      ...system,
+      committed: true,
+      new: false,
+    };
+
     output.json.result = {
-      [systemKey]: [system],
+      [systemKey]: [systemReturned],
     };
     output.json.apis = apis;
 
