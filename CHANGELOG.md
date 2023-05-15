@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.16.15](https://github.com/amnis-dev/amnis-api/compare/v0.16.14...v0.16.15) (2023-05-15)
+
+
+### Bug Fixes
+
+* **System:** Resolved system data being inserted as uncommitted ([3def37e](https://github.com/amnis-dev/amnis-api/commit/3def37ee280f6aed616cdec254d693d2da8d1106))
+
 ### [0.16.14](https://github.com/amnis-dev/amnis-api/compare/v0.16.13...v0.16.14) (2023-04-27)
 
 
