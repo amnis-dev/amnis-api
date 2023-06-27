@@ -42,7 +42,10 @@ jobs:
           cache: 'pnpm'
       
       - name: Install NodeJS Dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
+
+      - name: Update Amnis Dependencies
+        run: pnpm up "@amnis/*"
 
       - name: Lint for Code-Style Errors
         run: pnpm lint
