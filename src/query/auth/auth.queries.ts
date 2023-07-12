@@ -1,12 +1,14 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type {
+  EndpointBuilder,
+} from '@reduxjs/toolkit/query';
+import type {
   IoOutputJson,
   Otp,
   DataDeleter,
   EntityObjects,
 } from '@amnis/state';
-import type { EndpointBuilder } from '@reduxjs/toolkit/query';
 import type {
   ApiAuthAuthenticate,
   ApiAuthCreate,

@@ -23,8 +23,8 @@ if (typeof window !== 'undefined') {
   window.Request = Request;
 }
 
-type DynamicBaseQuery = BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>;
-type DynamicBaseQuerySetup = (reducerPath: string, bearerId?: string) => DynamicBaseQuery;
+export type DynamicBaseQuery = BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>;
+export type DynamicBaseQuerySetup = (reducerPath: string, bearerId?: string) => DynamicBaseQuery;
 
 /**
  * Gets the baseURL based on configuration.

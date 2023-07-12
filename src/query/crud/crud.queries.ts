@@ -1,6 +1,5 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { EndpointBuilder } from '@reduxjs/toolkit/query';
 import type {
   IoOutputJson,
   DataCreator,
@@ -9,6 +8,7 @@ import type {
   DataQuery,
   DataUpdater,
 } from '@amnis/state';
+import type { EndpointBuilder } from '../../api.types.js';
 
 export const apiCrudQueries = <T extends EndpointBuilder<any, any, any>>(builder: T) => ({
   create: builder.mutation<

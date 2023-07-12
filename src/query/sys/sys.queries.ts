@@ -1,11 +1,11 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { EndpointBuilder } from '@reduxjs/toolkit/query';
 import type {
   IoOutputJson,
   EntityObjects,
 } from '@amnis/state';
 import type { ApiSysSchema } from '../../api.sys.types.js';
+import type { EndpointBuilder } from '../../api.types.js';
 
 export const apiSysQueries = <T extends EndpointBuilder<any, any, any>>(builder: T) => ({
 
