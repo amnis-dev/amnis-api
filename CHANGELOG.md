@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.17.2](https://github.com/amnis-dev/amnis-api/compare/v0.17.1...v0.17.2) (2023-07-14)
+
+
+### Bug Fixes
+
+* packages ([1fda020](https://github.com/amnis-dev/amnis-api/commit/1fda020bc1854a865a405b24ffdeb6ddab9f4787))
+
 ## [0.17.1](https://github.com/amnis-dev/amnis-api/compare/v0.17.0...v0.17.1) (2023-07-14)
 
 
