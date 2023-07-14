@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.17.0](https://github.com/amnis-dev/amnis-api/compare/v0.16.15...v0.17.0) (2023-07-14)
+
+
+### Features
+
+* **Dependencies:** Updated core packages ([6546611](https://github.com/amnis-dev/amnis-api/commit/6546611225f67729d8e46cabc504a5f98dcda0a0))
+* **Package:** Resolved semver to safe version ([201c0fe](https://github.com/amnis-dev/amnis-api/commit/201c0feea0a24307c38e1209c321f1714d6e49f6))
+* **Releases:** Added workflow for releases ([484f241](https://github.com/amnis-dev/amnis-api/commit/484f2414e0f487976f3f70f1c4892840d5f6ad2f))
+
+
+### Bug Fixes
+
+* **Install:** Added checksum for new package ([aea3eac](https://github.com/amnis-dev/amnis-api/commit/aea3eacea724318227e5cad1fc294bc7e4e0d276))
+* **Module:** Fixed issue in RTK ([c86d231](https://github.com/amnis-dev/amnis-api/commit/c86d231b114ba5449c7c46f67783dadc4777954d))
+* **Package:** Temporary fix of issues with redux toolkit beta. ([4db1a56](https://github.com/amnis-dev/amnis-api/commit/4db1a5649ef319860dd13157a8aabf984c0564e5))
+* **Store:** Fixes combined store inferred types ([cf31a0c](https://github.com/amnis-dev/amnis-api/commit/cf31a0ca6b1d4ef305038c5af96b3ff1c0d83b02))
+* **Workspace:** Fixed issue with workspace changed dependency versions ([f361128](https://github.com/amnis-dev/amnis-api/commit/f3611288b27de360e669ff0ad138e01c12dbca94))
+* **Workspace:** Fixed issue with workspace changing dependencies ([5095653](https://github.com/amnis-dev/amnis-api/commit/50956530e3b11403bb5556995dd8647dd81a07b1))
+
 ### [0.16.15](https://github.com/amnis-dev/amnis-api/compare/v0.16.14...v0.16.15) (2023-05-15)
 
 
