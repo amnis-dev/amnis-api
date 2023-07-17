@@ -13,7 +13,7 @@ import {
   serviceConfig,
 } from './config.js';
 import { apiSys } from '../../sys/index.js';
-import type { ApiError } from '../../../api.types.js';
+import type { ApiError } from '../../query.types.js';
 
 beforeAll(async () => {
   await mockService.setup(await serviceConfig());

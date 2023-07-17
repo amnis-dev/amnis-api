@@ -13,7 +13,7 @@ import {
   headersOtp,
   headersSignature,
 } from './util.headers.js';
-import type { ApiError } from '../../api.types.js';
+import type { ApiError } from '../query.types.js';
 
 if (typeof global !== 'undefined') {
   global.Headers = Headers;

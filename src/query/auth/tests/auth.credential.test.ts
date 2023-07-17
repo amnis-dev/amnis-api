@@ -18,7 +18,7 @@ import {
   serviceConfig,
 } from './config.js';
 import { clientStore } from './store.js';
-import type { ApiError } from '../../../api.types.js';
+import type { ApiError } from '../../query.types.js';
 
 let adminUser: Entity<User>;
 
