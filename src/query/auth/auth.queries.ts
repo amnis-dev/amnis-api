@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type {
   EndpointBuilder,
+  BaseQueryFn,
 } from '@reduxjs/toolkit/query';
 import type {
   IoOutputJson,
@@ -21,7 +22,9 @@ import type {
   ApiAuthVerify,
 } from '../../api.auth.types.js';
 
-export const apiAuthQueries = <T extends EndpointBuilder<any, any, any>>(builder: T) => ({
+export const apiAuthQueries = <T extends EndpointBuilder<BaseQueryFn, string, string>>(
+  builder: T,
+) => ({
 
   authenticate: builder.mutation<
   IoOutputJson<EntityObjects>,
@@ -45,6 +48,9 @@ export const apiAuthQueries = <T extends EndpointBuilder<any, any, any>>(builder
       credentials: 'include',
       body: payload,
     }),
+    transformErrorResponse(response) {
+      return response as any;
+    },
   }),
 
   logout: builder.mutation<

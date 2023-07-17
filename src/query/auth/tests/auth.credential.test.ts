@@ -18,6 +18,7 @@ import {
   serviceConfig,
 } from './config.js';
 import { clientStore } from './store.js';
+import type { ApiError } from '../../query.types.js';
 
 let adminUser: Entity<User>;
 
@@ -58,9 +59,10 @@ test('should NOT login as an administrator without matching credentials', async 
     return;
   }
 
-  const { error: { data: { logs, result } } } = response;
+  const error = response.error as ApiError;
+  const { data: { logs, result } } = error;
 
-  expect(response.error.status).toBe(401);
+  expect(error.status).toBe(401);
   expect(result).toBeUndefined();
   expect(logs[0].title).toBe('Unknown Agent');
 });

@@ -10,6 +10,7 @@ import {
   serviceConfig,
 } from './config.js';
 import { apiSys } from '../../sys/index.js';
+import type { ApiError } from '../../query.types.js';
 
 beforeAll(async () => {
   await mockService.setup(await serviceConfig());
@@ -34,7 +35,7 @@ test('should not be able to authenticate without existing session', async () => 
     return;
   }
 
-  const { error: { data } } = response;
+  const { error: { data } } = response as { error: ApiError };
   expect(data.result).toBeUndefined();
   expect(data.bearers).toBeUndefined();
   expect(data.logs.length).toBe(1);

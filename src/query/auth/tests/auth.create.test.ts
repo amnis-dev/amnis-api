@@ -14,6 +14,7 @@ import {
 import {
   clientStore,
 } from './store.js';
+import type { ApiError } from '../../query.types.js';
 
 beforeAll(async () => {
   await mockService.setup(await serviceConfig());
@@ -62,7 +63,7 @@ test('should NOT create a new account as a regular user', async () => {
     return;
   }
 
-  const { error: { data } } = response;
+  const { error: { data } } = response as { error: ApiError };
 
   expect(data.result).toBeUndefined();
   expect(data.logs).toHaveLength(1);
