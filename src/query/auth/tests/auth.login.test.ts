@@ -13,6 +13,7 @@ import {
   serviceConfig,
 } from './config.js';
 import { apiSys } from '../../sys/index.js';
+import type { ApiError } from '../../../api.types.js';
 
 beforeAll(async () => {
   await mockService.setup(await serviceConfig());
@@ -81,7 +82,7 @@ test('should NOT be able to login with a bad password', async () => {
   }
 
   const { error } = result;
-  const { data: { logs } } = error;
+  const { data: { logs } } = error as ApiError;
 
   expect(logs).toHaveLength(1);
   expect(logs?.[0]?.title).toBe('Authentication Failed: Wrong Password');
@@ -109,7 +110,7 @@ test('should not login as admin with improper agent private key', async () => {
   }
 
   const { error } = result;
-  const { data: { logs } } = error;
+  const { data: { logs } } = error as ApiError;
 
   expect(logs).toHaveLength(1);
   expect(logs?.[0]?.title).toBe('Invalid Signature');

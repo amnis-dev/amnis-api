@@ -8,9 +8,11 @@ import type {
   DataQuery,
   DataUpdater,
 } from '@amnis/state';
-import type { EndpointBuilder } from '../../api.types.js';
+import type { BaseQueryFn, EndpointBuilder } from '@reduxjs/toolkit/query';
 
-export const apiCrudQueries = <T extends EndpointBuilder<any, any, any>>(builder: T) => ({
+export const apiCrudQueries = <T extends EndpointBuilder<BaseQueryFn, string, string>>(
+  builder: T,
+) => ({
   create: builder.mutation<
   IoOutputJson<EntityObjects>,
   DataCreator

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import fetch, { Headers, Request } from 'cross-fetch';
-import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import type { BaseQueryFn, FetchArgs } from '@reduxjs/toolkit/query';
 import { fetchBaseQuery } from '@reduxjs/toolkit/query';
 import type { Api, State } from '@amnis/state';
 import {
@@ -13,6 +13,7 @@ import {
   headersOtp,
   headersSignature,
 } from './util.headers.js';
+import type { ApiError } from '../../api.types.js';
 
 if (typeof global !== 'undefined') {
   global.Headers = Headers;
@@ -23,8 +24,10 @@ if (typeof window !== 'undefined') {
   window.Request = Request;
 }
 
-export type DynamicBaseQuery = BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>;
-export type DynamicBaseQuerySetup = (reducerPath: string, bearerId?: string) => DynamicBaseQuery;
+export type DynamicBaseQuerySetup = (
+  reducerPath: string,
+  bearerId?: string
+) => BaseQueryFn<string | FetchArgs, unknown, ApiError>;
 
 /**
  * Gets the baseURL based on configuration.
@@ -145,7 +148,7 @@ export const dynamicBaseQuery: DynamicBaseQuerySetup = (
 
       return headers;
     },
-  });
+  }) as BaseQueryFn<string | FetchArgs, unknown, ApiError>;
   return rawBaseQuery(args, store, extraOptions);
 };
 
