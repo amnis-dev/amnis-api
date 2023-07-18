@@ -13,6 +13,7 @@ import {
   ioOutput,
   OtpMethod,
   systemSlice,
+  dateJSON,
 } from '@amnis/state';
 import { validate } from '@amnis/state/context';
 import type { ApiAuthOtp } from '../../api.auth.types.js';
@@ -105,7 +106,11 @@ export const otpNew = async (
       from: system.emailAuth,
       fromName: system.name,
       subject: 'One-Time Password',
-      text: `Use the following one-time password (OTP) to complete the process: "${optPassword}"`,
+      template: 'otp',
+      params: {
+        user,
+        otp,
+      },
     });
   }
 

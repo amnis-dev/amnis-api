@@ -157,7 +157,7 @@ test('should create a new OTP and validate against it', async () => {
    */
   const mailbox = emailerboxStorage();
   const message = mailbox[userUser.email as string][0];
-  const messageOtp = message.text.match(/"([A-Za-z0-9]+)"/)?.[1];
+  const messageOtp = message.body.match(/one-time passcode is (\w+)/m)?.[1];
 
   if (!messageOtp) {
     expect(messageOtp).toBeDefined();
