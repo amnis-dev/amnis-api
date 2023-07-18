@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.17.5](https://github.com/amnis-dev/amnis-api/compare/v0.17.4...v0.17.5) (2023-07-18)
+
+
+### Bug Fixes
+
+* Fixed otp emailer process with new state updates ([5ebbcea](https://github.com/amnis-dev/amnis-api/commit/5ebbcea062374a69a332d8a787efaa61cb462997))
+
 ## [0.17.4](https://github.com/amnis-dev/amnis-api/compare/v0.17.3...v0.17.4) (2023-07-18)
 
 
